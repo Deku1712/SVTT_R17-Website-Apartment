@@ -1,0 +1,45 @@
+.form {
+  background-color: white;
+  border-radius: 5px;
+  width: 200px;
+  margin: 20px auto;
+  padding: 20px;
+  /* height: 600px; */
+}
+
+.form-body {
+  text-align: left;
+  padding: 20px 10px;
+}
+select option{
+  width: 80%;
+ font-size: medium;
+}
+.form-body>* {
+  padding: 5px;
+}
+
+.form-label {
+  width: 20%;
+}
+
+.form-input {
+  width: 50%;
+}
+.form-control{
+  width: 10%;
+}
+.form-select{
+  width: 60%;
+}
+.text-custom {
+  font-size: 20px;
+}
+
+.footer {
+  text-align: center;
+  background-color: black;
+  margin: 0px auto;
+  padding: 20px 0px 20px 0px;
+}
+
