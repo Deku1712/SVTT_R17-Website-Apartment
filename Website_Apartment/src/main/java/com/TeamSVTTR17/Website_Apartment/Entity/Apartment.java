@@ -1,8 +1,10 @@
 package com.TeamSVTTR17.Website_Apartment.Entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.annotation.Generated;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,49 +20,50 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @Table(name = "Apartments")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Apartment {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
-    @Column(name = "apartment_name")
-    private String apartment_name;
-
-    @Column (name = "address")
-    private String adress;
-
-    @Column (name = "description")
+    @Column(name = "apartmentName")
+    private String apartmentName;
+    @Column(name = "phoneNumber1")
+    private String phoneNumber1;
+    @Column(name = "phoneNumber2")
+    private String phoneNumber2;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "property")
+    private String property;
+    @Column(name = "description")
     private String description;
-
-    @Column( name = "size")
+    @Column(name = "size")
     private int size;
-
-    @Column (name = "active")
+    @Column(name = "active")
     private int active;
-
-    @Column (name = "createTime")
-    private Date createTimDate;
-
+    @Column(name = "createTime")
+    private Date createTime;
+    @Column(name = "updateTime")
+    private Date updateTime;
     @ManyToOne
     @JoinColumn(name = "userID")
     private User user;
-
-    @Column (name = "imgUrl")
+    @Column(name = "imgUrl")
     private String imgUrl;
 
-    @Column(name = "type_data")
-    private int type_data;
+    @OneToMany(mappedBy = "apartment",  cascade = CascadeType.ALL )
+    private List<Room> rooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "apartment", cascade = CascadeType.ALL)
-    private List<TypeRooms> typeRooms ;
+    private List<Fee> fees = new ArrayList<>();
+    
+    
 
-    @OneToMany(mappedBy = "apartment" ,cascade = CascadeType.ALL)
-    private List<Fee> fees;
 
+    
 }
