@@ -13,72 +13,63 @@ const UpdateRoom = () => {
     const [room_img, setRoomImg] = useState('');
     const { id } = useParams();
     return (
-        <div className="container">
+        <div className="container mt-5">
+
             <div className="row">
-                <div className="card col-md-6 offset-md-3 offset-md-3">
-                    <h2 className="text-center mt-3"> UPDATE ROOM </h2>
+                <div className="card col-md-6 offset-md-2 offset-md-2  form-custom" >
+                    <h2 className="text-center mt-3"> UPDATE ROOM {id}</h2>
 
                     <div className="card-body">
                         <form>
-                            <div className="form-group mb-2 d-flex">
-                                <label className="form-label"> Room id :</label>
 
-                                <input
-                                    type="hidden" maxLength={10} minLength={1} required={true}
-
-                                    name="lastName"
-                                    className="form-control"
-                                    value={room_id}
-                                    onChange={(e) => setRoomId(e.target.value)}
-                                />
-                                {id}
-                            </div>
                             <div className="form-group mb-2 d-flex">
-                                <label className="form-label"> Room Name :</label>
+                                <span className="fa-custom" > <i class="fa fa-home" aria-hidden="true"></i></span>
                                 <input
                                     type="text" maxLength={30} minLength={1} required={true}
-                                    placeholder="Enter room name"
+                                    placeholder=" Enter room name"
                                     name="lastName"
-                                    className="form-control"
+                                    className="form-control w-50"
                                     value={room_name}
                                     onChange={(e) => setRoomName(e.target.value)}
                                 />
+
                             </div>
+                            <br />
                             <div className="form-group mb-2 d-flex">
-                                <label className="form-label"> Number of people:</label>
+                                <span className="fa-custom"> <i class="fa fa-users" aria-hidden="true"></i></span>
                                 <input
                                     type="number" minLength={1} required={true}
                                     placeholder="Enter number of people"
                                     name="lastName"
-                                    className="form-control"
+                                    className="form-control w-50"
                                     value={size_renter}
                                     onChange={(e) => setSizeRenter(e.target.value)}
                                 />
-                            </div>
+                            </div> <br />
                             <div className="form-group mb-2 d-flex">
-                                <label className="form-label"> Acreage:</label>
+                                <span className="fa-custom" ><i class="fa fa-street-view" aria-hidden="true"></i></span>
                                 <input
                                     type="number" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter acreage"
                                     name="lastName"
-                                    className="form-control"
+                                    className="form-control w-50"
                                     value={room_size}
                                     onChange={(e) => setRoomSize(e.target.value)}
                                 />
-                            </div>
-                            <div className="form-group mb-2 d-flex">
-                                <label className="form-label">Description:</label>
+                            </div> <br />
+                            <div className="form-group mb-2  d-flex">
+                                <span className="fa-custom" ><i class="fa fa-info" aria-hidden="true"></i></span>
                                 <textarea
                                     type="number" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter description"
                                     name="lastName"
-                                    className="form-control"
+                                    className="form-control w-50"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
-                            </div>
-                            <div className="form-group mb-2  d-flex">
-                                <label className="form-label"> Type room  :</label>
+                            </div><br/>
+                            <div className="form-group mb-2 d-flex">
+                                <span className="fa-custom" ><i class="fa fa-filter" aria-hidden="true"></i></span>
                                 <br />
                                 <select name="text-center form-control form-select" value={room_type}
                                     onChange={(e) => setRoomType(e.target.value)}>
@@ -89,21 +80,22 @@ const UpdateRoom = () => {
                                 </select>
                             </div>
                             <br />
-                            <div className=' row d-flex justify-content-end'>
-                                <div className='col-3 '>
-                                    <button className="btn btn-success"  >Finish </button>
-                                </div>
-                                <div className='col-3'>
-                                    <Link to="/" className="btn btn-danger">Cancel</Link>
-                                </div>
-                            </div>
+
                         </form>
+
                     </div>
                 </div>
 
 
             </div>
-
+            <div className='row '>
+                <div className='col-3 '>
+                    <button className="btn btn-success"  >Finish </button>
+                </div>
+                <div className='col-3'>
+                    <Link to="/" className="btn btn-danger">Cancel</Link>
+                </div>
+            </div>
         </div>
     );
 };
