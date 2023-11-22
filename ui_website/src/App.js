@@ -12,7 +12,7 @@ function App() {
         <BrowserRouter>
           <Routes>
           <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
-          <Route path="/edit-apartment" Component={UpdateApartment}></Route>
+          <Route path="/edit-apartment/:id" Component={UpdateApartment}></Route>
           </Routes>
         </BrowserRouter>
       </div>
