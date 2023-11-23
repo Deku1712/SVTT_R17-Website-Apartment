@@ -27,10 +27,9 @@ function App() {
            <Route path="/viewAllBills" element={<ViewAllBills />} />
            
            <Route path="/createNewBill" element={<CreateNewBill />} />
-           <Routes>
-          <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
+           <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
           <Route path="/edit-apartment" Component={UpdateApartment}></Route>
-          </Routes>
+           
 
          {/* <Route path="/login" element={<Login />} />
            <Route path="/register" element={<Register />} />
