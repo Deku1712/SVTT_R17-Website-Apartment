@@ -1,23 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
+import ViewAllRoom from './components/pages/viewAllRooms';
+import ViewAllBills from './components/pages/viewAllBills';
+import Header from './components/layouts/header';
+
+import { Container } from 'react-bootstrap';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import ViewBillDetails from './components/pages/viewBillDetails';
+import CreateNewBill from './components/pages/createNewBill';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      
+      <Header/>
+      <Router>
+        <Routes>
+          {/* <Route path="/home" element={<Home />} />*/}
+          <Route path="/viewBillDetails" element={<ViewBillDetails />} /> 
+
+           <Route path="/viewAllRoom" element={<ViewAllRoom />} />
+           <Route path="/viewAllBills" element={<ViewAllBills />} />
+           
+           <Route path="/createNewBill" element={<CreateNewBill />} />
+
+         {/* <Route path="/login" element={<Login />} />
+           <Route path="/register" element={<Register />} />
+         <Route path="/logout" element={<LoginForm />} /> */}
+        </Routes>
+
+      </Router>
+      
     </div>
   );
 }
