@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import '../styles/styles.css';
 const UpdateApartment = () => {
+    const [apartment_id, setApartmentId] = useState('');
     const [apartment_name, setApartmentName] = useState('');
     const [phone1, setPhone1] = useState('');
     const [phone2, setPhone2] = useState('');

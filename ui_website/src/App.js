@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import UpdateRoom from './Component/UpdateRoom';
-import UpdateApartment from './Component/UpdateApartment';
+import UpdateRoom from './components/UpdateRoom';
+import UpdateApartment from './components/UpdateApartment';
 function App() {
   return (
    

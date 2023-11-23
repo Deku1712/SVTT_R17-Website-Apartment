@@ -7,7 +7,6 @@ const UpdateRoom = () => {
     const [size_renter, setSizeRenter] = useState('');
     const [room_size, setRoomSize] = useState('');
     const [description, setDescription] = useState('');
-    const [room_status, setRoomStatus] = useState('');
     const [room_free, setRoomFree] = useState('');
     const [room_type, setRoomType] = useState('');
     const [room_img, setRoomImg] = useState('');
@@ -53,26 +52,6 @@ const UpdateRoom = () => {
                                     value={room_size}
                                     onChange={(e) => setRoomSize(e.target.value)}
                                 />
-                            </div> <br />
-                            <div className="form-group mb-2 d-flex">
-                                <span className=" fa-custom" style={{paddingRight:"2px"}} ><i class="fa fa-check-square" aria-hidden="true"></i></span>
-
-                                <input className="ms-3"
-                                    type="radio"
-                                    id="lease"
-                                    value="lease"
-                                    checked={room_status === "lease"}
-                                    onChange={(e) => setRoomStatus(e.target.value)}
-                                /><label className="ms-3" for="lease">Lease</label><br />
-
-                                <input
-                                    type="radio" className="ms-3" id="none"
-                                    value="none"
-                                    checked={room_status === "none"}
-                                    onChange={(e) => setRoomStatus(e.target.value)}
-                                /><label className="ms-3" for="none">None</label><br />
-
-
                             </div> <br />
                             <div className="form-group mb-2 d-flex">
                                 <span className="fa-custom" ><i class="fa fa-check-square" aria-hidden="true"></i></span>
