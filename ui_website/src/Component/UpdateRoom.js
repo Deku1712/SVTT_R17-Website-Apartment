@@ -18,13 +18,13 @@ const UpdateRoom = () => {
     return (
         <div className="container mt-5 mb-3">
             <h2 className="text-center mt-3 "> UPDATE ROOM {id}</h2>
-            <div className=" row-custome mb-3">
+            <div className=" d-flex justify-content-center mt-3">
                 <div className="card col-md-5 form-custom " >
                     <div className="card-body ">
                         <form>
                             <div className="form-group mb-2 d-flex">
 
-                                <span className="input-group-text fa-custom" > <i class="fa fa-home" aria-hidden="true"></i></span>
+                                <span className=" fa-custom" > <i class="fa fa-home" aria-hidden="true"></i></span>
                                 <input
                                     type="text" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter room name"
@@ -35,7 +35,7 @@ const UpdateRoom = () => {
                             </div>
                             <br />
                             <div className="form-group mb-2 d-flex">
-                                <span className="input-group-text fa-custom"> <i class="fa fa-users" aria-hidden="true"></i></span>
+                                <span className=" fa-custom"> <i class="fa fa-users" aria-hidden="true"></i></span>
                                 <input
                                     type="number" minLength={1} required={true} min={0}
                                     placeholder="Number of people"
@@ -45,7 +45,7 @@ const UpdateRoom = () => {
                                 />
                             </div> <br />
                             <div className="form-group mb-2 d-flex">
-                                <span className="input-group-text fa-custom" ><i class="fa fa-street-view" aria-hidden="true"></i></span>
+                                <span className=" fa-custom" ><i class="fa fa-street-view" aria-hidden="true"></i></span>
                                 <input
                                     type="number" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter acreage"
@@ -55,7 +55,7 @@ const UpdateRoom = () => {
                                 />
                             </div> <br />
                             <div className="form-group mb-2 d-flex">
-                                <span className="input-group-text fa-custom" ><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span className=" fa-custom" style={{paddingRight:"2px"}} ><i class="fa fa-check-square" aria-hidden="true"></i></span>
 
                                 <input className="ms-3"
                                     type="radio"
@@ -63,19 +63,19 @@ const UpdateRoom = () => {
                                     value="lease"
                                     checked={room_status === "lease"}
                                     onChange={(e) => setRoomStatus(e.target.value)}
-                                /><label for="lease">Lease</label><br />
+                                /><label className="ms-3" for="lease">Lease</label><br />
 
-                                <input 
+                                <input
                                     type="radio" className="ms-3" id="none"
                                     value="none"
                                     checked={room_status === "none"}
                                     onChange={(e) => setRoomStatus(e.target.value)}
-                                /><label for="none">None</label><br />
+                                /><label className="ms-3" for="none">None</label><br />
 
 
                             </div> <br />
                             <div className="form-group mb-2 d-flex">
-                                <span className="input-group-text fa-custom" ><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span className="fa-custom" ><i class="fa fa-check-square" aria-hidden="true"></i></span>
 
                                 <input className="ms-3"
                                     type="radio"
@@ -83,29 +83,29 @@ const UpdateRoom = () => {
                                     value="false"
                                     checked={active === "false"}
                                     onChange={(e) => setActive(e.target.value)}
-                                /><label for="active">Active</label><br />
+                                /><label className="ms-3"  for="active">Active</label><br />
 
                                 <input
                                     type="radio" className="ms-3" id="complete"
                                     value="true"
                                     checked={active === "true"}
                                     onChange={(e) => setActive(e.target.value)}
-                                /><label for="complete">Complete</label><br />
+                                /><label className="ms-3" for="complete">Complete</label><br />
 
 
                             </div> <br />
                             <div className="form-group mb-2 d-flex">
-                                <span className="input-group-text fa-custom" ><i class="fa fa-money" aria-hidden="true"></i></span>
+                                <span className=" fa-custom" ><i class="fa fa-money" aria-hidden="true"></i></span>
                                 <input
                                     type="number" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter price room"
                                     className="form-control w-75"
                                     value={room_free}
                                     onChange={(e) => setRoomFree(e.target.value)}
-                                />
+                                /><span className="input-group-text fa-custom-1" >VND</span>
                             </div> <br />
                             <div className="form-group mb-2  d-flex">
-                                <span className=" input-group-text fa-custom" ><i class="fa fa-info" aria-hidden="true"></i></span>
+                                <span className=" fa-custom" ><i class="fa fa-info" aria-hidden="true"></i></span>
                                 <textarea
                                     type="number" maxLength={255} minLength={1} required={true}
                                     placeholder="Enter description..."
@@ -115,7 +115,7 @@ const UpdateRoom = () => {
                                 />
                             </div><br />
                             <div className="form-group mb-2 d-flex">
-                                <span className="input-group-text fa-custom" ><i class="fa fa-filter" aria-hidden="true"></i></span>
+                                <span className=" fa-custom" ><i class="fa fa-filter" aria-hidden="true"></i></span>
                                 <br />
                                 <select name="text-center form-control form-select" value={room_type}
                                     onChange={(e) => setRoomType(e.target.value)}>
@@ -137,14 +137,15 @@ const UpdateRoom = () => {
 
                         </form>
 
-                    </div>  <div className='d-flex justify-content-end mt-3 mb-3 ms-5'>
-                        <div className='col-2 '>
-                            <button className="btn btn-success"  >Finish </button>
-                        </div>
-                        <div className='col-2'>
-                            <Link to="/" className="btn btn-danger">Cancel</Link>
-                        </div>
                     </div>
+                    <div className='d-flex justify-content-end mt-3 mb-3  justify-content-center'>
+                <div className='col-2 '>
+                    <button className="btn btn-success"  >Finish </button>
+                </div>
+                <div className='col-2'>
+                    <Link to="/" className="btn btn-danger">Cancel</Link>
+                </div>
+            </div>
                 </div>
 
             </div>

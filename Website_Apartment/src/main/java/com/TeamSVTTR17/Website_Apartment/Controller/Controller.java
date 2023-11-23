@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("/")
 public class Controller {
     @Autowired
     private ApartmentRepository apartmentRepository;
@@ -19,7 +20,7 @@ public class Controller {
     public Controller() {
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/list/{id}")
     public Apartment findApartmentById(@PathVariable int id){
         try {
             Apartment apartment = apartmentRepository.findById(id).get();
@@ -28,17 +29,17 @@ public class Controller {
             throw new RuntimeException(ex);
         }
     }
-    @GetMapping("{id}")
+    @GetMapping("/list-a/{id}")
     public List<Fee> findFeeByApartmentId(@PathVariable int id){
         try {
-            List<Fee> fee = feeRepository.findByApartmentId(String.valueOf(id));
+            List<Fee> fee = feeRepository.findByApartid(id);
             return fee;
         }catch (Exception ex){
             throw new RuntimeException(ex);
         }
     }
 
-    @PutMapping("{id}")
+    @PutMapping("edit/{id}")
     public Apartment updateApartment(@PathVariable  int id,@RequestBody Apartment apartment,@RequestBody Fee fee ){
         try {
            Apartment updateAparment = apartmentRepository.findById(id).get();

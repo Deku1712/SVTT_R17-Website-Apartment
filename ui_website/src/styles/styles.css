@@ -1,17 +1,21 @@
 body{
   width: 100%;
-  background: linear-gradient(to right,#aeb2b2 ,#aeb2b2);
+  background: linear-gradient(to right, #fff ,#fff);
 }
 .row-custome{
   margin-top: 16px;
   margin-left: 10px;
-  display: flex;
-  justify-content: space-around;
 }
 .row{
   width: 1000px;
 }
 .fa-custom{
+  width: 30px;
+  font-size:20px;
+  padding-right: 1em;
+  border-radius: 0%;
+}
+.fa-custom-1{
   font-size:20px;
   padding-right: 1em;
   border-radius: 0%;
@@ -37,11 +41,14 @@ select option{
 }
 .form-custome{
   align-content: center;
+  justify-content: space-between;
+  display: flex!important;
 }
 
 .form-control{
-  width: 2px;
-  border: 20px;
+  width: 2px ;
+  border: 1px solid !important;
+  border-radius: 50px 20px;
 }
 .form-select{
   width: 60%;
