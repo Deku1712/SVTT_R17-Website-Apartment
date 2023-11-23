@@ -3,16 +3,21 @@ import { useParams, Link } from "react-router-dom";
 import '../styles/styles.css';
 const UpdateApartment = () => {
     const [apartment_name, setApartmentName] = useState('');
-    const [phone, setPhone] = useState('');
+    const [phone1, setPhone1] = useState('');
+    const [phone2, setPhone2] = useState('');
     const [address, setAddress] = useState('');
     const [number_room, setNumberRoom] = useState('');
-    const [apartment_number, setApartmentNumber] = useState('');
     const [description, setDescription] = useState('');
     const [electric, setElectric] = useState('');
     const [water, setWater] = useState('');
+    const [water_bill, setWaterBill] = useState('');
     const [internet, setInternet] = useState('');
     const [trash, setTrash] = useState('');
+    const [apartment_img, setApartmentImg] = useState('');
     const { id } = useParams();
+    const [fee, setFee] = useState([]);
+
+
     return (
         <div className="container mt-5">
             <h2 className="text-center mt-3"> UPDATE APARTMENT {id}</h2>
@@ -36,14 +41,25 @@ const UpdateApartment = () => {
 
                             </div>
                             <div className="form-group mb-2 d-flex">
-                                <label className="form-label"> Phone:</label>
+                                <label className="form-label"> Phone 1:</label>
                                 <input
-                                    type="number" minLength={1} maxLength={11} required={true}
-                                    placeholder="Enter number of phone"
+                                    type="number" minLength={1} maxLength={11} required={true} pattern="[0]{1}[0-9]{3}[0-9]{3}[0-9]{3}"
+                                    placeholder="Enter number of phone 1"
                                     name="lastName"
                                     className="form-control"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
+                                    value={phone1}
+                                    onChange={(e) => setPhone1(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group mb-2 d-flex">
+                                <label className="form-label"> Phone 2:</label>
+                                <input
+                                    type="number" minLength={1} maxLength={11} required={true}
+                                    placeholder="Enter number of phone 2"
+                                    name="lastName"
+                                    className="form-control"
+                                    value={phone2}
+                                    onChange={(e) => setPhone2(e.target.value)}
                                 />
                             </div>
                             <div className="form-group mb-2 d-flex">
@@ -68,17 +84,7 @@ const UpdateApartment = () => {
                                     onChange={(e) => setNumberRoom(e.target.value)}
                                 />
                             </div>
-                            <div className="form-group mb-2 d-flex">
-                                <label className="form-label"> Type room:</label>
-                                <input
-                                    type="number" maxLength={30} minLength={1} required={true}
-                                    placeholder="Enter number type room"
-                                    name="lastName"
-                                    className="form-control"
-                                    value={apartment_number}
-                                    onChange={(e) => setApartmentNumber(e.target.value)}
-                                />
-                            </div>
+
                             <div className="form-group mb-2 d-flex">
                                 <label className="form-label">Description :</label>
                                 <textarea
@@ -89,8 +95,14 @@ const UpdateApartment = () => {
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
+                            </div><br />
+                            <div className="form-group mb-2  d-flex">
+                                <label for="images" className="drop-container" id="dropcontainer" style={{ width: "95%" }}>
+                                    <span class="drop-title">Drop files here</span>
+                                    or
+                                    <input className="mb-1" type="file" id="images" accept="image/*" value={apartment_img} onChange={(e) => setApartmentImg(e.target.value)} required />
+                                </label>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -98,7 +110,7 @@ const UpdateApartment = () => {
                     <div className="card-body">
                         <form>
                             <div className="form-group mb-2 d-flex">
-                                <label className="form-label-1"> Electric :</label>
+                            <span className="fa-custom" > <i class="fa fa-bolt"></i></span>
                                 <input
                                     type="number" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter electric number"
@@ -110,7 +122,7 @@ const UpdateApartment = () => {
                             </div>
                             <br />
                             <div className="form-group mb-2 d-flex">
-                                <label className="form-label-1"> Water:</label>
+                                <span className="fa-custom" > <i class="fa fa-tint" aria-hidden="true"></i></span>
                                 <input
                                     type="number" minLength={1} required={true}
                                     placeholder="Enter Water number"
@@ -121,7 +133,18 @@ const UpdateApartment = () => {
                                 />
                             </div> <br />
                             <div className="form-group mb-2 d-flex">
-                                <label className="form-label-1"> Internet:</label>
+                                <label className="form-label-1"> Water Bill:</label>
+                                <input
+                                    type="number" minLength={1} required={true}
+                                    placeholder="Enter Water number"
+                                    name="lastName"
+                                    className="form-control"
+                                    value={water_bill}
+                                    onChange={(e) => setWaterBill(e.target.value)}
+                                />
+                            </div> <br />
+                            <div className="form-group mb-2 d-flex">
+                            <span className="fa-custom" > <i class="fa fa-wifi" aria-hidden="true"></i></span>
                                 <input
                                     type="number" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter internet"
@@ -132,7 +155,7 @@ const UpdateApartment = () => {
                                 />
                             </div> <br />
                             <div className="form-group mb-2 d-flex">
-                                <label className="form-label-1"> Trash:</label>
+                            <span className="fa-custom"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
                                 <input
                                     type="number" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter trash"
@@ -143,12 +166,8 @@ const UpdateApartment = () => {
                                 />
                             </div>
                         </form>
-
-
                     </div>
-
                 </div>
-
             </div>
             <div className='d-flex justify-content-end mt-5 ms-5'>
                 <div className='col-1 '>

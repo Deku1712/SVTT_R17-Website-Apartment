@@ -7,26 +7,24 @@ const UpdateRoom = () => {
     const [size_renter, setSizeRenter] = useState('');
     const [room_size, setRoomSize] = useState('');
     const [description, setDescription] = useState('');
-    const [room_status, setRoomStatus] = useState(true);
+    const [room_status, setRoomStatus] = useState('');
     const [room_free, setRoomFree] = useState('');
     const [room_type, setRoomType] = useState('');
     const [room_img, setRoomImg] = useState('');
-    const [eclectric, setElectric] = useState('')
-    const [water, setWater] = useState('')
-    const [internet, setInternet] = useState('')
-    const [trash, setTrash] = useState('')
+    const [active, setActive] = useState("");
     const { id } = useParams();
 
+
     return (
-        <div className="container mt-5">
-            <h2 className="text-center mt-3"> UPDATE ROOM {id}</h2>
-            <div className=" row-custome">
-                <div className="card col-md-4 form-custom " >
-                    <div className="card-body">
+        <div className="container mt-5 mb-3">
+            <h2 className="text-center mt-3 "> UPDATE ROOM {id}</h2>
+            <div className=" row-custome mb-3">
+                <div className="card col-md-5 form-custom " >
+                    <div className="card-body ">
                         <form>
                             <div className="form-group mb-2 d-flex">
 
-                                <span className="fa-custom" > <i class="fa fa-home" aria-hidden="true"></i></span>
+                                <span className="input-group-text fa-custom" > <i class="fa fa-home" aria-hidden="true"></i></span>
                                 <input
                                     type="text" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter room name"
@@ -37,7 +35,7 @@ const UpdateRoom = () => {
                             </div>
                             <br />
                             <div className="form-group mb-2 d-flex">
-                                <span className="fa-custom"> <i class="fa fa-users" aria-hidden="true"></i></span>
+                                <span className="input-group-text fa-custom"> <i class="fa fa-users" aria-hidden="true"></i></span>
                                 <input
                                     type="number" minLength={1} required={true} min={0}
                                     placeholder="Number of people"
@@ -47,7 +45,7 @@ const UpdateRoom = () => {
                                 />
                             </div> <br />
                             <div className="form-group mb-2 d-flex">
-                                <span className="fa-custom" ><i class="fa fa-street-view" aria-hidden="true"></i></span>
+                                <span className="input-group-text fa-custom" ><i class="fa fa-street-view" aria-hidden="true"></i></span>
                                 <input
                                     type="number" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter acreage"
@@ -56,8 +54,58 @@ const UpdateRoom = () => {
                                     onChange={(e) => setRoomSize(e.target.value)}
                                 />
                             </div> <br />
+                            <div className="form-group mb-2 d-flex">
+                                <span className="input-group-text fa-custom" ><i class="fa fa-check-square" aria-hidden="true"></i></span>
+
+                                <input className="ms-3"
+                                    type="radio"
+                                    id="lease"
+                                    value="lease"
+                                    checked={room_status === "lease"}
+                                    onChange={(e) => setRoomStatus(e.target.value)}
+                                /><label for="lease">Lease</label><br />
+
+                                <input 
+                                    type="radio" className="ms-3" id="none"
+                                    value="none"
+                                    checked={room_status === "none"}
+                                    onChange={(e) => setRoomStatus(e.target.value)}
+                                /><label for="none">None</label><br />
+
+
+                            </div> <br />
+                            <div className="form-group mb-2 d-flex">
+                                <span className="input-group-text fa-custom" ><i class="fa fa-check-square" aria-hidden="true"></i></span>
+
+                                <input className="ms-3"
+                                    type="radio"
+                                    id="active"
+                                    value="false"
+                                    checked={active === "false"}
+                                    onChange={(e) => setActive(e.target.value)}
+                                /><label for="active">Active</label><br />
+
+                                <input
+                                    type="radio" className="ms-3" id="complete"
+                                    value="true"
+                                    checked={active === "true"}
+                                    onChange={(e) => setActive(e.target.value)}
+                                /><label for="complete">Complete</label><br />
+
+
+                            </div> <br />
+                            <div className="form-group mb-2 d-flex">
+                                <span className="input-group-text fa-custom" ><i class="fa fa-money" aria-hidden="true"></i></span>
+                                <input
+                                    type="number" maxLength={30} minLength={1} required={true}
+                                    placeholder="Enter price room"
+                                    className="form-control w-75"
+                                    value={room_free}
+                                    onChange={(e) => setRoomFree(e.target.value)}
+                                />
+                            </div> <br />
                             <div className="form-group mb-2  d-flex">
-                                <span className="fa-custom" ><i class="fa fa-info" aria-hidden="true"></i></span>
+                                <span className=" input-group-text fa-custom" ><i class="fa fa-info" aria-hidden="true"></i></span>
                                 <textarea
                                     type="number" maxLength={255} minLength={1} required={true}
                                     placeholder="Enter description..."
@@ -67,7 +115,7 @@ const UpdateRoom = () => {
                                 />
                             </div><br />
                             <div className="form-group mb-2 d-flex">
-                                <span className="fa-custom" ><i class="fa fa-filter" aria-hidden="true"></i></span>
+                                <span className="input-group-text fa-custom" ><i class="fa fa-filter" aria-hidden="true"></i></span>
                                 <br />
                                 <select name="text-center form-control form-select" value={room_type}
                                     onChange={(e) => setRoomType(e.target.value)}>
@@ -82,93 +130,25 @@ const UpdateRoom = () => {
                                 <label for="images" className="drop-container" id="dropcontainer" style={{ width: "95%" }}>
                                     <span class="drop-title">Drop files here</span>
                                     or
-                                    <input  className="mb-1" type="file" id="images" accept="image/*" value={room_img} onChange={(e) => setRoomImg(e.target.value)} required />
+                                    <input className="mb-1" type="file" id="images" accept="image/*" value={room_img} onChange={(e) => setRoomImg(e.target.value)} required />
                                 </label>
 
                             </div><br />
 
                         </form>
 
+                    </div>  <div className='d-flex justify-content-end mt-3 mb-3 ms-5'>
+                        <div className='col-2 '>
+                            <button className="btn btn-success"  >Finish </button>
+                        </div>
+                        <div className='col-2'>
+                            <Link to="/" className="btn btn-danger">Cancel</Link>
+                        </div>
                     </div>
                 </div>
 
-                <div className="card col-md-4  form-custom " >
-                    <div className="card-body">
-                        <form >
-                            <div className="form-group mb-2 d-flex justify-content-center">
-                                <span className="fa-custom" > <i class="fa fa-bolt"></i></span>
-                                <input
-                                    type="number" minLength={1} required={true} min={0}
-                                    placeholder=" Eclectric number"
-                                    className="form-control w-50"
-                                    value={eclectric}
-                                    onChange={(e) => setElectric(e.target.value)}
-                                />
-
-                            </div>
-                            <br />
-                            <div className="form-group mb-2 d-flex justify-content-center">
-                                <span className="fa-custom" > <i class="fa fa-tint" aria-hidden="true"></i></span>
-                                <input
-                                    type="number" minLength={1} required={true} min={0}
-                                    placeholder=" Water number"
-                                    className="form-control w-50"
-                                    value={water}
-                                    onChange={(e) => setWater(e.target.value)}
-                                />
-
-                            </div>
-                            <br />
-                            <div className="form-group mb-2 d-flex justify-content-center">
-                                <span className="fa-custom" > <i class="fa fa-wifi" aria-hidden="true"></i></span>
-                                <input
-                                    type="number" minLength={1} required={true} min={0}
-                                    placeholder=" Internet number"
-                                    className="form-control w-50"
-                                    value={internet}
-                                    onChange={(e) => setInternet(e.target.value)}
-                                />
-
-                            </div>
-                            <br />
-                            <div className="form-group mb-2 d-flex justify-content-center">
-                                <span className="fa-custom"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-                                <input
-                                    type="number" minLength={1} required={true} min={0}
-                                    placeholder=" Trash number"
-                                    className="form-control w-50"
-                                    value={trash}
-                                    onChange={(e) => setTrash(e.target.value)}
-                                />
-
-                            </div>
-                            <br />
-                            <div className="form-group mb-2 d-flex justify-content-center">
-                                <span className="fa-custom"> <i class="fa fa-money" aria-hidden="true"></i></span>
-                                <input
-                                    type="number" minLength={1} required={true} min={0}
-                                    placeholder="Total free"
-                                    className="form-control w-50"
-                                    value={room_free}
-                                    onChange={(e) => setRoomFree(e.target.value)}
-                                />
-                            </div> <br />
-
-                        </form>
-
-                    </div>
-
-                </div>
-
             </div>
-            <div className='d-flex justify-content-end mt-3 mb-3 ms-5'>
-                <div className='col-1 '>
-                    <button className="btn btn-success"  >Finish </button>
-                </div>
-                <div className='col-2'>
-                    <Link to="/" className="btn btn-danger">Cancel</Link>
-                </div>
-            </div>
+
         </div>
     );
 };
