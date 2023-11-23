@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+
 import ViewAllRoom from './components/pages/viewAllRooms';
 import ViewAllBills from './components/pages/viewAllBills';
 import Header from './components/layouts/header';
@@ -8,6 +9,9 @@ import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import ViewBillDetails from './components/pages/viewBillDetails';
 import CreateNewBill from './components/pages/createNewBill';
+
+import UpdateRoom from './Component/UpdateRoom';
+import UpdateApartment from './Component/UpdateApartment';
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
            <Route path="/viewAllBills" element={<ViewAllBills />} />
            
            <Route path="/createNewBill" element={<CreateNewBill />} />
+           <Routes>
+          <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
+          <Route path="/edit-apartment" Component={UpdateApartment}></Route>
+          </Routes>
 
          {/* <Route path="/login" element={<Login />} />
            <Route path="/register" element={<Register />} />
@@ -30,9 +38,8 @@ function App() {
         </Routes>
 
       </Router>
-      
-    </div>
-  );
-}
 
+        </div>
+        )
+        }
 export default App;

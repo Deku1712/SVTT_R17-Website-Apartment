@@ -1,6 +1,6 @@
 package com.TeamSVTTR17.Website_Apartment.Entity;
 
-import jakarta.persistence.CascadeType;
+import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,22 +19,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Fee {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "apartID")
-    private Apartment apartment;
-
     @Column(name = "priceOfElectricity")
     private float priceOfElectricity;
-
     @Column(name = "priceOfWater")
     private float priceOfWater;
-    
     @Column(name = "priceOfTrash")
     private float priceOfTrash;
+    @Column(name = "priceOfInternet")
+    private float priceOfInternet;
+    @Column(name = "waterBill")
+    private float waterBill;
+
+    @ManyToOne
+    @JoinColumn(name = "apartID")
+    private Apartment apartment;
 }

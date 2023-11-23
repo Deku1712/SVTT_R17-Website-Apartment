@@ -1,6 +1,7 @@
 package com.TeamSVTTR17.Website_Apartment.Entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -16,40 +17,45 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Entity
 @Table(name = "Posts")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class Post {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "userID")
-    private User user;
-
     @Column(name = "title")
     private String title;
-
+    @Column(name = "apartmentName")
+    private String apartmentName;
+    @Column(name = "phoneNumber1")
+    private String phoneNumber1 ;
+    @Column(name = "phoneNumber2")
+    private String phoneNumber2;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "property")
+    private String property;
     @Column(name = "description")
     private String description;
-
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "apartID")
-    private Apartment apartment;
-
+    @Column(name = "v")
+    private int size;
+    @Column(name = "url_img")
+    private String url_img;
     @Column(name = "createTime")
     private Date createTime;
-
     @Column(name = "updateTime")
     private Date updateTime;
 
-    @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL)
-    List<Comment> comments;
-}
+    @ManyToOne
+    @JoinColumn(name = "userID")
+    private User user;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments  =  new ArrayList<>();
+
+}
