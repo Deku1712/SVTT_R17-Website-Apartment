@@ -10,9 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ImgRepository extends JpaRepository<Img, Integer> {
-    @Query("SELECT i FROM Imgs i WHERE i.room.id = :id")
-    List<Img> findByRoomId(@Param("id") int id);
-
-    @Query("SELECT i FROM Imgs i WHERE i.url_img = :url")
+    @Query("SELECT i FROM Img i WHERE i.url_img = :url")
     Img findByUrl(@Param("url") String url);
 }

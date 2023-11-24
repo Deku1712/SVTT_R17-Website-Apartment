@@ -17,8 +17,7 @@ const UpdateApartment = () => {
     const [apartment_img, setApartmentImg] = useState('');
     const { id } = useParams();
     const [fee, setFee] = useState([]);
-
-
+    
     return (
         <div className="container mt-5">
             <h2 className="text-center mt-3"> UPDATE APARTMENT {id}</h2>
@@ -26,7 +25,7 @@ const UpdateApartment = () => {
                 <div className=" col-md-8  form-custome mt-3" >
                     <div className="card-body col-md-4 ">
                         <div className="form-group mb-2 d-flex">
-                            <span className="  fa-custom" ><i class="fa fa-building" aria-hidden="true"></i></span>
+                            <span className="  fa-custom" ><i className="fa fa-building" aria-hidden="true"></i></span>
                             <input
                                 type="text" maxLength={30} minLength={1} required={true}
                                 placeholder="Enter apartment name"
@@ -38,7 +37,7 @@ const UpdateApartment = () => {
 
                         </div><br />
                         <div className="form-group mb-2 d-flex">
-                            <span className="  fa-custom" ><i class="fa fa-phone" aria-hidden="true"></i></span>
+                            <span className="  fa-custom" ><i className="fa fa-phone" aria-hidden="true"></i></span>
                             <input
                                 type="number" minLength={1} maxLength={11} required={true} pattern="[0]{1}[0-9]{3}[0-9]{3}[0-9]{3}"
                                 placeholder="Enter number of phone 1"
@@ -49,7 +48,7 @@ const UpdateApartment = () => {
                             />
                         </div><br />
                         <div className="form-group mb-2 d-flex">
-                            <span className="  fa-custom" ><i class="fa fa-phone" aria-hidden="true"></i></span>
+                            <span className="  fa-custom" ><i className="fa fa-phone" aria-hidden="true"></i></span>
                             <input
                                 type="number" minLength={1} maxLength={11} required={true}
                                 placeholder="Enter number of phone 2"
@@ -60,7 +59,7 @@ const UpdateApartment = () => {
                             />
                         </div><br />
                         <div className="form-group mb-2 d-flex">
-                            <span className="  fa-custom" ><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                            <span className="  fa-custom" ><i className="fa fa-map-marker" aria-hidden="true"></i></span>
                             <input
                                 type="text" minLength={1} required={true}
                                 placeholder="Enters address "
@@ -71,7 +70,7 @@ const UpdateApartment = () => {
                             />
                         </div><br />
                         <div className="form-group mb-2 d-flex">
-                            <span className="  fa-custom" ><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></span>
+                            <span className="  fa-custom" ><i className="fa fa-arrow-circle-up" aria-hidden="true"></i></span>
                             <input
                                 type="number" maxLength={30} minLength={1} required={true}
                                 placeholder="Enter number room"
@@ -83,7 +82,7 @@ const UpdateApartment = () => {
                         </div><br />
 
                         <div className="form-group mb-2 d-flex">
-                            <span className=" fa-custom" >  <i class="fa fa-info-circle" aria-hidden="true"></i></span>
+                            <span className=" fa-custom" >  <i className="fa fa-info-circle" aria-hidden="true"></i></span>
                             <textarea
                                 type="number" maxLength={255} minLength={1}
                                 placeholder="Enter description"
@@ -93,13 +92,13 @@ const UpdateApartment = () => {
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                         </div><br />
-                        
+
 
                     </div>
                     <div className="card-body col-md-4 ms-5">
 
                         <div className="form-group mb-2 d-flex">
-                            <span className="fa-custom" > <i class="fa fa-bolt"></i></span>
+                            <span className="fa-custom" > <i className="fa fa-bolt"></i></span>
                             <input
                                 type="number" maxLength={30} minLength={1} required={true}
                                 placeholder="Enter electric number"
@@ -111,7 +110,7 @@ const UpdateApartment = () => {
                         </div>
                         <br />
                         <div className="form-group mb-2 d-flex">
-                            <span className="fa-custom" > <i class="fa fa-tint" aria-hidden="true"></i></span>
+                            <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
                             <input
                                 type="number" minLength={1} required={true}
                                 placeholder="Enter Water number"
@@ -122,7 +121,7 @@ const UpdateApartment = () => {
                             /><span className="input-group-text  mx-3  fa-custom-1" >m<sup>3</sup></span>
                         </div> <br />
                         <div className="form-group mb-2 d-flex">
-                            <span className="fa-custom" > <i class="fa fa-tint" aria-hidden="true"></i></span>
+                            <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
                             <input
                                 type="number" minLength={1} required={true}
                                 placeholder="Enter Water number"
@@ -133,7 +132,7 @@ const UpdateApartment = () => {
                             /><span className="input-group-text  mx-3  fa-custom-1" >VND/1m<sup>3</sup></span>
                         </div> <br />
                         <div className="form-group mb-2 d-flex">
-                        <span className="fa-custom" > <i style={{fontSize:"16px"}} class="fa fa-wifi" aria-hidden="true"></i></span>
+                            <span className="fa-custom" > <i style={{ fontSize: "16px" }} className="fa fa-wifi" aria-hidden="true"></i></span>
                             <input
                                 type="number" maxLength={30} minLength={1} required={true}
                                 placeholder="Enter internet"
@@ -145,27 +144,28 @@ const UpdateApartment = () => {
                         </div> <br />
 
                         <div className="form-group mb-2 d-flex" >
-                            <span className="fa-custom"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                            <span className="fa-custom"><i className="fa fa-trash-o" aria-hidden="true"></i></span>
                             <input
                                 type="number" maxLength={30} minLength={1} required={true}
                                 placeholder="Enter trash"
-                                name="lastName" style={{width:"88%"}}
+                                name="lastName" style={{ width: "88%" }}
                                 className="form-control "
                                 value={trash}
                                 onChange={(e) => setTrash(e.target.value)}
                             />
-                        </div><br/>
+                        </div><br />
                         <div className="form-group ms-3 mb-2 d-flex ">
-                            <label for="images" className="drop-container" id="dropcontainer" style={{ width: "95%" }}>
-                                <span class="drop-title">Drop files here</span>
+                            <label for="images" width className="drop-container" id="dropcontainer" style={{ width: "120%" }}>
+                                <span className="drop-title">Drop files here</span>
                                 or
-                                <input className="mb-1" type="file" id="images" accept="image/*" value={apartment_img} onChange={(e) => setApartmentImg(e.target.value)} required />
+                                <input width={100} className="mb-1" type="file" id="images" accept="image/*" onChange={(e) => setApartmentImg(e.target.files[0])} required />
                             </label>
+                            <div><img width={80} src={apartment_img?URL.createObjectURL(apartment_img):null} />{apartment_img.name}</div>
                         </div>
-
+                        
                     </div>
                 </div>
-               
+
             </div>
             <div className='d-flex justify-content-end mt-5 mb-3 ms-5 justify-content-center'>
                 <div className='col-1 '>
