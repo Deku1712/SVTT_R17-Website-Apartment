@@ -20,6 +20,7 @@ const UpdateApartment = () => {
     const [submitted, setSubmitted] = useState(false);
     const { id } = useParams();
     const [fee, setFee] = useState([]);
+    const [fileData, setFileData] = useState([]);
     const validateInput = (inputName, value) => {
         let error = "";
 
@@ -123,8 +124,10 @@ const UpdateApartment = () => {
 
             // Gửi file ảnh tới server
             const response = await axios.post("http://localhost:3001/uploadApartment", formData);
-
-            setSubmitted(true)
+            console.log(response.data);
+            const newFileName = response.data.newFileName;
+            setApartmentImg(newFileName);
+            setSubmitted(true);
         } catch (error) {
             console.error("Error uploading image: ", error);
         }
@@ -296,7 +299,7 @@ const UpdateApartment = () => {
                             <div>
                                 {apartment_img && (
                                     <div className="d-flex">
-                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={submitted ? `http://localhost:3001/images/${apartment_img.name}` : URL.createObjectURL(apartment_img)} /> </div>
+                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={submitted ? `http://localhost:3001/images/${apartment_img}` : URL.createObjectURL(apartment_img)} /> </div>
                                         {console.log(apartment_img)}
                                         <div style={{ width: 20 }}>
                                             <sup >

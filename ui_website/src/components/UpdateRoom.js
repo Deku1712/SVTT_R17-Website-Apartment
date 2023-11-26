@@ -15,6 +15,8 @@ const UpdateRoom = () => {
     const [active, setActive] = useState("");
     const [validationErrors, setValidationErrors] = useState({});
     const [submitted, setSubmitted] = useState(false);
+    const [newFileNames, setNewFileNames] = useState([]);
+    const [fileData, setFileData] = useState([]);
     const { id } = useParams();
     const files = room_img ? [...room_img] : [];
 
@@ -77,8 +79,19 @@ const UpdateRoom = () => {
     };
     const handleImageChange = (e) => {
         const newFiles = [...files, ...e.target.files];
-        setSubmitted(false);
+        const validImageFiles = Array.from(e.target.files).filter((file) =>
+            file.type.startsWith("image/")
+        );
+
         setRoomImg(newFiles);
+        setFileData((prevData) => [
+            ...prevData,
+            ...validImageFiles.map((file) => ({
+                file,
+                newName: null,
+            })),
+        ]);
+        setSubmitted(false);
     };
     const handleSubmit = async () => {
         try {
@@ -86,19 +99,33 @@ const UpdateRoom = () => {
                 console.error("No images selected.");
                 return;
             }
-    
+
             const formData = new FormData();
             room_img.forEach((room_imgs, index) => {
                 formData.append("room_imgs", room_imgs);
             });
-    
+
             const response = await axios.post("http://localhost:3001/uploadRoomImages", formData);
-            setSubmitted(true)
+
+            const newNames = response.data.paths.map((path, index) => ({
+                index,
+                newName: path.newName,
+            }));
+
+            // Update the newName property for each file in the fileData array
+            setFileData((prevData) =>
+                prevData.map((data, i) => {
+                    const match = newNames.find((name) => name.index === i);
+                    return match ? { ...data, newName: match.newName } : data;
+                })
+            );
+            setSubmitted(true);
             console.log("Room images uploaded!", response.data);
         } catch (error) {
             console.error("Error uploading room images: ", error);
         }
     };
+
     return (
         <div className="container mt-5 mb-3">
             <h2 className="text-center mt-3 "> UPDATE ROOM {id}</h2>
@@ -223,13 +250,21 @@ const UpdateRoom = () => {
 
                             </div><br />
                             <div className="d-flex flex-wrap">
-                                {files.map((file, i) => (
+                                {fileData.map(({ file, newName }, i) => (
                                     <div key={i} className="ms-3 d-flex mb-3" style={{ width: 200 }}>
-                                        <div style={{ width: 100 }}><img style={{ width: "100px" }} src={submitted ?`http://localhost:3001/images/${file.name}` : URL.createObjectURL(file)} /> </div>
-                                        
+                                        {file && (
+                                            <div style={{ width: 100 }}>
+                                                <img
+                                                    style={{ width: "100px" }}
+                                                    src={submitted ? `http://localhost:3001/images/${newName}` : URL.createObjectURL(file)}
+                                                    alt={`Selected Image ${i + 1}`}
+                                                />
+
+                                            </div>
+                                        )}
                                         <div style={{ width: 20 }}>
-                                            <sup >
-                                               <i className="fa fa-times-circle" onClick={(e) => handDelete(i, e)} aria-hidden="true"></i>
+                                            <sup>
+                                                <i className="fa fa-times-circle" onClick={(e) => handDelete(i, e)} aria-hidden="true"></i>
                                             </sup>
                                         </div>
                                     </div>
