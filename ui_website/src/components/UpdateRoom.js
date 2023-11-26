@@ -14,6 +14,7 @@ const UpdateRoom = () => {
     const [room_img, setRoomImg] = useState([]);
     const [active, setActive] = useState("");
     const [validationErrors, setValidationErrors] = useState({});
+    const [submitted, setSubmitted] = useState(false);
     const { id } = useParams();
     const files = room_img ? [...room_img] : [];
 
@@ -76,7 +77,7 @@ const UpdateRoom = () => {
     };
     const handleImageChange = (e) => {
         const newFiles = [...files, ...e.target.files];
-        console.log("Selected files:", newFiles);
+        setSubmitted(false);
         setRoomImg(newFiles);
     };
     const handleSubmit = async () => {
@@ -92,6 +93,7 @@ const UpdateRoom = () => {
             });
     
             const response = await axios.post("http://localhost:3001/uploadRoomImages", formData);
+            setSubmitted(true)
             console.log("Room images uploaded!", response.data);
         } catch (error) {
             console.error("Error uploading room images: ", error);
@@ -223,7 +225,7 @@ const UpdateRoom = () => {
                             <div className="d-flex flex-wrap">
                                 {files.map((file, i) => (
                                     <div key={i} className="ms-3 d-flex mb-3" style={{ width: 200 }}>
-                                        <div style={{ width: 100 }}><img style={{ width: "100px" }} src={file ? URL.createObjectURL(file) : null} /> </div>
+                                        <div style={{ width: 100 }}><img style={{ width: "100px" }} src={submitted ?`http://localhost:3001/images/${file.name}` : URL.createObjectURL(file)} /> </div>
                                         
                                         <div style={{ width: 20 }}>
                                             <sup >
