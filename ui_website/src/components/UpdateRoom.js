@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import axios from "axios";
 import '../styles/styles.css';
 
 const UpdateRoom = () => {
@@ -64,6 +65,37 @@ const UpdateRoom = () => {
 
     const handleBlur = (inputName, value) => {
         validateInput(inputName, value);
+    };
+
+    const handDelete = (index, e) => {
+        e.preventDefault(); // Prevent the default form submission behavior
+
+        const updatedFiles = [...files];
+        updatedFiles.splice(index, 1);
+        setRoomImg(updatedFiles);
+    };
+    const handleImageChange = (e) => {
+        const newFiles = [...files, ...e.target.files];
+        console.log("Selected files:", newFiles);
+        setRoomImg(newFiles);
+    };
+    const handleSubmit = async () => {
+        try {
+            if (room_img.length === 0) {
+                console.error("No images selected.");
+                return;
+            }
+    
+            const formData = new FormData();
+            room_img.forEach((room_imgs, index) => {
+                formData.append("room_imgs", room_imgs);
+            });
+    
+            const response = await axios.post("http://localhost:3001/uploadRoomImages", formData);
+            console.log("Room images uploaded!", response.data);
+        } catch (error) {
+            console.error("Error uploading room images: ", error);
+        }
     };
     return (
         <div className="container mt-5 mb-3">
@@ -170,7 +202,7 @@ const UpdateRoom = () => {
                             <div className="form-group mb-2 d-flex">
                                 <span className=" fa-custom" ><i className="fa fa-filter" aria-hidden="true"></i></span>
                                 <br />
-                                <select name="text-center form-control form-select" value={room_type}
+                                <select className="text-center form-control form-select w-50" value={room_type}
                                     onChange={(e) => setRoomType(e.target.value)}>
                                     <option value="" disabled >Choose type room</option>
                                     <option value="E" >Vip</option>
@@ -183,24 +215,31 @@ const UpdateRoom = () => {
                                 <label htmlFor="images" className="drop-container" id="dropcontainer" style={{ width: "95%" }}>
                                     <span className="drop-title">Drop files here</span>
                                     or
-                                    <input className="mb-3" type="file" multiple id="images" accept="image/*" onChange={(e) => setRoomImg(e.target.files)} required />
+                                    <input className="mb-3 w-25" type="file" multiple id="images" accept="image/*" onChange={handleImageChange} required />
                                 </label>
                                 <br />
 
                             </div><br />
-                            {files.map((file, i) => (
-                                <li key={i}>
-                                    <img width={70} src={file ? URL.createObjectURL(file) : null} />
-                                    {file.name} - {file.type}
-                                </li>
+                            <div className="d-flex flex-wrap">
+                                {files.map((file, i) => (
+                                    <div key={i} className="ms-3 d-flex mb-3" style={{ width: 200 }}>
+                                        <div style={{ width: 100 }}><img style={{ width: "100px" }} src={file ? URL.createObjectURL(file) : null} /> </div>
+                                        
+                                        <div style={{ width: 20 }}>
+                                            <sup >
+                                               <i className="fa fa-times-circle" onClick={(e) => handDelete(i, e)} aria-hidden="true"></i>
+                                            </sup>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
 
-                            ))}
                         </form>
 
                     </div>
                     <div className='d-flex justify-content-end mt-3 mb-3  justify-content-center'>
                         <div className='col-2 '>
-                            <button className="btn btn-success"  >Finish </button>
+                            <button className="btn btn-success" onClick={handleSubmit} >Finish </button>
                         </div>
                         <div className='col-2'>
                             <Link to="/" className="btn btn-danger">Cancel</Link>

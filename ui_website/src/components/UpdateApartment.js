@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import axios from "axios";
 import '../styles/styles.css';
 const UpdateApartment = () => {
     const [apartment_id, setApartmentId] = useState('');
@@ -17,7 +18,29 @@ const UpdateApartment = () => {
     const [apartment_img, setApartmentImg] = useState('');
     const { id } = useParams();
     const [fee, setFee] = useState([]);
+   
+    const handDelete = () => {
+        setApartmentImg('');
+    };
+    const handleImageChange = (e) => {
+        if (e.target.files.length > 0) {
+            setApartmentImg(e.target.files[0]);
+        }
+    };
+
+    const handleSubmit = async () => {
+        try {
+          const formData = new FormData();
+          formData.append("apartment_img", apartment_img);
     
+          // Gửi file ảnh tới server
+          const response = await axios.post("http://localhost:3001/uploadApartment", formData);
+    
+      
+        } catch (error) {
+          console.error("Error uploading image: ", error);
+        }
+      };
     return (
         <div className="container mt-5">
             <h2 className="text-center mt-3"> UPDATE APARTMENT {id}</h2>
@@ -158,18 +181,34 @@ const UpdateApartment = () => {
                             <label for="images" width className="drop-container" id="dropcontainer" style={{ width: "120%" }}>
                                 <span className="drop-title">Drop files here</span>
                                 or
-                                <input width={100} className="mb-1" type="file" id="images" accept="image/*" onChange={(e) => setApartmentImg(e.target.files[0])} required />
+                                <input style={{ width: "30%" }} className="mb-1" type="file" id="images" accept="image/*" onChange={handleImageChange} required />
                             </label>
-                            <div><img width={80} src={apartment_img?URL.createObjectURL(apartment_img):null} />{apartment_img.name}</div>
-                        </div>
-                        
+                            
+                        </div><br />
+                        <div>
+                                <div>
+                                    {apartment_img && (
+                                        <div className="d-flex">
+                                            <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment_img ? URL.createObjectURL(apartment_img) : null} /> </div>
+                                        {console.log(apartment_img)}
+                                        <div style={{ width: 20 }}>
+                                            <sup >
+                                            <i className="btn fa fa-times-circle" onClick={handDelete} aria-hidden="true"></i>
+                                            </sup>
+                                        </div>
+                                           
+                                        </div>
+                                    )}
+                                </div>
+
+                            </div>
                     </div>
                 </div>
 
             </div>
             <div className='d-flex justify-content-end mt-5 mb-3 ms-5 justify-content-center'>
                 <div className='col-1 '>
-                    <button className="btn btn-success"  >Finish </button>
+                    <button className="btn btn-success" onClick={handleSubmit} >Finish </button>
                 </div>
                 <div className='col-2'>
                     <Link to="/" className="btn btn-danger">Cancel</Link>

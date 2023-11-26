@@ -1,5 +1,6 @@
 package com.TeamSVTTR17.Website_Apartment.Service;
 
+
 import com.TeamSVTTR17.Website_Apartment.Entity.Img;
 import com.TeamSVTTR17.Website_Apartment.Entity.Room;
 import com.TeamSVTTR17.Website_Apartment.Repository.ImgRepository;
@@ -15,10 +16,14 @@ import java.util.Date;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final ImgRepository imgRepository;
+
+    public Room findRoomById(int id) {
+        return roomRepository.findById(id).get();
+    }
     @Transactional
     public Room updateRoom( int id, Room room) {
         try {
-            Room updateRoom = roomRepository.findById(id).get();
+            Room updateRoom = findRoomById(id);
             updateRoom.setRoom_name(room.getRoom_name());
             updateRoom.setNumberOfRenter(room.getNumberOfRenter());
             updateRoom.setSizeOfRoom(room.getSizeOfRoom());

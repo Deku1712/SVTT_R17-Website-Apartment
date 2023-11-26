@@ -2,6 +2,7 @@ package com.TeamSVTTR17.Website_Apartment.Service;
 
 import com.TeamSVTTR17.Website_Apartment.Entity.Apartment;
 import com.TeamSVTTR17.Website_Apartment.Repository.ApartmentRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +14,13 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class ApartmentService {
     private ApartmentRepository apartmentRepository;
+    public Apartment findApartmentById(int id) {
+        return apartmentRepository.findById(id).get();
+    }
+    @Transactional
     public Apartment updateApartment(int id, Apartment apartment) {
         try {
-            Apartment updateApartment = apartmentRepository.findById(id).get();
+            Apartment updateApartment = findApartmentById(id);
             updateApartment.setApartmentName(apartment.getApartmentName());
             updateApartment.setUpdateTime(new java.sql.Date(new Date().getTime()));
             updateApartment.setPhoneNumber1(apartment.getPhoneNumber1());
