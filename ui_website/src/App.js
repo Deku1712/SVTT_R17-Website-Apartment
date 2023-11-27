@@ -1,8 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
+// import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UpdateRoom from './Component/UpdateRoom';
 import UpdateApartment from './Component/UpdateApartment';
+import HomePage from './Component/HomePage'
+import Header from "./Component/Header";
+
 function App() {
   return (
    
@@ -13,6 +15,8 @@ function App() {
           <Routes>
           <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
           <Route path="/edit-apartment" Component={UpdateApartment}></Route>
+          <Route path="/home" Component={HomePage}></Route>
+          <Route path="/header" Component={Header}></Route>
           </Routes>
         </BrowserRouter>
       </div>
