@@ -1,3 +1,4 @@
+
 import logo from './logo.svg';
 import './App.css';
 import {  Route, Routes, useParams } from "react-router-dom";
@@ -13,6 +14,8 @@ import PostDetail from './Component/Post/PostDetail';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchPostData } from './redux/action/actionPost';
+
+
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +37,7 @@ function App() {
         </div>
         <div className='container' >
           <Routes>
+
             <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
             <Route path="/edit-apartment" Component={UpdateApartment}></Route>
             <Route path="/HomePage" Component={HomePage}></Route>
@@ -43,6 +47,7 @@ function App() {
             <Route path="/" Component={HomePage}></Route>
             <Route path="/Apartment" Component={ApartmentPage}></Route>
             <Route path="/AddApartment" Component={AddApartment}></Route>
+
           </Routes>
         </div>
       

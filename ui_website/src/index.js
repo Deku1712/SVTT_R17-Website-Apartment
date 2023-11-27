@@ -13,6 +13,8 @@ import { rootReducer } from './redux/reducer/rootReducer';
 import thunk from 'redux-thunk';
 import { legacy_createStore } from 'redux';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const store = legacy_createStore(
   rootReducer,
