@@ -4,16 +4,7 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,13 +40,13 @@ public class User {
     @Column(name = "updateTime")
     private Date updateTime;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Users_Roles" , joinColumns =  @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name="roleID"))
     private Set<Role> role = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "roomID")
-    private Room room;
+//    @ManyToOne
+//    @JoinColumn(name = "roomID")
+//    private Room room;
 
 
 
