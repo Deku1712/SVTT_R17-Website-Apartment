@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -61,6 +62,7 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "apartID")
+    @JsonIgnore
     private Apartment apartment;
 
 

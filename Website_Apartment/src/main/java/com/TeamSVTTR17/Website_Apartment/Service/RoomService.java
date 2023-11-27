@@ -6,16 +6,18 @@ import com.TeamSVTTR17.Website_Apartment.Entity.Room;
 import com.TeamSVTTR17.Website_Apartment.Repository.ImgRepository;
 import com.TeamSVTTR17.Website_Apartment.Repository.RoomRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
-@RequiredArgsConstructor
+
 public class RoomService {
-    private final RoomRepository roomRepository;
-    private final ImgRepository imgRepository;
+    @Autowired
+    private  RoomRepository roomRepository;
+    @Autowired
+    private  ImgRepository imgRepository;
 
     public Room findRoomById(int id) {
         return roomRepository.findById(id).get();

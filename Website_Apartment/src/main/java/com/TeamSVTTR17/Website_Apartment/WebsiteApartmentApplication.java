@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.TeamSVTTR17.Website_Apartment.*")
-public class WebsiteApartmentApplication {
+public class WebsiteApartmentApplication  {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WebsiteApartmentApplication.class, args);
 	}
+
 
 }

@@ -15,8 +15,6 @@ const UpdateRoom = () => {
     const [active, setActive] = useState("");
     const [validationErrors, setValidationErrors] = useState({});
     const [submitted, setSubmitted] = useState(false);
-    const [newFileNames, setNewFileNames] = useState([]);
-    const [fileData, setFileData] = useState([]);
     const { id } = useParams();
     const files = room_img ? [...room_img] : [];
 
@@ -61,6 +59,7 @@ const UpdateRoom = () => {
             case "room_fee":
                 setRoomFee(value);
                 break;
+                
             default:
                 break;
         }
@@ -79,51 +78,13 @@ const UpdateRoom = () => {
     };
     const handleImageChange = (e) => {
         const newFiles = [...files, ...e.target.files];
-        const validImageFiles = Array.from(e.target.files).filter((file) =>
-            file.type.startsWith("image/")
-        );
 
         setRoomImg(newFiles);
-        setFileData((prevData) => [
-            ...prevData,
-            ...validImageFiles.map((file) => ({
-                file,
-                newName: null,
-            })),
-        ]);
+        
         setSubmitted(false);
     };
     const handleSubmit = async () => {
-        try {
-            if (room_img.length === 0) {
-                console.error("No images selected.");
-                return;
-            }
-
-            const formData = new FormData();
-            room_img.forEach((room_imgs, index) => {
-                formData.append("room_imgs", room_imgs);
-            });
-
-            const response = await axios.post("http://localhost:3001/uploadRoomImages", formData);
-
-            const newNames = response.data.paths.map((path, index) => ({
-                index,
-                newName: path.newName,
-            }));
-
-            // Update the newName property for each file in the fileData array
-            setFileData((prevData) =>
-                prevData.map((data, i) => {
-                    const match = newNames.find((name) => name.index === i);
-                    return match ? { ...data, newName: match.newName } : data;
-                })
-            );
-            setSubmitted(true);
-            console.log("Room images uploaded!", response.data);
-        } catch (error) {
-            console.error("Error uploading room images: ", error);
-        }
+        setSubmitted(true)
     };
 
     return (
@@ -189,14 +150,14 @@ const UpdateRoom = () => {
                                 <input className="ms-3"
                                     type="radio"
                                     id="active"
-                                    value="false"
-                                    checked={active === "false"}
+                                    value="0"
+                                    checked={active === "0"}
                                     onChange={(e) => setActive(e.target.value)}
                                 /><label className="ms-3" htmlFor="active">Active</label><br />
                                 <input
                                     type="radio" className="ms-3" id="complete"
-                                    value="true"
-                                    checked={active === "true"}
+                                    value="1"
+                                    checked={active === "1"}
                                     onChange={(e) => setActive(e.target.value)}
                                 /><label className="ms-3" htmlFor="complete">Complete</label><br />
                             </div> <br />
@@ -250,18 +211,18 @@ const UpdateRoom = () => {
 
                             </div><br />
                             <div className="d-flex flex-wrap">
-                                {fileData.map(({ file, newName }, i) => (
+                                {files.map(( file , i) => (
                                     <div key={i} className="ms-3 d-flex mb-3" style={{ width: 200 }}>
-                                        {file && (
+                                       
                                             <div style={{ width: 100 }}>
                                                 <img
                                                     style={{ width: "100px" }}
-                                                    src={submitted ? `http://localhost:3001/images/${newName}` : URL.createObjectURL(file)}
+                                                    src={file ? URL.createObjectURL(file):null}
                                                     alt={`Selected Image ${i + 1}`}
                                                 />
 
                                             </div>
-                                        )}
+                                      
                                         <div style={{ width: 20 }}>
                                             <sup>
                                                 <i className="fa fa-times-circle" onClick={(e) => handDelete(i, e)} aria-hidden="true"></i>

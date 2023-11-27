@@ -1,30 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import ServiceWeb from "../service/Service";
 import '../styles/styles.css';
 const UpdateApartment = () => {
-    const [apartment_id, setApartmentId] = useState('');
-    const [apartment_name, setApartmentName] = useState('');
-    const [phone1, setPhone1] = useState('');
-    const [phone2, setPhone2] = useState('');
-    const [address, setAddress] = useState('');
-    const [number_room, setNumberRoom] = useState('');
-    const [description, setDescription] = useState('');
-    const [electric, setElectric] = useState('');
-    const [water, setWater] = useState('');
-    const [water_bill, setWaterBill] = useState('');
-    const [internet, setInternet] = useState('');
-    const [trash, setTrash] = useState('');
-    const [apartment_img, setApartmentImg] = useState('');
+
+
     const [validationErrors, setValidationErrors] = useState({});
-    const [submitted, setSubmitted] = useState(false);
+    const [fee, setFee] = useState({});
     const { id } = useParams();
-    const [fee, setFee] = useState([]);
-    const [fileData, setFileData] = useState([]);
+    const [oldImg, setOldImg] = useState('');
+    const [apartment, setApartment] = useState({})
+    const [submitted, setSubmitted] = useState(false);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+    const fetchData = () => {
+        ServiceWeb.getApartmentByID(id).then((response) => {
+            console.log(response.data)
+            setApartment(response.data)
+            setFee(response.data.fees.reverse()[0])
+            setSubmitted(true);
+            console.log(response.data)
+        })
+            .catch((error) => {
+                console.log(error)
+            });
+
+    };
+
     const validateInput = (inputName, value) => {
         let error = "";
 
-        if (inputName === "apartment_name" && value.trim() === "") {
+        if (inputName === "apartmentName" && value.trim() === "") {
             error = "Apartment name is required";
         }
 
@@ -34,25 +43,19 @@ const UpdateApartment = () => {
         if (inputName === "phone2" && value.length > 11) {
             error = "Max lenght is 11 ";
         }
-        if (inputName === "phone2" && value.trim() === "" && phone1.trim() === "") {
+        if (inputName === "phone2" && value.trim() === "" && apartment.phoneNumber1.trim() === "") {
             error = "At least  number of phone 1 or 2 is required";
         }
-        if (inputName === "number_room" && value === '') {
-            error = "Number room is required";
+        if (inputName === "apartment_size" && value === '') {
+            error = "Apartment size is required";
         }
         if (inputName === "address" && value.trim() === "") {
             error = "Address is required";
         }
+        if (inputName === "property" && value.trim() === "") {
+            error = "Property is required";
+        }
 
-        if (inputName === "electric" && value === '') {
-            error = "Number electric is required";
-        }
-        if (inputName === "water" && value === '') {
-            error = "Number water is required";
-        }
-        if (inputName === "water_bill " && value === '') {
-            error = "Number water bil is required";
-        }
         setValidationErrors((prevErrors) => ({
             ...prevErrors,
             [inputName]: error,
@@ -66,38 +69,33 @@ const UpdateApartment = () => {
         }));
 
         switch (inputName) {
-            case "apartment_name":
-                setApartmentName(value);
+            case "apartmentName":
+                // setApartmentName(value);
+                setApartment({ ...apartment, apartmentName: value })
                 break;
             case "phone1":
-                setPhone1(value);
+                setApartment({ ...apartment, phoneNumber1: value });
                 break;
             case "phone2":
-                setPhone2(value);
+                setApartment({ ...apartment, phoneNumber2: value });
                 break;
             case "address":
-                setAddress(value);
+                setApartment({ ...apartment, address: value });
                 break;
-            case "number_room":
-                setNumberRoom(value);
+            case "property":
+                setApartment({ ...apartment, property: value });
+                break;
+            case "active":
+                setApartment({ ...apartment, active: value });
+                break;
+            case "active2":
+                setApartment({ ...apartment, active: value });
+                break;
+            case "apartment_size":
+                setApartment({ ...apartment, size: value });
                 break;
             case "description":
-                setDescription(value);
-                break;
-            case "electric":
-                setElectric(value);
-                break;
-            case "water":
-                setWater(value);
-                break;
-            case "water_bill":
-                setWaterBill(value);
-                break;
-            case "internet":
-                setInternet(value);
-                break;
-            case "trash":
-                setTrash(value);
+                setApartment({ ...apartment, description: value });
                 break;
             default:
                 break;
@@ -108,32 +106,49 @@ const UpdateApartment = () => {
         validateInput(inputName, value);
     };
     const handDelete = () => {
-        setApartmentImg('');
+        setApartment({ imgUrl: "" });
     };
     const handleImageChange = (e) => {
         if (e.target.files.length > 0) {
-            setApartmentImg(e.target.files[0]);
+            setApartment({ imgUrl: e.target.files[0] });
             setSubmitted(false)
-        }
+        } else {
+            setApartment({ ...apartment, imgUrl: e.target.files });
+
+        } setSubmitted(false)
+
     };
 
     const handleSubmit = async () => {
         try {
-            const formData = new FormData();
-            formData.append("apartment_img", apartment_img);
+                const formData = new FormData();
+                formData.append("apartment_img", apartment.imgUrl);
+                // Upload the image
+                await axios.post("http://localhost:3001/uploadApartment", formData);
+        
 
-            // Gửi file ảnh tới server
-            const response = await axios.post("http://localhost:3001/uploadApartment", formData);
-            console.log(response.data);
-            const newFileName = response.data.newFileName;
-            setApartmentImg(newFileName);
-            setSubmitted(true);
+            const updatedApartment = {
+                ...apartment,
+                fees: [fee],
+            };
+
+            await ServiceWeb.updateApartmentByID(id, updatedApartment).then((response) => {
+               
+                setSubmitted(true);
+                console.log("Succes")
+            })
+                .catch((error) => {
+                    console.log(error +updatedApartment)
+                });
+                fetchData();
         } catch (error) {
-            console.error("Error uploading image: ", error);
+            console.error("Error updating apartment:", error);
         }
     };
+
     return (
         <div className="container mt-5">
+
             <h2 className="text-center mt-3"> UPDATE APARTMENT {id}</h2>
             <div className="d-flex justify-content-center">
                 <div className=" col-md-8  form-custome mt-3" >
@@ -145,13 +160,14 @@ const UpdateApartment = () => {
                                     type="text" maxLength={30} minLength={1} required={true}
                                     placeholder="Enter apartment name"
                                     name="lastName"
-                                    className={`form-control ${validationErrors.apartment_name && 'is-invalid'}`}
-                                    value={apartment_name}
-                                    onChange={(e) => handleInputChange("apartment_name", e.target.value)}
-                                    onBlur={(e) => handleBlur("apartment_name", e.target.value)}
+                                    className={`form-control ${validationErrors.apartmentName && 'is-invalid'}`}
+
+                                    value={apartment.apartmentName}
+                                    onChange={(e) => handleInputChange("apartmentName", e.target.value)}
+                                    onBlur={(e) => handleBlur("apartmentName", e.target.value)}
                                 />
                                 {validationErrors.apartment_name && (
-                                    <div className="invalid-feedback">{validationErrors.apartment_name}</div>
+                                    <div className="invalid-feedback">{validationErrors.apartmentName}</div>
                                 )}</div>
                         </div><br />
                         <div className="form-group mb-2 d-flex">
@@ -162,7 +178,7 @@ const UpdateApartment = () => {
                                     placeholder="Enter number of phone 1"
                                     name="lastName"
                                     className={`form-control ${validationErrors.phone1 && 'is-invalid'}`}
-                                    value={phone1}
+                                    value={apartment.phoneNumber1}
                                     onChange={(e) => handleInputChange("phone1", e.target.value)}
                                     onBlur={(e) => handleBlur("phone1", e.target.value)}
                                 />{validationErrors.phone1 && (
@@ -177,7 +193,7 @@ const UpdateApartment = () => {
                                     placeholder="Enter number of phone 2"
                                     name="lastName"
                                     className={`form-control ${validationErrors.phone2 && 'is-invalid'}`}
-                                    value={phone2}
+                                    value={apartment.phoneNumber2}
                                     onChange={(e) => handleInputChange("phone2", e.target.value)}
                                     onBlur={(e) => handleBlur("phone2", e.target.value)}
                                 />{validationErrors.phone2 && (
@@ -192,7 +208,7 @@ const UpdateApartment = () => {
                                     placeholder="Enters address "
                                     name="lastName"
                                     className={`form-control ${validationErrors.address && 'is-invalid'}`}
-                                    value={address}
+                                    value={apartment.address}
                                     onChange={(e) => handleInputChange("address", e.target.value)}
                                     onBlur={(e) => handleBlur("address", e.target.value)}
                                 />{validationErrors.address && (
@@ -200,21 +216,53 @@ const UpdateApartment = () => {
                                 )}</div>
                         </div><br />
                         <div className="form-group mb-2 d-flex">
+                            <span className="  fa-custom" ><i className="fa fa-usd" aria-hidden="true"></i></span>
+                            <div style={{ width: "100%" }}>
+                                <input
+                                    type="text" minLength={1} required={true}
+                                    placeholder="Enters property "
+                                    name="lastName"
+                                    className={`form-control ${validationErrors.property && 'is-invalid'}`}
+                                    value={apartment.property}
+                                    onChange={(e) => handleInputChange("property", e.target.value)}
+                                    onBlur={(e) => handleBlur("property", e.target.value)}
+                                />{validationErrors.property && (
+                                    <div className="invalid-feedback">{validationErrors.property}</div>
+                                )}</div>
+                        </div><br />
+
+                        <div className="form-group mb-2 d-flex">
                             <span className="  fa-custom" ><i className="fa fa-arrow-circle-up" aria-hidden="true"></i></span>
                             <div className="ms-1 row" style={{ width: "100%" }}>
                                 <input
                                     type="number" maxLength={30} minLength={1} min={0} required={true}
                                     placeholder="Enter number room"
                                     name="lastName"
-                                    className={`form-control  w-75 ${validationErrors.number_room && 'is-invalid'}`}
-                                    value={number_room}
-                                    onChange={(e) => handleInputChange("number_room", e.target.value)}
-                                    onBlur={(e) => handleBlur("number_room", e.target.value)}
+                                    className={`form-control  w-75 ${validationErrors.apartment_size && 'is-invalid'}`}
+                                    value={apartment.size}
+                                    onChange={(e) => handleInputChange("apartment_size", e.target.value)}
+                                    onBlur={(e) => handleBlur("apartment_size", e.target.value)}
                                 /><span className="col-2 ms-3 input-group-text justify-content-center" ><i className="fa fa-home" aria-hidden="true"></i></span>
-                                {validationErrors.number_room && (
-                                    <div className="invalid-feedback">{validationErrors.number_room}</div>
+                                {validationErrors.apartment_size && (
+                                    <div className="invalid-feedback">{validationErrors.apartment_size}</div>
                                 )}</div>
                         </div><br />
+                        <div className="form-group mb-2 d-flex">
+                            <span className="fa-custom" ><i className="fa fa-check-square" aria-hidden="true"></i></span>
+                            <input className="ms-3"
+                                type="radio"
+                                id="active"
+                                value={"0"}
+                                checked={apartment.active === "0"}
+                                onChange={(e) => handleInputChange("active", e.target.value)}
+                            /><label className="ms-3" htmlFor="active">Active</label><br />
+                            <input
+                                type="radio" className="ms-3" id="complete"
+                                value={"1"}
+                                checked={apartment.active === "1"}
+                                onChange={(e) => handleInputChange("active2", e.target.value)}
+                            /><label className="ms-3" htmlFor="complete">Complete</label><br />
+                        </div> <br />
 
                         <div className="form-group mb-2 d-flex">
                             <span className=" fa-custom" >  <i className="fa fa-info-circle" aria-hidden="true"></i></span>
@@ -223,8 +271,8 @@ const UpdateApartment = () => {
                                 placeholder="Enter description"
                                 name="lastName"
                                 className="form-control "
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                value={apartment.description}
+                                onChange={(e) => handleInputChange("description", e.target.value)}
                             />
                         </div><br />
                     </div>
@@ -237,8 +285,8 @@ const UpdateApartment = () => {
                                 placeholder="Enter electric number"
                                 name="lastName"
                                 className="form-control"
-                                value={electric}
-                                onChange={(e) => setElectric(e.target.value)}
+                                value={fee.priceOfElectricity}
+                                onChange={(e) => setFee({ ...fee, priceOfElectricity: e.target.value })}
                             /><span className=" input-group-text  mx-3  fa-custom-1" >kWh</span>
                         </div>
                         <br />
@@ -249,8 +297,8 @@ const UpdateApartment = () => {
                                 placeholder="Enter Water number"
                                 name="lastName"
                                 className="form-control"
-                                value={water}
-                                onChange={(e) => setWater(e.target.value)}
+                                value={fee.priceOfWater}
+                                onChange={(e) => setFee({ ...fee, priceOfWater: e.target.value })}
                             /><span className="input-group-text  mx-3  fa-custom-1" >m<sup>3</sup></span>
                         </div> <br />
                         <div className="form-group mb-2 d-flex">
@@ -260,8 +308,8 @@ const UpdateApartment = () => {
                                 placeholder="Enter Water number"
                                 name="lastName"
                                 className="form-control"
-                                value={water_bill}
-                                onChange={(e) => setWaterBill(e.target.value)}
+                                value={fee.waterBill}
+                                onChange={(e) => setFee({ ...fee, waterBill: e.target.value })}
                             /><span className="input-group-text  mx-3  fa-custom-1" >VND/1m<sup>3</sup></span>
                         </div> <br />
                         <div className="form-group mb-2 d-flex">
@@ -271,8 +319,8 @@ const UpdateApartment = () => {
                                 placeholder="Enter internet"
                                 name="lastName"
                                 className="form-control"
-                                value={internet}
-                                onChange={(e) => setInternet(e.target.value)}
+                                value={fee.priceOfInternet}
+                                onChange={(e) => setFee({ ...fee, priceOfInternet: e.target.value })}
                             /><span className=" input-group-text mx-3 fa-custom-1" >VND/M</span>
                         </div> <br />
 
@@ -283,8 +331,8 @@ const UpdateApartment = () => {
                                 placeholder="Enter trash"
                                 name="lastName" style={{ width: "88%" }}
                                 className="form-control "
-                                value={trash}
-                                onChange={(e) => setTrash(e.target.value)}
+                                value={fee.priceOfTrash}
+                                onChange={(e) => setFee({ ...fee, priceOfTrash: e.target.value })}
                             />
                         </div><br />
                         <div className="form-group ms-3 mb-2 d-flex ">
@@ -297,18 +345,18 @@ const UpdateApartment = () => {
                         </div><br />
                         <div>
                             <div>
-                                {apartment_img && (
-                                    <div className="d-flex">
-                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={submitted ? `http://localhost:3001/images/${apartment_img}` : URL.createObjectURL(apartment_img)} /> </div>
-                                        {console.log(apartment_img)}
-                                        <div style={{ width: 20 }}>
-                                            <sup >
-                                                <i className="btn fa fa-times-circle" onClick={handDelete} aria-hidden="true"></i>
-                                            </sup>
-                                        </div>
 
+                                <div className="d-flex">
+                                    <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl ? `http://localhost:3001/images/${apartment.imgUrl}` : null} /> </div>
+
+                                    <div style={{ width: 20 }}>
+                                        <sup >
+                                            <i className="btn fa fa-times-circle" onClick={handDelete} aria-hidden="true"></i>
+                                        </sup>
                                     </div>
-                                )}
+
+                                </div>
+
                             </div>
 
                         </div>

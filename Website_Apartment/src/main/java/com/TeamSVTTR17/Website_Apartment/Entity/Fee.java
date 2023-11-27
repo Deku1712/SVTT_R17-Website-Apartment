@@ -1,5 +1,6 @@
 package com.TeamSVTTR17.Website_Apartment.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,5 +38,6 @@ public class Fee {
 
     @ManyToOne
     @JoinColumn(name = "apartID")
+    @JsonIgnore
     private Apartment apartment;
 }
