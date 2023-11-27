@@ -14,6 +14,7 @@ import PostDetail from './Component/Post/PostDetail';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchPostData } from './redux/action/actionPost';
+import Header1 from './Component/Header';
 
 
 
@@ -40,7 +41,7 @@ function App() {
 
             <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
             <Route path="/edit-apartment" Component={UpdateApartment}></Route>
-            <Route path="/HomePage" Component={HomePage}></Route>
+            <Route path="/HomePage" Component={Header1}></Route>
             <Route path ="/Posts/:id" element={<PostById/>}></Route>
 
 
