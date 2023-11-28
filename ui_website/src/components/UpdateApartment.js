@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import ServiceWeb from "../service/Service";
+import ApartmentService from "../service/ApartmentService"
 import '../styles/styles.css';
 const UpdateApartment = () => {
 
@@ -17,7 +17,7 @@ const UpdateApartment = () => {
         fetchData();
     }, []);
     const fetchData = () => {
-        ServiceWeb.getApartmentByID(id).then((response) => {
+        ApartmentService.getApartmentByID(id).then((response) => {
             console.log(response.data)
             setApartment(response.data)
             setFee(response.data.fees.reverse()[0])
@@ -70,7 +70,6 @@ const UpdateApartment = () => {
 
         switch (inputName) {
             case "apartmentName":
-                // setApartmentName(value);
                 setApartment({ ...apartment, apartmentName: value })
                 break;
             case "phone1":
@@ -85,12 +84,7 @@ const UpdateApartment = () => {
             case "property":
                 setApartment({ ...apartment, property: value });
                 break;
-            case "active":
-                setApartment({ ...apartment, active: value });
-                break;
-            case "active2":
-                setApartment({ ...apartment, active: value });
-                break;
+
             case "apartment_size":
                 setApartment({ ...apartment, size: value });
                 break;
@@ -105,12 +99,42 @@ const UpdateApartment = () => {
     const handleBlur = (inputName, value) => {
         validateInput(inputName, value);
     };
-    const handDelete = () => {
-        setApartment({ imgUrl: "" });
+    const handDelete = async (fileName) => {
+        try {
+            const imageName = fileName;
+
+           
+
+
+            setApartment({ ...apartment, imgUrl: null });
+            const updatedApartment = {
+                ...apartment,
+                imgUrl:null,
+                fees: [fee],
+            };
+            await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
+
+                setSubmitted(true);
+                console.log("Succes")
+            })
+                .catch((error) => {
+                    console.log(error + updatedApartment)
+                });
+            fetchData();
+            setSubmitted(false);
+        } catch (error) {
+            console.error("Error deleting image:", error);
+        }
     };
     const handleImageChange = (e) => {
+
         if (e.target.files.length > 0) {
-            setApartment({ imgUrl: e.target.files[0] });
+           
+            setApartment({ ...apartment, imgUrl: e.target.files[0].name });
+            const formData = new FormData();
+            formData.append("apartment_img", e.target.files[0]);
+            // Upload the image
+            axios.post("http://localhost:3001/uploadApartment", formData);
             setSubmitted(false)
         } else {
             setApartment({ ...apartment, imgUrl: e.target.files });
@@ -121,26 +145,19 @@ const UpdateApartment = () => {
 
     const handleSubmit = async () => {
         try {
-                const formData = new FormData();
-                formData.append("apartment_img", apartment.imgUrl);
-                // Upload the image
-                await axios.post("http://localhost:3001/uploadApartment", formData);
-        
-
             const updatedApartment = {
                 ...apartment,
                 fees: [fee],
             };
+            await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
 
-            await ServiceWeb.updateApartmentByID(id, updatedApartment).then((response) => {
-               
                 setSubmitted(true);
                 console.log("Succes")
             })
                 .catch((error) => {
-                    console.log(error +updatedApartment)
+                    console.log(error + updatedApartment)
                 });
-                fetchData();
+            fetchData();
         } catch (error) {
             console.error("Error updating apartment:", error);
         }
@@ -252,18 +269,17 @@ const UpdateApartment = () => {
                             <input className="ms-3"
                                 type="radio"
                                 id="active"
-                                value={"0"}
-                                checked={apartment.active === "0"}
-                                onChange={(e) => handleInputChange("active", e.target.value)}
+                                value={0}
+                                checked={apartment.active === 0 ? true : false}
+                                onChange={(e) => setApartment({ ...apartment, active: Number(e.target.value) })}
                             /><label className="ms-3" htmlFor="active">Active</label><br />
                             <input
                                 type="radio" className="ms-3" id="complete"
-                                value={"1"}
-                                checked={apartment.active === "1"}
-                                onChange={(e) => handleInputChange("active2", e.target.value)}
+                                value={1}
+                                checked={apartment.active === 1 ? true : false}
+                                onChange={(e) => setApartment({ ...apartment, active: Number(e.target.value) })}
                             /><label className="ms-3" htmlFor="complete">Complete</label><br />
                         </div> <br />
-
                         <div className="form-group mb-2 d-flex">
                             <span className=" fa-custom" >  <i className="fa fa-info-circle" aria-hidden="true"></i></span>
                             <textarea
@@ -345,18 +361,18 @@ const UpdateApartment = () => {
                         </div><br />
                         <div>
                             <div>
+                                {apartment.imgUrl !== null && (
+                                    <div className="d-flex">
+                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl !== "" ? `http://localhost:3001/images/${apartment.imgUrl}` : null} /> </div>
 
-                                <div className="d-flex">
-                                    <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl ? `http://localhost:3001/images/${apartment.imgUrl}` : null} /> </div>
+                                        <div style={{ width: 20 }}>
+                                            <sup >
+                                                <i className="btn fa fa-times-circle" onClick={() => handDelete(apartment.imgUrl)} aria-hidden="true"></i>
+                                            </sup>
+                                        </div>
 
-                                    <div style={{ width: 20 }}>
-                                        <sup >
-                                            <i className="btn fa fa-times-circle" onClick={handDelete} aria-hidden="true"></i>
-                                        </sup>
                                     </div>
-
-                                </div>
-
+                                )}
                             </div>
 
                         </div>

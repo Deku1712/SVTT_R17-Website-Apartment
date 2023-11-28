@@ -35,16 +35,16 @@ public class RoomService {
             updateRoom.setPriceOfRoom(room.getPriceOfRoom());
             updateRoom.getImgs().clear();
             for (Img img : room.getImgs()) {
-                Img existingImg = imgRepository.findById(img.getId()).orElse(new Img());
                 Img urlExisting = imgRepository.findByUrl(img.getUrl_img());
                 if(urlExisting == null){
                     urlExisting = new Img();
                     urlExisting.setUrl_img(img.getUrl_img());
+                    updateRoom.getImgs().add(urlExisting);
                     imgRepository.save(urlExisting);
                 }else {
-                    existingImg.setId(img.getId());
-                    existingImg.setUrl_img(img.getUrl_img());
-                    updateRoom.getImgs().add(existingImg);
+                    urlExisting.setId(urlExisting.getId());
+                    urlExisting.setUrl_img(urlExisting.getUrl_img());
+                    updateRoom.getImgs().add(urlExisting);
                 }
             }
             return roomRepository.save(updateRoom);

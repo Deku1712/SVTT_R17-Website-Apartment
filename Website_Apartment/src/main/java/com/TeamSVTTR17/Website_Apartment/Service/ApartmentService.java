@@ -38,7 +38,7 @@ public class ApartmentService {
             updateApartment.setImgUrl(apartment.getImgUrl());
             updateApartment.setDescription(apartment.getDescription());
             updateApartment.setProperty(apartment.getProperty());
-
+            updateApartment.setActive(apartment.getActive());
 
             Fee newFee = new Fee();
             newFee.setPriceOfElectricity(apartment.getFees().get(0).getPriceOfElectricity());

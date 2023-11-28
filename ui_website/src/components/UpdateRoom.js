@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import RoomService from "../service/RoomService"
 import '../styles/styles.css';
 
 const UpdateRoom = () => {
-    const [room_id, setRoomId] = useState('');
-    const [room_name, setRoomName] = useState('');
-    const [size_renter, setSizeRenter] = useState('');
-    const [room_size, setRoomSize] = useState('');
-    const [description, setDescription] = useState('');
-    const [room_fee, setRoomFee] = useState('');
-    const [room_type, setRoomType] = useState('');
     const [room_img, setRoomImg] = useState([]);
-    const [active, setActive] = useState("");
     const [validationErrors, setValidationErrors] = useState({});
-    const [submitted, setSubmitted] = useState(false);
+    const [img, setImg] = useState([]);
     const { id } = useParams();
-    const files = room_img ? [...room_img] : [];
+    const [room, setRoom] = useState({})
+    useEffect(() => {
+        fetchData();
+    }, []);
+    const fetchData = () => {
+        RoomService.getRoomByID(id).then((response) => {
+            console.log(response.data)
+            setRoom(response.data)
+            setRoomImg(response.data.imgs)
 
+            console.log(response.data)
+        })
+            .catch((error) => {
+                console.log(error)
+            });
+
+    };
     const validateInput = (inputName, value) => {
         let error = "";
 
@@ -48,18 +56,20 @@ const UpdateRoom = () => {
 
         switch (inputName) {
             case "room_name":
-                setRoomName(value);
+                setRoom({ ...room, room_name: value });
                 break;
             case "size_renter":
-                setSizeRenter(value);
+                setRoom({ ...room, numberOfRenter: value });
                 break;
             case "room_size":
-                setRoomSize(value);
+                setRoom({ ...room, sizeOfRoom: value });
                 break;
             case "room_fee":
-                setRoomFee(value);
+                setRoom({ ...room, priceOfRoom: value });
                 break;
-                
+            case "description":
+                setRoom({ ...room, description: value });
+                break;
             default:
                 break;
         }
@@ -69,22 +79,86 @@ const UpdateRoom = () => {
         validateInput(inputName, value);
     };
 
-    const handDelete = (index, e) => {
-        e.preventDefault(); // Prevent the default form submission behavior
+    const handDelete = async (imgName) => {
+        try {
+            if(img.length>0){
+                
+            }
+            const imageName = imgName;
+            await axios.delete(`http://localhost:3001/deleteImage/${imageName}`);
 
-        const updatedFiles = [...files];
-        updatedFiles.splice(index, 1);
-        setRoomImg(updatedFiles);
-    };
-    const handleImageChange = (e) => {
-        const newFiles = [...files, ...e.target.files];
+            // Loại bỏ ảnh đã xóa khỏi mảng room_img
+            const updatedRoomImg = room_img.filter((img) => img.url_img !== imgName);
+            const updatedRoom = {
+                ...room,
+                imgs: updatedRoomImg,
+            };
+            await RoomService.updateRoomByID(id, updatedRoom);
 
-        setRoomImg(newFiles);
-        
-        setSubmitted(false);
+            fetchData();
+            console.log(updatedRoomImg); // Log the updated images
+
+            setRoomImg(updatedRoomImg);
+
+        } catch (error) {
+            console.error("Lỗi khi xóa ảnh:", error);
+        }
     };
+    const handleImageChange = async (e) => {
+        if (e.target.files.length > 0) {
+            const formData = new FormData();
+            const newImages = [];
+            newImages.push(...room_img);
+            for (let i = 0; i < e.target.files.length; i++) {
+                formData.append("room_imgs", e.target.files[i]);
+                newImages.push({ url_img: e.target.files[i].name });
+            }
+            await axios.post("http://localhost:3001/uploadRoomImages", formData).then((response) => {
+                setRoomImg(newImages);
+                setImg(newImages)
+                console.log(newImages)
+                console.log("Succes")
+
+            })
+                .catch((error) => {
+                    console.log(error + formData)
+                });;
+
+        } else {
+            // If there are no new images, update room_img with the array of existing images
+            setRoomImg([{...room_img}]);
+            setImg([{...room_img}])
+        }
+
+
+    };
+
+
     const handleSubmit = async () => {
-        setSubmitted(true)
+        try {
+            // Chuẩn bị dữ liệu mới để gửi lên server
+            if(img.length>0){
+                const updatedRoom = {
+                    ...room,
+                    imgs: img,
+                };
+                await RoomService.updateRoomByID(id, updatedRoom);
+
+                fetchData();
+            }else{
+                const updatedRoom = {
+                    ...room,
+                    imgs: room_img,
+                };
+                await RoomService.updateRoomByID(id, updatedRoom);
+
+                fetchData();
+            }
+
+           
+        } catch (error) {
+            console.error("Error updating room: ", error);
+        }
     };
 
     return (
@@ -101,7 +175,7 @@ const UpdateRoom = () => {
                                         type="text" maxLength={30} minLength={1} required={true}
                                         placeholder="Enter room name "
                                         className={`form-control w-75 ${validationErrors.room_name && 'is-invalid'}`}
-                                        value={room_name}
+                                        value={room.room_name}
                                         onChange={(e) => handleInputChange("room_name", e.target.value)}
                                         onBlur={(e) => handleBlur("room_name", e.target.value)}
                                     />
@@ -118,7 +192,7 @@ const UpdateRoom = () => {
                                         type="number" required={true}
                                         placeholder="Number of people"
                                         className={`form-control w-75 ${validationErrors.size_renter && 'is-invalid'}`}
-                                        value={size_renter}
+                                        value={room.numberOfRenter}
                                         onChange={(e) => handleInputChange("size_renter", e.target.value)}
                                         onBlur={(e) => handleBlur("size_renter", e.target.value)}
                                     />
@@ -135,7 +209,7 @@ const UpdateRoom = () => {
                                         type="number" maxLength={30} minLength={1} required={true}
                                         placeholder="Enter acreage"
                                         className={`form-control w-75 ${validationErrors.room_size && 'is-invalid'}`}
-                                        value={room_size}
+                                        value={room.sizeOfRoom}
                                         onChange={(e) => handleInputChange("room_size", e.target.value)}
                                         onBlur={(e) => handleBlur("room_size", e.target.value)}
                                     />
@@ -150,15 +224,15 @@ const UpdateRoom = () => {
                                 <input className="ms-3"
                                     type="radio"
                                     id="active"
-                                    value="0"
-                                    checked={active === "0"}
-                                    onChange={(e) => setActive(e.target.value)}
+                                    value={0}
+                                    checked={room.active === 0 ? true : false}
+                                    onChange={(e) => setRoom({ ...room, active: Number(e.target.value) })}
                                 /><label className="ms-3" htmlFor="active">Active</label><br />
                                 <input
                                     type="radio" className="ms-3" id="complete"
-                                    value="1"
-                                    checked={active === "1"}
-                                    onChange={(e) => setActive(e.target.value)}
+                                    value={1}
+                                    checked={room.active === 1 ? true : false}
+                                    onChange={(e) => setRoom({ ...room, active: Number(e.target.value) })}
                                 /><label className="ms-3" htmlFor="complete">Complete</label><br />
                             </div> <br />
 
@@ -169,7 +243,7 @@ const UpdateRoom = () => {
                                         type="number" maxLength={30} minLength={1} required={true}
                                         placeholder="Enter price room"
                                         className={` col-2 form-control w-75 ${validationErrors.room_fee && 'is-invalid'}`}
-                                        value={room_fee}
+                                        value={room.priceOfRoom}
                                         onChange={(e) => handleInputChange("room_fee", e.target.value)}
                                         onBlur={(e) => handleBlur("room_fee", e.target.value)}
                                     /><span className="col-2 input-group-text fa-custom-1" >VND</span>
@@ -185,18 +259,18 @@ const UpdateRoom = () => {
                                     type="number" maxLength={255} minLength={1} required={true}
                                     placeholder="Enter description..."
                                     className="form-control w-75"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
+                                    value={room.description}
+                                    onChange={(e) => handleInputChange("description", e.target.value)}
                                 />
                             </div><br />
                             <div className="form-group mb-2 d-flex">
                                 <span className=" fa-custom" ><i className="fa fa-filter" aria-hidden="true"></i></span>
                                 <br />
-                                <select className="text-center form-control form-select w-50" value={room_type}
-                                    onChange={(e) => setRoomType(e.target.value)}>
+                                <select className="text-center form-control form-select w-50" value={room.type}
+                                    onChange={(e) => setRoom({ ...room, type: e.target.value })}>
                                     <option value="" disabled >Choose type room</option>
-                                    <option value="E" >Vip</option>
-                                    <option value="N" >Normal</option>
+                                    <option value="t" >Vip</option>
+                                    <option value="n" >Normal</option>
                                 </select>
                             </div>
                             <br />
@@ -211,21 +285,16 @@ const UpdateRoom = () => {
 
                             </div><br />
                             <div className="d-flex flex-wrap">
-                                {files.map(( file , i) => (
-                                    <div key={i} className="ms-3 d-flex mb-3" style={{ width: 200 }}>
-                                       
-                                            <div style={{ width: 100 }}>
-                                                <img
-                                                    style={{ width: "100px" }}
-                                                    src={file ? URL.createObjectURL(file):null}
-                                                    alt={`Selected Image ${i + 1}`}
-                                                />
+                                {room_img.map((file, i) => (
 
-                                            </div>
-                                      
-                                        <div style={{ width: 20 }}>
+                                    <div key={i} className="ms-3 d-flex mb-3" style={{ width: 200 }}>
+                                        <div style={{ width: 100 }}>
+                                            <img style={{ width: "100px" }} src={file.url_img !== '' ? `http://localhost:3001/images/${file.url_img}` : null} />
+                                        </div>
+
+                                        <div style={{ width: 200 }}>
                                             <sup>
-                                                <i className="fa fa-times-circle" onClick={(e) => handDelete(i, e)} aria-hidden="true"></i>
+                                                <i className="fa fa-times-circle" onClick={() => handDelete(file.url_img)} aria-hidden="true"></i>
                                             </sup>
                                         </div>
                                     </div>

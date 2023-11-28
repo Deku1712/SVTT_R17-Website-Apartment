@@ -32,7 +32,19 @@ app.get("/images/:filename", (req, res) => {
         res.status(404).send("File not found");
     }
 });
-
+app.delete('/deleteImage/:imageName', (req, res) => {
+    const filename = req.params.imageName;
+    const filePath = path.join(__dirname, 'imgs', filename);
+  
+    // Check if the file exists
+    if (fs.existsSync(filePath)) {
+      // Delete the file
+      fs.unlinkSync(filePath);
+      res.status(200).send('Image deleted successfully');
+    } else {
+      res.status(404).send('Image not found');
+    }
+  });
 // Các cấu hình lưu trữ ảnh
 const apartmentStorage = multer.diskStorage({
     destination: function (req, file, cb) {
