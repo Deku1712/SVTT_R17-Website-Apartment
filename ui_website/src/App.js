@@ -5,8 +5,6 @@ import {  Route, Routes, useParams } from "react-router-dom";
 import UpdateRoom from './Component/UpdateRoom';
 import UpdateApartment from './Component/UpdateApartment';
 import Header from './Component/Header/Header';
-
-import HomePage from './Pages/HomePage/HomePage';
 import Apartment from './Pages/Apartment/AddApartment';
 import AddApartment from './Pages/Apartment/AddApartment';
 import ApartmentPage from './Pages/Apartment/ApartmentPage';
@@ -16,18 +14,16 @@ import { useDispatch } from 'react-redux';
 import { fetchPostData } from './redux/action/actionPost';
 import Header1 from './Component/Header';
 
+import HomePage from './Pages/HomePage/HomePage';
+import { CardDetail } from './Component/Card/CardDetail';
+
 
 
 function App() {
-  const dispatch = useDispatch();
   
-  const PostById = () => {
-    const {id} = useParams();
-    return <PostDetail id = {id} />
-  }
-  useEffect(() => {
-    dispatch(fetchPostData())
-  },[])
+  
+  
+  
 
   return (
 
@@ -38,16 +34,14 @@ function App() {
         </div>
         <div className='container' >
           <Routes>
-
+            <Route path="/" Component={HomePage}></Route>
+            <Route path="/HomePage" Component={HomePage}></Route>
+            <Route path = "/addApartment" Component={AddApartment}></Route>
             <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
             <Route path="/edit-apartment" Component={UpdateApartment}></Route>
-            <Route path="/HomePage" Component={Header1}></Route>
-            <Route path ="/Posts/:id" element={<PostById/>}></Route>
+            <Route path = "/posts/:id" Component={CardDetail}/>
 
-
-            <Route path="/" Component={HomePage}></Route>
-            <Route path="/Apartment" Component={ApartmentPage}></Route>
-            <Route path="/AddApartment" Component={AddApartment}></Route>
+            
 
           </Routes>
         </div>

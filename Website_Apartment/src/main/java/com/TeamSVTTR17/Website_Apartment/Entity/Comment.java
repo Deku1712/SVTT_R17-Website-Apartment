@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.CodePointLength;
 
 import jakarta.annotation.Generated;
@@ -42,6 +43,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "parent_cmtID")
+    @JsonIgnore
     private Comment parent_cmt;
 
     @ManyToOne
@@ -50,6 +52,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "postID")
+    @JsonIgnore
     private Post post;
 
     @OneToMany(mappedBy = "parent_cmt" )

@@ -5,6 +5,8 @@ const POST_BASE_URL = "http://localhost:8080/TamOJT/api/posts"
 
 
 class Manage{
+    
+    
     getPosts(){
         return axios.get(POST_BASE_URL);
     }
