@@ -81,25 +81,15 @@ const UpdateRoom = () => {
 
     const handDelete = async (imgName) => {
         try {
-            if(img.length>0){
-                
-            }
-            const imageName = imgName;
-            await axios.delete(`http://localhost:3001/deleteImage/${imageName}`);
-
-            // Loại bỏ ảnh đã xóa khỏi mảng room_img
             const updatedRoomImg = room_img.filter((img) => img.url_img !== imgName);
             const updatedRoom = {
                 ...room,
                 imgs: updatedRoomImg,
             };
             await RoomService.updateRoomByID(id, updatedRoom);
-
             fetchData();
-            console.log(updatedRoomImg); // Log the updated images
-
+            console.log(updatedRoomImg);
             setRoomImg(updatedRoomImg);
-
         } catch (error) {
             console.error("Lỗi khi xóa ảnh:", error);
         }
@@ -126,8 +116,8 @@ const UpdateRoom = () => {
 
         } else {
             // If there are no new images, update room_img with the array of existing images
-            setRoomImg([{...room_img}]);
-            setImg([{...room_img}])
+            setRoomImg([{ ...room_img }]);
+            setImg([{ ...room_img }])
         }
 
 
@@ -137,7 +127,7 @@ const UpdateRoom = () => {
     const handleSubmit = async () => {
         try {
             // Chuẩn bị dữ liệu mới để gửi lên server
-            if(img.length>0){
+            if (img.length > 0) {
                 const updatedRoom = {
                     ...room,
                     imgs: img,
@@ -145,7 +135,7 @@ const UpdateRoom = () => {
                 await RoomService.updateRoomByID(id, updatedRoom);
 
                 fetchData();
-            }else{
+            } else {
                 const updatedRoom = {
                     ...room,
                     imgs: room_img,
@@ -155,7 +145,7 @@ const UpdateRoom = () => {
                 fetchData();
             }
 
-           
+
         } catch (error) {
             console.error("Error updating room: ", error);
         }

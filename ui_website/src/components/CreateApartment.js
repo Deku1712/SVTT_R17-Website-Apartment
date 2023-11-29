@@ -3,26 +3,22 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import ApartmentService from "../service/ApartmentService"
 import '../styles/styles.css';
-const UpdateApartment = () => {
+const CreateApartment = () => {
 
 
     const [validationErrors, setValidationErrors] = useState({});
     const [fee, setFee] = useState({});
-    const { id } = useParams();
-    const [oldImg, setOldImg] = useState('');
+    const [isExisting, setIsExisting] = useState([]);
     const [apartment, setApartment] = useState({})
-    const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
         fetchData();
     }, []);
     const fetchData = () => {
-        ApartmentService.getApartmentByID(id).then((response) => {
+        ApartmentService.getAllApartment().then((response) => {
             console.log(response.data)
-            setApartment(response.data)
-            setFee(response.data.fees.reverse()[0])
-            setSubmitted(true);
-            console.log(response.data)
+            setIsExisting(response.data)
+            console.log(apartment.imgUrl)
         })
             .catch((error) => {
                 console.log(error)
@@ -43,7 +39,7 @@ const UpdateApartment = () => {
         if (inputName === "phone2" && value.length > 11) {
             error = "Max lenght is 11 ";
         }
-        if (inputName === "phone2" && value.trim() === "" && apartment.phoneNumber1.trim() === "") {
+        if (inputName === "phone2" && value.trim() === "" && apartment.phoneNumber1 === "") {
             error = "At least  number of phone 1 or 2 is required";
         }
         if (inputName === "apartment_size" && value === '') {
@@ -86,7 +82,6 @@ const UpdateApartment = () => {
             case "property":
                 setApartment({ ...apartment, property: value });
                 break;
-
             case "apartment_size":
                 setApartment({ ...apartment, size: value });
                 break;
@@ -94,6 +89,7 @@ const UpdateApartment = () => {
                 setApartment({ ...apartment, description: value });
                 break;
             default:
+                setValidationErrors('')
                 break;
         }
     };
@@ -104,59 +100,53 @@ const UpdateApartment = () => {
     const handDelete = async (fileName) => {
         try {
             const imageName = fileName;
-
-            setApartment({ ...apartment, imgUrl: null });
-            const updatedApartment = {
-                ...apartment,
-                imgUrl:null,
-                fees: [fee],
-            };
-            await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
-
-                setSubmitted(true);
-                console.log("Succes")
-            })
-                .catch((error) => {
-                    console.log(error + updatedApartment)
-                });
-            fetchData();
-            setSubmitted(false);
+            axios.delete(`http://localhost:3001/deleteImage/${imageName}`);
+            setApartment({ ...apartment, imgUrl: undefined });
+           
+           
         } catch (error) {
             console.error("Error deleting image:", error);
         }
     };
     const handleImageChange = (e) => {
-
         if (e.target.files.length > 0) {
+            const newImageName = e.target.files[0].name;
            
-            setApartment({ ...apartment, imgUrl: e.target.files[0].name });
-            const formData = new FormData();
-            formData.append("apartment_img", e.target.files[0]);
-            // Upload the image
-            axios.post("http://localhost:3001/uploadApartment", formData);
-            setSubmitted(false)
+                setApartment({ ...apartment, imgUrl:newImageName });
+                const formData = new FormData();
+                formData.append("apartment_img", e.target.files[0]);
+
+                axios.post("http://localhost:3001/uploadApartment", formData).then(() => {
+                  
+                    console.log("success upload")
+                })
+                    .catch((error) => {
+                        console.error("Error uploading image:", error);
+                    });
+           
         } else {
-            setApartment({ ...apartment, imgUrl: e.target.files });
-
-        } setSubmitted(false)
-
+            // No new image selected
+            setApartment({ ...apartment, imgUrl: '' });
+        }
     };
+    
 
     const handleSubmit = async () => {
         try {
+          
             const updatedApartment = {
                 ...apartment,
                 fees: [fee],
             };
-            await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
-
-                setSubmitted(true);
+            console.log(updatedApartment)
+            await ApartmentService.createApartment( updatedApartment).then((response) => {
                 console.log("Succes")
             })
                 .catch((error) => {
                     console.log(error + updatedApartment)
                 });
-            fetchData();
+           
+            
         } catch (error) {
             console.error("Error updating apartment:", error);
         }
@@ -164,8 +154,7 @@ const UpdateApartment = () => {
 
     return (
         <div className="container mt-5">
-
-            <h2 className="text-center mt-3"> UPDATE APARTMENT {id}</h2>
+            <h2 className="text-center mt-3"> Create New APARTMENT </h2>
             <div className="d-flex justify-content-center">
                 <div className=" col-md-8  form-custome mt-3" >
                     <div className="card-body col-md-4 ">
@@ -360,9 +349,9 @@ const UpdateApartment = () => {
                         </div><br />
                         <div>
                             <div>
-                                {apartment.imgUrl !== null && (
+                                {apartment.imgUrl  && (
                                     <div className="d-flex">
-                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl !== "" ? `http://localhost:3001/images/${apartment.imgUrl}` : null} /> </div>
+                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl !== '' ? `http://localhost:3001/images/${apartment.imgUrl}` : null} /> </div>
 
                                         <div style={{ width: 20 }}>
                                             <sup >
@@ -391,4 +380,4 @@ const UpdateApartment = () => {
     );
 };
 
-export default UpdateApartment;
+export default CreateApartment;
