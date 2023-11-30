@@ -10,7 +10,7 @@ const CreateApartment = () => {
     const [fee, setFee] = useState({});
     const [isExisting, setIsExisting] = useState([]);
     const [apartment, setApartment] = useState({})
-
+    const [errors, setErrors] = useState('');
     useEffect(() => {
         fetchData();
     }, []);
@@ -51,7 +51,7 @@ const CreateApartment = () => {
         if (inputName === "property" && value.trim() === "") {
             error = "Property is required";
         }
-        if (inputName === "property" && value.trim() >255) {
+        if (inputName === "property" && value.length > 255) {
             error = "Max lenght is 255";
         }
         setValidationErrors((prevErrors) => ({
@@ -65,7 +65,7 @@ const CreateApartment = () => {
             ...prevErrors,
             [inputName]: "",
         }));
-
+        setErrors('')
         switch (inputName) {
             case "apartmentName":
                 setApartment({ ...apartment, apartmentName: value })
@@ -102,8 +102,8 @@ const CreateApartment = () => {
             const imageName = fileName;
             axios.delete(`http://localhost:3001/deleteImage/${imageName}`);
             setApartment({ ...apartment, imgUrl: undefined });
-           
-           
+
+
         } catch (error) {
             console.error("Error deleting image:", error);
         }
@@ -111,42 +111,63 @@ const CreateApartment = () => {
     const handleImageChange = (e) => {
         if (e.target.files.length > 0) {
             const newImageName = e.target.files[0].name;
-           
-                setApartment({ ...apartment, imgUrl:newImageName });
-                const formData = new FormData();
-                formData.append("apartment_img", e.target.files[0]);
 
-                axios.post("http://localhost:3001/uploadApartment", formData).then(() => {
-                  
-                    console.log("success upload")
-                })
-                    .catch((error) => {
-                        console.error("Error uploading image:", error);
-                    });
-           
+            setApartment({ ...apartment, imgUrl: newImageName });
+            const formData = new FormData();
+            formData.append("apartment_img", e.target.files[0]);
+
+            axios.post("http://localhost:3001/uploadApartment", formData).then(() => {
+
+                console.log("success upload")
+            })
+                .catch((error) => {
+                    console.error("Error uploading image:", error);
+                });
+
         } else {
             // No new image selected
             setApartment({ ...apartment, imgUrl: '' });
         }
     };
-    
+
 
     const handleSubmit = async () => {
+
         try {
-          
+            const requiredFields = ['apartmentName', 'phoneNumber2', 'address', 'property', 'size'];
+            let hasError = false;
+
+            requiredFields.forEach((field) => {
+                if (field === 'phoneNumber2' || field === 'size') {
+                    if (apartment[field] === undefined || apartment[field] === null) {
+                        setErrors("Please don't leave it null")
+                        hasError = true;
+                    }
+                } else {
+                    if (!apartment[field] || apartment[field].trim() === '') {
+                        setErrors("Please don't leave it null")
+                        hasError = true;
+                    }
+                }
+            });
+
+            if (hasError) {
+                return; 
+            }
+
             const updatedApartment = {
                 ...apartment,
                 fees: [fee],
             };
             console.log(updatedApartment)
-            await ApartmentService.createApartment( updatedApartment).then((response) => {
+            await ApartmentService.createApartment(updatedApartment).then((response) => {
                 console.log("Succes")
             })
                 .catch((error) => {
                     console.log(error + updatedApartment)
                 });
-           
-            
+
+
         } catch (error) {
             console.error("Error updating apartment:", error);
         }
@@ -155,6 +176,8 @@ const CreateApartment = () => {
     return (
         <div className="container mt-5">
             <h2 className="text-center mt-3"> Create New APARTMENT </h2>
+
+            <h3 className="text-danger text-center">{errors}</h3>
             <div className="d-flex justify-content-center">
                 <div className=" col-md-8  form-custome mt-3" >
                     <div className="card-body col-md-4 ">
@@ -162,7 +185,7 @@ const CreateApartment = () => {
                             <span className="  fa-custom" ><i className="fa fa-building" aria-hidden="true"></i></span>
                             <div style={{ width: "100%" }}>
                                 <input
-                                    type="text" maxLength={30} minLength={1} required={true}
+                                    type="text" maxLength={255} minLength={1} required={true}
                                     placeholder="Enter apartment name"
                                     name="lastName"
                                     className={`form-control ${validationErrors.apartmentName && 'is-invalid'}`}
@@ -171,7 +194,7 @@ const CreateApartment = () => {
                                     onChange={(e) => handleInputChange("apartmentName", e.target.value)}
                                     onBlur={(e) => handleBlur("apartmentName", e.target.value)}
                                 />
-                                {validationErrors.apartment_name && (
+                                {validationErrors.apartmentName && (
                                     <div className="invalid-feedback">{validationErrors.apartmentName}</div>
                                 )}</div>
                         </div><br />
@@ -209,7 +232,7 @@ const CreateApartment = () => {
                             <span className="  fa-custom" ><i className="fa fa-map-marker" aria-hidden="true"></i></span>
                             <div style={{ width: "100%" }}>
                                 <input
-                                    type="text" minLength={1} required={true}
+                                    type="text" minLength={1} maxLength={255} required={true}
                                     placeholder="Enters address "
                                     name="lastName"
                                     className={`form-control ${validationErrors.address && 'is-invalid'}`}
@@ -285,11 +308,11 @@ const CreateApartment = () => {
                         <div className="form-group mb-2 d-flex">
                             <span className="fa-custom" > <i className="fa fa-bolt"></i></span>
                             <input
-                                type="number" maxLength={30} minLength={1} required={true}
+                                type="number" maxLength={30} minLength={1} min={0} required={true}
                                 placeholder="Enter electric number"
                                 name="lastName"
                                 className="form-control"
-                                value={fee.priceOfElectricity}
+                                value={fee.priceOfElectricity !== undefined ? fee.priceOfElectricity : 0}
                                 onChange={(e) => setFee({ ...fee, priceOfElectricity: e.target.value })}
                             /><span className=" input-group-text  mx-3  fa-custom-1" >kWh</span>
                         </div>
@@ -301,7 +324,7 @@ const CreateApartment = () => {
                                 placeholder="Enter Water number"
                                 name="lastName"
                                 className="form-control"
-                                value={fee.priceOfWater}
+                                value={fee.priceOfWater !== undefined ? fee.priceOfWater : 0}
                                 onChange={(e) => setFee({ ...fee, priceOfWater: e.target.value })}
                             /><span className="input-group-text  mx-3  fa-custom-1" >m<sup>3</sup></span>
                         </div> <br />
@@ -312,7 +335,7 @@ const CreateApartment = () => {
                                 placeholder="Enter Water number"
                                 name="lastName"
                                 className="form-control"
-                                value={fee.waterBill}
+                                value={fee.waterBill !== undefined ? fee.waterBill : 0}
                                 onChange={(e) => setFee({ ...fee, waterBill: e.target.value })}
                             /><span className="input-group-text  mx-3  fa-custom-1" >VND/1m<sup>3</sup></span>
                         </div> <br />
@@ -323,7 +346,7 @@ const CreateApartment = () => {
                                 placeholder="Enter internet"
                                 name="lastName"
                                 className="form-control"
-                                value={fee.priceOfInternet}
+                                value={fee.priceOfInternet !== undefined ? fee.priceOfInternet : 0}
                                 onChange={(e) => setFee({ ...fee, priceOfInternet: e.target.value })}
                             /><span className=" input-group-text mx-3 fa-custom-1" >VND/M</span>
                         </div> <br />
@@ -335,7 +358,7 @@ const CreateApartment = () => {
                                 placeholder="Enter trash"
                                 name="lastName" style={{ width: "88%" }}
                                 className="form-control "
-                                value={fee.priceOfTrash}
+                                value={fee.priceOfTrash !== undefined ? fee.priceOfTrash : 0}
                                 onChange={(e) => setFee({ ...fee, priceOfTrash: e.target.value })}
                             />
                         </div><br />
@@ -349,7 +372,7 @@ const CreateApartment = () => {
                         </div><br />
                         <div>
                             <div>
-                                {apartment.imgUrl  && (
+                                {apartment.imgUrl && (
                                     <div className="d-flex">
                                         <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl !== '' ? `http://localhost:3001/images/${apartment.imgUrl}` : null} /> </div>
 

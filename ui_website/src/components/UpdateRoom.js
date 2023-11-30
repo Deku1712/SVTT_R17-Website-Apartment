@@ -10,6 +10,7 @@ const UpdateRoom = () => {
     const [img, setImg] = useState([]);
     const { id } = useParams();
     const [room, setRoom] = useState({})
+    const [errors, setErrors] = useState('');
     useEffect(() => {
         fetchData();
     }, []);
@@ -53,7 +54,7 @@ const UpdateRoom = () => {
             ...prevErrors,
             [inputName]: "",
         }));
-
+        setErrors("")
         switch (inputName) {
             case "room_name":
                 setRoom({ ...room, room_name: value });
@@ -125,8 +126,28 @@ const UpdateRoom = () => {
 
 
     const handleSubmit = async () => {
+        const requiredFields = ['room_name', 'numberOfRenter', 'sizeOfRoom', 'priceOfRoom'];
+        let hasError = false;
+
+        requiredFields.forEach((field) => {
+            if (field === 'numberOfRenter' || field === 'sizeOfRoom') {
+                if (room[field] === undefined || room[field] === null) {
+                    setErrors("Please don't leave it null")
+                    hasError = true;
+                }
+            } else {
+                if (!room[field] || room[field] === '') {
+                    setErrors("Please don't leave it null")
+                    hasError = true;
+                }
+            }
+        });
+
+        if (hasError) {
+            return;
+        }
         try {
-            // Chuẩn bị dữ liệu mới để gửi lên server
+
             if (img.length > 0) {
                 const updatedRoom = {
                     ...room,
@@ -153,7 +174,8 @@ const UpdateRoom = () => {
 
     return (
         <div className="container mt-5 mb-3">
-            <h2 className="text-center mt-3 "> UPDATE ROOM {id}</h2>
+            <h2 className="text-center mt-3 "> UPDATE ROOM </h2>
+            <h3 className="text-danger text-center">{errors}</h3>
             <div className=" d-flex justify-content-center mt-3">
                 <div className="card col-md-5 form-custom " >
                     <div className="card-body ">

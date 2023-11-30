@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import ApartmentService from "../service/ApartmentService"
+import ApartmentService from "../service/ApartmentService";
 import '../styles/styles.css';
 const UpdateApartment = () => {
 
@@ -9,10 +9,8 @@ const UpdateApartment = () => {
     const [validationErrors, setValidationErrors] = useState({});
     const [fee, setFee] = useState({});
     const { id } = useParams();
-    const [oldImg, setOldImg] = useState('');
     const [apartment, setApartment] = useState({})
-    const [submitted, setSubmitted] = useState(false);
-
+    const [errors, setErrors] = useState('');
     useEffect(() => {
         fetchData();
     }, []);
@@ -21,7 +19,6 @@ const UpdateApartment = () => {
             console.log(response.data)
             setApartment(response.data)
             setFee(response.data.fees.reverse()[0])
-            setSubmitted(true);
             console.log(response.data)
         })
             .catch((error) => {
@@ -55,7 +52,7 @@ const UpdateApartment = () => {
         if (inputName === "property" && value.trim() === "") {
             error = "Property is required";
         }
-        if (inputName === "property" && value.trim() >255) {
+        if (inputName === "property" && value.trim() > 255) {
             error = "Max lenght is 255";
         }
         setValidationErrors((prevErrors) => ({
@@ -108,19 +105,17 @@ const UpdateApartment = () => {
             setApartment({ ...apartment, imgUrl: null });
             const updatedApartment = {
                 ...apartment,
-                imgUrl:null,
+                imgUrl: null,
                 fees: [fee],
             };
             await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
 
-                setSubmitted(true);
                 console.log("Succes")
             })
                 .catch((error) => {
                     console.log(error + updatedApartment)
                 });
             fetchData();
-            setSubmitted(false);
         } catch (error) {
             console.error("Error deleting image:", error);
         }
@@ -128,21 +123,41 @@ const UpdateApartment = () => {
     const handleImageChange = (e) => {
 
         if (e.target.files.length > 0) {
-           
+
             setApartment({ ...apartment, imgUrl: e.target.files[0].name });
             const formData = new FormData();
             formData.append("apartment_img", e.target.files[0]);
             // Upload the image
             axios.post("http://localhost:3001/uploadApartment", formData);
-            setSubmitted(false)
         } else {
             setApartment({ ...apartment, imgUrl: e.target.files });
 
-        } setSubmitted(false)
-
+        } 
     };
-
+  
     const handleSubmit = async () => {
+        const requiredFields = ['apartmentName', 'phoneNumber2', 'address', 'property', 'size'];
+                let hasError = false;
+            
+                requiredFields.forEach((field) => {
+                    if (field === 'phoneNumber2' || field === 'size') {
+                        // Check for undefined or null for number fields
+                        if (apartment[field] === undefined || apartment[field] === null) {
+                            setErrors("Please don't leave it null")
+                            hasError = true;
+                        }
+                    } else {
+                        // For other fields, check for empty string
+                        if (!apartment[field] || apartment[field].trim() === '') {
+                            setErrors("Please don't leave it null")
+                            hasError = true;
+                        }
+                    }
+                });
+            
+                if (hasError) {
+                    return; // Do not proceed with submission if there are validation errors
+                }
         try {
             const updatedApartment = {
                 ...apartment,
@@ -150,7 +165,7 @@ const UpdateApartment = () => {
             };
             await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
 
-                setSubmitted(true);
+               
                 console.log("Succes")
             })
                 .catch((error) => {
@@ -165,7 +180,8 @@ const UpdateApartment = () => {
     return (
         <div className="container mt-5">
 
-            <h2 className="text-center mt-3"> UPDATE APARTMENT {id}</h2>
+            <h2 className="text-center mt-3"> UPDATE APARTMENT</h2>
+            <h3 className="text-danger text-center">{errors}</h3>
             <div className="d-flex justify-content-center">
                 <div className=" col-md-8  form-custome mt-3" >
                     <div className="card-body col-md-4 ">
@@ -300,7 +316,7 @@ const UpdateApartment = () => {
                                 placeholder="Enter electric number"
                                 name="lastName"
                                 className="form-control"
-                                value={fee.priceOfElectricity}
+                                value={fee.priceOfElectricity !== "" ? fee.priceOfElectricity :0}
                                 onChange={(e) => setFee({ ...fee, priceOfElectricity: e.target.value })}
                             /><span className=" input-group-text  mx-3  fa-custom-1" >kWh</span>
                         </div>
@@ -312,7 +328,7 @@ const UpdateApartment = () => {
                                 placeholder="Enter Water number"
                                 name="lastName"
                                 className="form-control"
-                                value={fee.priceOfWater}
+                                value={fee.priceOfWater !== ""? fee.priceOfWater :0}
                                 onChange={(e) => setFee({ ...fee, priceOfWater: e.target.value })}
                             /><span className="input-group-text  mx-3  fa-custom-1" >m<sup>3</sup></span>
                         </div> <br />
@@ -323,7 +339,7 @@ const UpdateApartment = () => {
                                 placeholder="Enter Water number"
                                 name="lastName"
                                 className="form-control"
-                                value={fee.waterBill}
+                                value={fee.waterBill !== "" ? fee.waterBill :0}
                                 onChange={(e) => setFee({ ...fee, waterBill: e.target.value })}
                             /><span className="input-group-text  mx-3  fa-custom-1" >VND/1m<sup>3</sup></span>
                         </div> <br />
@@ -334,7 +350,7 @@ const UpdateApartment = () => {
                                 placeholder="Enter internet"
                                 name="lastName"
                                 className="form-control"
-                                value={fee.priceOfInternet}
+                                value={fee.priceOfInternet !== "" ? fee.priceOfInternet :0}
                                 onChange={(e) => setFee({ ...fee, priceOfInternet: e.target.value })}
                             /><span className=" input-group-text mx-3 fa-custom-1" >VND/M</span>
                         </div> <br />
@@ -346,7 +362,7 @@ const UpdateApartment = () => {
                                 placeholder="Enter trash"
                                 name="lastName" style={{ width: "88%" }}
                                 className="form-control "
-                                value={fee.priceOfTrash}
+                                value={fee.priceOfTrash !== "" ? fee.priceOfTrash :0}
                                 onChange={(e) => setFee({ ...fee, priceOfTrash: e.target.value })}
                             />
                         </div><br />
