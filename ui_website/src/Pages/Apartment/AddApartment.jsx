@@ -24,7 +24,7 @@ export default function AddApartment() {
 
   return (
     <div className=' space-y-2'>
-      <h3>Add Apartment</h3>
+      <h3 className=' text-center'>Add Apartment</h3>
       <div className=' flex justify-center'>
         <div className='body_left'>
 
@@ -35,14 +35,14 @@ export default function AddApartment() {
             <div className="relative mt-2 rounded-md shadow-sm">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <span className="text-gray-500 sm:text-sm ">
-                  {!apartment.name && <i class="fa-solid fa-house mr-2" ></i>}
+                <i class="fa-solid fa-house mr-2" ></i>
                 </span>
               </div>
               <input
                 type="text"
                 name="apartmentName"
                 id="apartmentName"
-                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full ml-2 rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 onChange={(e) => setApartment({...apartment, name : e.target.value})}
               />
             </div>
