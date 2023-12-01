@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from 'react-redux';
 import ApartmentService from "../service/ApartmentService";
+import {updateApartment} from "../redux/apartment/apartmentAction"
 import '../styles/styles.css';
 const UpdateApartment = () => {
-
-
+    const dispatch = useDispatch();
     const [validationErrors, setValidationErrors] = useState({});
     const [fee, setFee] = useState({});
     const { id } = useParams();
@@ -19,7 +20,6 @@ const UpdateApartment = () => {
             console.log(response.data)
             setApartment(response.data)
             setFee(response.data.fees.reverse()[0])
-            console.log(response.data)
         })
             .catch((error) => {
                 console.log(error)
@@ -100,21 +100,13 @@ const UpdateApartment = () => {
     };
     const handDelete = async (fileName) => {
         try {
-            const imageName = fileName;
-
             setApartment({ ...apartment, imgUrl: null });
             const updatedApartment = {
                 ...apartment,
                 imgUrl: null,
                 fees: [fee],
             };
-            await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
-
-                console.log("Succes")
-            })
-                .catch((error) => {
-                    console.log(error + updatedApartment)
-                });
+           dispatch(updateApartment(id,updatedApartment));
             fetchData();
         } catch (error) {
             console.error("Error deleting image:", error);
@@ -158,23 +150,24 @@ const UpdateApartment = () => {
                 if (hasError) {
                     return; // Do not proceed with submission if there are validation errors
                 }
-        try {
+        // try {
             const updatedApartment = {
                 ...apartment,
                 fees: [fee],
             };
-            await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
+            // await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
 
-               
-                console.log("Succes")
-            })
-                .catch((error) => {
-                    console.log(error + updatedApartment)
-                });
-            fetchData();
-        } catch (error) {
-            console.error("Error updating apartment:", error);
-        }
+            //     console.log(response.data)
+            //     console.log("Succes")
+            // })
+            //     .catch((error) => {
+            //         console.log(error + updatedApartment)
+            //     });
+            dispatch(updateApartment(id,updatedApartment));
+            //fetchData();
+        // } catch (error) {
+        //     console.error("Error updating apartment:", error);
+        // }
     };
 
     return (

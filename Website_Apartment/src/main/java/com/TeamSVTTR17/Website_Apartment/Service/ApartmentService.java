@@ -56,22 +56,22 @@ public class ApartmentService {
             updateApartment.setDescription(apartment.getDescription());
             updateApartment.setProperty(apartment.getProperty());
             updateApartment.setActive(apartment.getActive());
-//            apartmentRepository.save(updateApartment);
-//            List<Fee> fees = apartment.getFees();
-//            Fee newFee = new Fee();
-//            Set<Fee> uniqueFees = new HashSet<>(fees);
-//            for (Fee fee : uniqueFees) {
-//                fee.setApartment(apartment);
-//                feeRepository.save(fee);
-//            }
+            apartmentRepository.save(updateApartment);
+            List<Fee> fees = apartment.getFees();
             Fee newFee = new Fee();
-            newFee.setPriceOfElectricity(apartment.getFees().get(0).getPriceOfElectricity());
-            newFee.setPriceOfWater(apartment.getFees().get(0).getPriceOfWater());
-            newFee.setPriceOfInternet(apartment.getFees().get(0).getPriceOfInternet());
-            newFee.setPriceOfTrash(apartment.getFees().get(0).getPriceOfTrash());
-            newFee.setWaterBill(apartment.getFees().get(0).getWaterBill());
-            newFee.setApartment(updateApartment);
-            feeRepository.save(newFee);
+            Set<Fee> uniqueFees = new HashSet<>(fees);
+            for (Fee fee : uniqueFees) {
+                fee.setApartment(apartment);
+                feeRepository.save(fee);
+            }
+//            Fee newFee = new Fee();
+//            newFee.setPriceOfElectricity(apartment.getFees().get(0).getPriceOfElectricity());
+//            newFee.setPriceOfWater(apartment.getFees().get(0).getPriceOfWater());
+//            newFee.setPriceOfInternet(apartment.getFees().get(0).getPriceOfInternet());
+//            newFee.setPriceOfTrash(apartment.getFees().get(0).getPriceOfTrash());
+//            newFee.setWaterBill(apartment.getFees().get(0).getWaterBill());
+//            newFee.setApartment(updateApartment);
+//            feeRepository.save(newFee);
             return apartmentRepository.save(updateApartment);
         } catch (Exception ex) {
             throw new RuntimeException(ex);

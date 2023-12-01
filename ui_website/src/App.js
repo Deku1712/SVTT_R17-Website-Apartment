@@ -10,6 +10,7 @@ function App() {
  <div className="App">
      
       <div className='container' >
+        
         <BrowserRouter>
           <Routes>
           <Route path="/create-apartment" Component={CreateApartment}></Route>

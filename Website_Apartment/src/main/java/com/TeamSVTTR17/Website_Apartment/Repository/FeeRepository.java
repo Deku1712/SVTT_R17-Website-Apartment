@@ -11,6 +11,7 @@ import java.util.List;
 
 @Repository
 public interface FeeRepository extends JpaRepository<Fee,Integer> {
-    @Query("SELECT f FROM Fee f WHERE f.apartment.id = :id")
-    List<Fee> findByApartid(@Param("id") int id);
+    @Query("SELECT f FROM Fee f JOIN f.apartment a WHERE a.id = :id")
+    Fee findByApartid(@Param("id") int id);
+
 }

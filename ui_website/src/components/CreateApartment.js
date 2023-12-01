@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import {fetchApartment} from '../redux/apartment/apartmentAction'
+import { useDispatch, useSelector } from 'react-redux';
 import ApartmentService from "../service/ApartmentService"
 import '../styles/styles.css';
-const CreateApartment = () => {
 
+
+const CreateApartment = () => {
+    const dispatch = useDispatch();
 
     const [validationErrors, setValidationErrors] = useState({});
     const [fee, setFee] = useState({});
@@ -12,19 +16,9 @@ const CreateApartment = () => {
     const [apartment, setApartment] = useState({})
     const [errors, setErrors] = useState('');
     useEffect(() => {
-        fetchData();
+        dispatch(fetchApartment());
+      
     }, []);
-    const fetchData = () => {
-        ApartmentService.getAllApartment().then((response) => {
-            console.log(response.data)
-            setIsExisting(response.data)
-            console.log(apartment.imgUrl)
-        })
-            .catch((error) => {
-                console.log(error)
-            });
-
-    };
 
     const validateInput = (inputName, value) => {
         let error = "";
@@ -320,7 +314,7 @@ const CreateApartment = () => {
                         <div className="form-group mb-2 d-flex">
                             <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
                             <input
-                                type="number" minLength={1} required={true}
+                                type="number" minLength={1} required={true}  min={0}
                                 placeholder="Enter Water number"
                                 name="lastName"
                                 className="form-control"
@@ -331,7 +325,7 @@ const CreateApartment = () => {
                         <div className="form-group mb-2 d-flex">
                             <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
                             <input
-                                type="number" minLength={1} required={true}
+                                type="number" minLength={1} required={true}  min={0}
                                 placeholder="Enter Water number"
                                 name="lastName"
                                 className="form-control"
@@ -342,7 +336,7 @@ const CreateApartment = () => {
                         <div className="form-group mb-2 d-flex">
                             <span className="fa-custom" > <i style={{ fontSize: "16px" }} className="fa fa-wifi" aria-hidden="true"></i></span>
                             <input
-                                type="number" maxLength={30} minLength={1} required={true}
+                                type="number" maxLength={30} minLength={1} required={true} min={0}
                                 placeholder="Enter internet"
                                 name="lastName"
                                 className="form-control"
@@ -354,7 +348,7 @@ const CreateApartment = () => {
                         <div className="form-group mb-2 d-flex" >
                             <span className="fa-custom"><i className="fa fa-trash-o" aria-hidden="true"></i></span>
                             <input
-                                type="number" maxLength={30} minLength={1} required={true}
+                                type="number" maxLength={30} minLength={1} required={true} min={0}
                                 placeholder="Enter trash"
                                 name="lastName" style={{ width: "88%" }}
                                 className="form-control "

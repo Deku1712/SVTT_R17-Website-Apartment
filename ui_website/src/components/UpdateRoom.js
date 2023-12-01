@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from 'react-redux';
 import RoomService from "../service/RoomService"
+import {updateRooms} from "../redux/rooms/roomsAction"
 import '../styles/styles.css';
 
 const UpdateRoom = () => {
@@ -11,6 +13,7 @@ const UpdateRoom = () => {
     const { id } = useParams();
     const [room, setRoom] = useState({})
     const [errors, setErrors] = useState('');
+    const dispatch = useDispatch();
     useEffect(() => {
         fetchData();
     }, []);
@@ -87,7 +90,7 @@ const UpdateRoom = () => {
                 ...room,
                 imgs: updatedRoomImg,
             };
-            await RoomService.updateRoomByID(id, updatedRoom);
+            dispatch(updateRooms(id,updatedRoom));
             fetchData();
             console.log(updatedRoomImg);
             setRoomImg(updatedRoomImg);
@@ -153,7 +156,7 @@ const UpdateRoom = () => {
                     ...room,
                     imgs: img,
                 };
-                await RoomService.updateRoomByID(id, updatedRoom);
+              dispatch(updateRooms(id,updatedRoom));
 
                 fetchData();
             } else {
@@ -161,7 +164,7 @@ const UpdateRoom = () => {
                     ...room,
                     imgs: room_img,
                 };
-                await RoomService.updateRoomByID(id, updatedRoom);
+                dispatch(updateRooms(id,updatedRoom));
 
                 fetchData();
             }
