@@ -4,16 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,20 +33,28 @@ public class Post {
     private String property;
     @Column(name = "description")
     private String description;
-    @Column(name = "v")
+    @Column(name = "size")
     private int size;
-    @Column(name = "url_img")
-    private String url_img;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL )
+    private List<Img> imgs = new ArrayList<>();
+
     @Column(name = "createTime")
     private Date createTime;
     @Column(name = "updateTime")
     private Date updateTime;
 
+    @Column(name = "area")
+    private String area;
+
+    @Column(name = "price")
+    private String price;
+
     @ManyToOne
     @JoinColumn(name = "userID")
     private User user;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL )
     private List<Comment> comments  =  new ArrayList<>();
 
 }
