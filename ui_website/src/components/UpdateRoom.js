@@ -93,6 +93,7 @@ const UpdateRoom = () => {
             dispatch(updateRooms(id,updatedRoom));
             fetchData();
             console.log(updatedRoomImg);
+            document.getElementById('images').value = null;
             setRoomImg(updatedRoomImg);
         } catch (error) {
             console.error("Lỗi khi xóa ảnh:", error);
@@ -110,7 +111,7 @@ const UpdateRoom = () => {
             await axios.post("http://localhost:3001/uploadRoomImages", formData).then((response) => {
                 setRoomImg(newImages);
                 setImg(newImages)
-                console.log(newImages)
+                document.getElementById('images').value = null;
                 console.log("Succes")
 
             })

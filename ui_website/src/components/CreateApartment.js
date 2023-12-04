@@ -9,7 +9,7 @@ import '../styles/styles.css';
 
 const CreateApartment = () => {
     const dispatch = useDispatch();
-
+    const {userID}= useState('')
     const [validationErrors, setValidationErrors] = useState({});
     const [fee, setFee] = useState({});
     const [isExisting, setIsExisting] = useState([]);
@@ -19,7 +19,7 @@ const CreateApartment = () => {
         dispatch(fetchApartment());
       
     }, []);
-
+   //validate
     const validateInput = (inputName, value) => {
         let error = "";
 
@@ -33,7 +33,7 @@ const CreateApartment = () => {
         if (inputName === "phone2" && value.length > 11) {
             error = "Max lenght is 11 ";
         }
-        if (inputName === "phone2" && value.trim() === "" && apartment.phoneNumber1 === "") {
+        if (inputName === "phone2" && value ==='' && (apartment.phoneNumber1 ===undefined ||apartment.phoneNumber1 ==="" )) {
             error = "At least  number of phone 1 or 2 is required";
         }
         if (inputName === "apartment_size" && value === '') {
@@ -53,7 +53,7 @@ const CreateApartment = () => {
             [inputName]: error,
         }));
     };
-
+   // set value
     const handleInputChange = (inputName, value) => {
         setValidationErrors((prevErrors) => ({
             ...prevErrors,
@@ -91,17 +91,18 @@ const CreateApartment = () => {
     const handleBlur = (inputName, value) => {
         validateInput(inputName, value);
     };
+    //delete img
     const handDelete = async (fileName) => {
         try {
             const imageName = fileName;
             axios.delete(`http://localhost:3001/deleteImage/${imageName}`);
             setApartment({ ...apartment, imgUrl: undefined });
-
-
+            document.getElementById('images').value = null;
         } catch (error) {
             console.error("Error deleting image:", error);
         }
     };
+    //post img
     const handleImageChange = (e) => {
         if (e.target.files.length > 0) {
             const newImageName = e.target.files[0].name;
@@ -119,7 +120,6 @@ const CreateApartment = () => {
                 });
 
         } else {
-            // No new image selected
             setApartment({ ...apartment, imgUrl: '' });
         }
     };
@@ -148,7 +148,7 @@ const CreateApartment = () => {
             if (hasError) {
                 return; 
             }
-
+            setApartment({ ...apartment, userID: userID })
             const updatedApartment = {
                 ...apartment,
                 fees: [fee],
@@ -368,7 +368,7 @@ const CreateApartment = () => {
                             <div>
                                 {apartment.imgUrl && (
                                     <div className="d-flex">
-                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl !== '' ? `http://localhost:3001/images/${apartment.imgUrl}` : null} /> </div>
+                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={ `http://localhost:3001/images/${apartment.imgUrl}` } /> </div>
 
                                         <div style={{ width: 20 }}>
                                             <sup >

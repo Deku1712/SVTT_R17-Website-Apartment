@@ -40,7 +40,7 @@ const UpdateApartment = () => {
         if (inputName === "phone2" && value.length > 11) {
             error = "Max lenght is 11 ";
         }
-        if (inputName === "phone2" && value.trim() === "" && apartment.phoneNumber1.trim() === "") {
+        if (inputName === "phone2" && value ==='' && (apartment.phoneNumber1 ===undefined ||apartment.phoneNumber1 ==="" )) {
             error = "At least  number of phone 1 or 2 is required";
         }
         if (inputName === "apartment_size" && value === '') {
@@ -100,13 +100,14 @@ const UpdateApartment = () => {
     };
     const handDelete = async (fileName) => {
         try {
-            setApartment({ ...apartment, imgUrl: null });
+            setApartment({ ...apartment, imgUrl: '' });
             const updatedApartment = {
                 ...apartment,
                 imgUrl: null,
                 fees: [fee],
             };
            dispatch(updateApartment(id,updatedApartment));
+           document.getElementById('images').value = null;
             fetchData();
         } catch (error) {
             console.error("Error deleting image:", error);
@@ -369,9 +370,9 @@ const UpdateApartment = () => {
                         </div><br />
                         <div>
                             <div>
-                                {apartment.imgUrl !== null && (
+                                {apartment.imgUrl  && (
                                     <div className="d-flex">
-                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl !== "" ? `http://localhost:3001/images/${apartment.imgUrl}` : null} /> </div>
+                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={ `http://localhost:3001/images/${apartment.imgUrl}` } /> </div>
 
                                         <div style={{ width: 20 }}>
                                             <sup >
