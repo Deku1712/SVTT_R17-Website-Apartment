@@ -23,7 +23,7 @@ export default function AddApartment() {
   
 
   return (
-    <div className=' space-y-2'>
+    <div className=' space-y-2 pt-20'>
       <h3>Add Apartment</h3>
       <div className=' flex justify-center'>
         <div className='body_left'>

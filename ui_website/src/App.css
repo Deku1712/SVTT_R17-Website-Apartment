@@ -1,38 +1,36 @@
-/* .App {
-  text-align: center;
+/* CSS cho Carousel */
+.custom-carousel {
+  overflow: hidden; /* Ẩn bất kỳ phần nào của ảnh nằm ngoài kích thước Carousel */
+  border-radius: 15px; 
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.custom-img-contain {
+  width: 100%;
+  height: 284px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.custom-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-custom {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: row;
 }
 
-.App-link {
-  color: #61dafb;
+nav {
+  border-bottom: 2px solid rgb(0, 0, 0, 0.1) ;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
+.custom-a:hover {
+  color: black;
+}
+
+.custom-backToTop {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
