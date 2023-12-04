@@ -1,6 +1,11 @@
 
 import logo from './logo.svg';
 import './App.css';
+
+
+import UpdateRoom from './components/UpdateRoom';
+import UpdateApartment from './components/UpdateApartment';
+import CreateApartment from './components/CreateApartment';
 import {  Route, Routes, useParams } from "react-router-dom";
 import UpdateRoom from './Component/UpdateRoom';
 import UpdateApartment from './Component/UpdateApartment';
@@ -20,6 +25,7 @@ import { fetchUserData } from './redux/action/actionUser';
 
 
 
+
 function App() {
   
   const dispatch = useDispatch();
@@ -31,6 +37,7 @@ function App() {
 },[])
 
   return (
+
 
     <div className="App">
       
@@ -46,8 +53,12 @@ function App() {
             <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
             <Route path="/edit-apartment" Component={UpdateApartment}></Route>
             <Route path = "/posts/:id" Component={CardDetail}/>
+               <Route path="/create-apartment" Component={CreateApartment}></Route>
+          <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
+          <Route path="/edit-apartment/:id" Component={UpdateApartment}></Route>
 
             
+
 
           </Routes>
         </div>

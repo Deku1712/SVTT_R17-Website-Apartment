@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
@@ -28,8 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+
 @SpringBootApplication
-public class WebsiteApartmentApplication {
+@EnableJpaRepositories(basePackages = "com.TeamSVTTR17.Website_Apartment.*")
+public class WebsiteApartmentApplication  {
 
 	@Autowired
 	private PostRepo postRepo;
@@ -38,6 +43,7 @@ public class WebsiteApartmentApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WebsiteApartmentApplication.class, args);
 	}
+
 
 //	@Bean
 //	public CommandLineRunner commandLineRunner () {
@@ -164,5 +170,6 @@ public class WebsiteApartmentApplication {
 		postRepo.saveAll(listPost);
 
     }
+
 
 }
