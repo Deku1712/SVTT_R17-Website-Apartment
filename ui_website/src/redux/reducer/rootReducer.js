@@ -1,11 +1,13 @@
-import { combineReducers } from 'redux';
 
 import apartmentReducer from '../apartment/apartmentReducer';
 import roomsReducer from '../rooms/roomsReducer';
+import { combineReducers } from "redux";
+import { postReducer } from "./postReducer";
+import { userReducer } from "./userReducer";
 
-const rootReducer = combineReducers({
-    apartment : apartmentReducer,
-    rooms : roomsReducer
-});
+export const rootReducer = combineReducers({
+  postReducer,
+  userReducer,
+  apartment : apartmentReducer,
+  rooms : roomsReducer})
 
-export default rootReducer;
