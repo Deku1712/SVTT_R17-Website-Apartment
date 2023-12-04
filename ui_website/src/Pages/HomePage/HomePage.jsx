@@ -7,6 +7,7 @@ import Card from '../../Component/Card/Card'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { fetchPostData } from '../../redux/action/actionPost'
+import { fetchUserData } from '../../redux/action/actionUser'
 
 
 export default function HomePage() {
@@ -16,9 +17,7 @@ export default function HomePage() {
     const posts_store = useSelector((state) => state.postReducer);
     const posts = posts_store.posts;
 
-    useEffect(() => {
-        dispatch(fetchPostData())
-    },[])
+    
     
 
 

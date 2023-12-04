@@ -1,17 +1,11 @@
-/*-------------------------------------------------------------------
-|  🐼 Input Validators 
-|
-|  🐯 Purpose: THIS FILE CONTAINS ALL THE VALIDATORS OBJECTS
-|
-|  🐸 Returns:  -
-*-------------------------------------------------------------------*/
 
-export const name_validation = {
-  name: 'name',
-  label: 'name',
+
+export const apartment_name_validation = {
+  name: 'apartment_name',
+  label: 'apartment_name',
   type: 'text',
-  id: 'name',
-  placeholder: 'write your name ...',
+  id: 'apartment_name',
+  placeholder: 'write your apartment_name ',
   validation: {
     required: {
       value: true,
@@ -23,6 +17,42 @@ export const name_validation = {
     },
   },
 }
+export const property = {
+  name: 'property',
+  label: 'property',
+  type: 'text',
+  id: 'property',
+  placeholder: 'write your property ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    maxLength: {
+      value: 30,
+      message: '30 characters max',
+    },
+  },
+}
+
+export const address_validation = {
+  name: 'address',
+  label: 'address',
+  type: 'text',
+  id: 'address',
+  placeholder: 'write your address ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    maxLength: {
+      value: 500,
+      message: '500 characters max',
+    },
+  },
+}
+
 
 export const desc_validation = {
   name: 'description',
@@ -73,6 +103,77 @@ export const num_validation = {
     },
   },
 }
+export const size_validation = {
+  name: 'size',
+  label: 'size',
+  type: 'number',
+  id: 'size',
+  placeholder: 'write a size apartment',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    min:{
+      value:0,
+      message: 'Area must be greater than or equal to 0'
+    }
+  },
+}
+export const area_validation = {
+  name: 'area',
+  label: 'area(m2)',
+  type: 'number',
+  id: 'size',
+  placeholder: 'write a area apartment',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    min:{
+      value: 0,
+      message: 'Area must be greater than or equal to 0'
+    }
+    
+  },
+}
+export const phone_validation_1 = {
+  name: 'phone_number1',
+  label: 'phone_number1',
+  type: 'text',
+  id: 'phone_number1',
+  placeholder: 'write the phone number 1',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    pattern: {
+      value:
+      /^[0-9]{10}$/,
+      message: 'not valid',
+    },
+  },
+}
+export const phone_validation_2 = {
+  name: 'phone_number2',
+  label: 'phone_number2',
+  type: 'text',
+  id: 'phone_number2',
+  placeholder: 'write the phone number 2',
+  validation: {
+    required: {
+      value: false,
+      message: 'required',
+    },
+    pattern: {
+      value:
+      /^[0-9]{10}$/,
+      message: 'not valid',
+    },
+  },
+}
 
 export const email_validation = {
   name: 'email',
@@ -90,5 +191,123 @@ export const email_validation = {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       message: 'not valid',
     },
+  },
+}
+export const fileImg_validation = {
+  name: 'imgUrl',
+  label: 'imgUrl',
+  type: 'file',
+  id: 'imgUrl',
+  placeholder: 'write the imgUrl ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+  },
+}
+
+export const imgUrl = {
+  name: 'imgUrl',
+  label: 'imgUrl',
+  type: 'text',
+  id: 'imgUrl',
+  placeholder: 'write your imgUrl ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+   
+  },
+}
+
+
+
+export const price_of_electricity_validation = {
+  name: 'price_of_electricity',
+  label: 'price_of_electricity',
+  type: 'number',
+  id: 'size',
+  placeholder: 'write a price_of_electricity',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    min:{
+      value:0,
+      message: 'price_of_electricity must be greater than or equal to 0'
+    }
+  },
+}
+export const price_of_internet_validation = {
+  name: 'price_of_internet',
+  label: 'price_of_internet',
+  type: 'number',
+  id: 'size',
+  placeholder: 'write a price_of_internet',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    min:{
+      value:0,
+      message: 'price_of_internet must be greater than or equal to 0'
+    }
+  },
+}
+export const price_of_trash_validation = {
+  name: 'price_of_trash',
+  label: 'price_of_trash',
+  type: 'number',
+  id: 'size',
+  placeholder: 'write a price_of_trash',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    min:{
+      value:0,
+      message: 'price_of_trash must be greater than or equal to 0'
+    }
+  },
+}
+
+export const price_of_water_validation = {
+  name: 'price_of_water',
+  label: 'price_of_water',
+  type: 'number',
+  id: 'size',
+  placeholder: 'write a price_of_water',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    min:{
+      value:0,
+      message: 'price_of_water must be greater than or equal to 0'
+    }
+  },
+}
+
+export const water_bill_validation = {
+  name: 'water_bill',
+  label: 'water_bill',
+  type: 'number',
+  id: 'size',
+  placeholder: 'write a water_bill',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    min:{
+      value:0,
+      message: 'water_bill must be greater than or equal to 0'
+    }
   },
 }

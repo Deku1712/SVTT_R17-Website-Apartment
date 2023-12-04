@@ -1,43 +1,42 @@
 package com.TeamSVTTR17.Website_Apartment.Controller;
 
+import com.TeamSVTTR17.Website_Apartment.DTO.ApartmentInput;
 import com.TeamSVTTR17.Website_Apartment.Entity.Apartment;
 import com.TeamSVTTR17.Website_Apartment.Repository.AparmentRepo;
+import com.TeamSVTTR17.Website_Apartment.Service.ApartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/apartments")
 public class ApartmentController {
 
     @Autowired
     private AparmentRepo aparmentRepo;
 
-    @GetMapping("/apartment")
+    @Autowired
+    private ApartmentService apartmentService;
+
+
+
+    @GetMapping
     public List<Apartment> viewAllApartment(){
-        return aparmentRepo.findAll();
+        return apartmentService.getAll();
 
     }
-    @PostMapping("/apartment")
-    public void addApartment(){
-        Apartment apartment = new Apartment();
-        apartment.setApartmentName("student Home");
-        apartment.setPhoneNumber1("094454914000");
-        apartment.setPhoneNumber1("09445491400a0");
-        apartment.setAddress("42 khai dong 4 ");
-        apartment.setProperty("  full condition ");
-        apartment.setDescription(" new apartment ");
-        apartment.setSize(43);
-        apartment.setActive(1);
-        apartment.setUser(null);
-        apartment.setImgUrl(" no img here");
+    @PostMapping("/user/{id}")
+    public void addApartment(@PathVariable("id") int id, @RequestBody ApartmentInput apartmentInput){
 
-        aparmentRepo.save(apartment);
+        apartmentService.addApartment(apartmentInput);
 
+    }
 
-
-
+    @GetMapping("/user/{id}")
+    public List<Apartment> getApartmentByUserId(@PathVariable("id") int id){
+        List<Apartment> list = apartmentService.getApartmentByUserID(id);
+        return list;
     }
 
 }

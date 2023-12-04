@@ -55,6 +55,8 @@ public class Apartment {
     private User user;
     @Column(name = "imgUrl")
     private String imgUrl;
+    @Column(name = "area")
+    private  String area;
 
     @OneToMany(mappedBy = "apartment",  cascade = CascadeType.ALL )
     private List<Room> rooms = new ArrayList<>();

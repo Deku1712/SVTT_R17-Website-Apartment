@@ -16,14 +16,19 @@ import Header1 from './Component/Header';
 
 import HomePage from './Pages/HomePage/HomePage';
 import { CardDetail } from './Component/Card/CardDetail';
+import { fetchUserData } from './redux/action/actionUser';
 
 
 
 function App() {
   
+  const dispatch = useDispatch();
   
-  
-  
+  useEffect(() => {
+    dispatch(fetchPostData())
+    dispatch(fetchUserData())
+    
+},[])
 
   return (
 
@@ -36,6 +41,7 @@ function App() {
           <Routes>
             <Route path="/" Component={HomePage}></Route>
             <Route path="/HomePage" Component={HomePage}></Route>
+            <Route path="/Apartments" Component={ApartmentPage}></Route>
             <Route path = "/addApartment" Component={AddApartment}></Route>
             <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
             <Route path="/edit-apartment" Component={UpdateApartment}></Route>

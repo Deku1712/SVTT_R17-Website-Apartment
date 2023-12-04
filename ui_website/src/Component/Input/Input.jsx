@@ -7,10 +7,11 @@
 *-------------------------------------------------------------------*/
 
 import cn from 'classnames'
-import { findInputError, isFormInvalid } from '../utils'
+
 import { useFormContext } from 'react-hook-form'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MdError } from 'react-icons/md'
+import { findInputError,isFormInvalid } from '../../utils'
 
 export const Input = ({
   name,
@@ -31,7 +32,7 @@ export const Input = ({
   const isInvalid = isFormInvalid(inputErrors)
 
   const input_tailwind =
-    'p-5 font-medium rounded-md w-full border border-slate-300 placeholder:opacity-60'
+    'p-3 font-medium rounded-md w-full border border-slate-300 placeholder:opacity-60'
 
   return (
     <div className={cn('flex flex-col w-full gap-2', className)}>
