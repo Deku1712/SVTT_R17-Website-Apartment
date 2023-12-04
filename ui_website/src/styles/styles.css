@@ -1,6 +1,7 @@
 body{
   width: 100%;
   background: linear-gradient(to right, #fff ,#fff);
+  
 }
 .row-custome{
   margin-top: 16px;
@@ -42,7 +43,7 @@ select option{
 .form-custome{
   align-content: center;
   justify-content: space-between;
-  display: flex!important;
+  display: flex;
 }
 
 .form-control{
@@ -119,4 +120,23 @@ input[type=file]::file-selector-button {
 
 input[type=file]::file-selector-button:hover {
   background: #0d45a5;
+}
+.active-custome{
+  display: flex;
+}
+@media screen and (max-width: 1000px) {
+  
+  .col-md-4{
+    width: 100%!important;
+  }
+  .col-md-8{
+    width: 100%!important;
+  }
+  .form-custome{
+  
+    display: block;
+  }
+  .active-custome{
+    display: block;
+  }
 }

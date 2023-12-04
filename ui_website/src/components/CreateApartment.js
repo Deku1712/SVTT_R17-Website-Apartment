@@ -170,13 +170,12 @@ const CreateApartment = () => {
     return (
         <div className="container mt-5">
             <h2 className="text-center mt-3"> Create New APARTMENT </h2>
-
             <h3 className="text-danger text-center">{errors}</h3>
             <div className="d-flex justify-content-center">
-                <div className=" col-md-8  form-custome mt-3" >
-                    <div className="card-body col-md-4 ">
-                        <div className="form-group mb-2 d-flex">
-                            <span className="  fa-custom" ><i className="fa fa-building" aria-hidden="true"></i></span>
+                <div className=" col-md-8 text-center form-custome mt-3" >
+                    <div className="card-body col-md-4">
+                        <div className="form-group  mb-2 d-flex">
+                            <span className="fa-custom" ><i className="fa fa-building" aria-hidden="true"></i></span>
                             <div style={{ width: "100%" }}>
                                 <input
                                     type="text" maxLength={255} minLength={1} required={true}
@@ -297,7 +296,8 @@ const CreateApartment = () => {
                             />
                         </div><br />
                     </div>
-                    <div className="card-body col-md-4 ms-5">
+                    <div className="ms-5"></div>
+                    <div className="card-body col-md-4 ">
 
                         <div className="form-group mb-2 d-flex">
                             <span className="fa-custom" > <i className="fa fa-bolt"></i></span>
@@ -360,7 +360,7 @@ const CreateApartment = () => {
                             <label for="images" width className="drop-container" id="dropcontainer" style={{ width: "120%" }}>
                                 <span className="drop-title">Drop files here</span>
                                 or
-                                <input style={{ width: "30%" }} className="mb-1" type="file" id="images" accept="image/*" onChange={handleImageChange} required />
+                                <input  className="mb-1" type="file" id="images" accept="image/*" onChange={handleImageChange} required />
                             </label>
 
                         </div><br />
@@ -385,11 +385,11 @@ const CreateApartment = () => {
                 </div>
 
             </div>
-            <div className='d-flex justify-content-end mt-5 mb-3 ms-5 justify-content-center'>
-                <div className='col-1 '>
+            <div className='d-flex  col-ms-6 mt-5 mb-3 ms-5 justify-content-center'>
+                <div className='col-3 '>
                     <button className="btn btn-success" onClick={handleSubmit} >Finish </button>
                 </div>
-                <div className='col-2'>
+                <div className='col-3'>
                     <Link to="/" className="btn btn-danger">Cancel</Link>
                 </div>
             </div>

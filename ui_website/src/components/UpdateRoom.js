@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
 import RoomService from "../service/RoomService"
-import {updateRooms} from "../redux/rooms/roomsAction"
+import { updateRooms } from "../redux/rooms/roomsAction"
 import '../styles/styles.css';
 
 const UpdateRoom = () => {
@@ -90,7 +90,7 @@ const UpdateRoom = () => {
                 ...room,
                 imgs: updatedRoomImg,
             };
-            dispatch(updateRooms(id,updatedRoom));
+            dispatch(updateRooms(id, updatedRoom));
             fetchData();
             console.log(updatedRoomImg);
             document.getElementById('images').value = null;
@@ -157,7 +157,7 @@ const UpdateRoom = () => {
                     ...room,
                     imgs: img,
                 };
-              dispatch(updateRooms(id,updatedRoom));
+                dispatch(updateRooms(id, updatedRoom));
 
                 fetchData();
             } else {
@@ -165,7 +165,7 @@ const UpdateRoom = () => {
                     ...room,
                     imgs: room_img,
                 };
-                dispatch(updateRooms(id,updatedRoom));
+                dispatch(updateRooms(id, updatedRoom));
 
                 fetchData();
             }
@@ -180,9 +180,9 @@ const UpdateRoom = () => {
         <div className="container mt-5 mb-3">
             <h2 className="text-center mt-3 "> UPDATE ROOM </h2>
             <h3 className="text-danger text-center">{errors}</h3>
-            <div className=" d-flex justify-content-center mt-3">
-                <div className="card col-md-5 form-custom " >
-                    <div className="card-body ">
+            <div className=" d-flex justify-content-center mt-3 form-custome">
+                <div className="card  form-custom " style={{width:"50%"}}>
+                    <div className="card-body " >
                         <form>
                             <div className="form-group mb-2 d-flex ">
                                 <span className=" fa-custom" > <i className="fa fa-home" aria-hidden="true"></i></span>
@@ -235,21 +235,27 @@ const UpdateRoom = () => {
                                 </div>
                             </div> <br />
 
-                            <div className="form-group mb-2 d-flex">
-                                <span className="fa-custom" ><i className="fa fa-check-square" aria-hidden="true"></i></span>
-                                <input className="ms-3"
-                                    type="radio"
-                                    id="active"
-                                    value={0}
-                                    checked={room.active === 0 ? true : false}
-                                    onChange={(e) => setRoom({ ...room, active: Number(e.target.value) })}
-                                /><label className="ms-3" htmlFor="active">Active</label><br />
-                                <input
-                                    type="radio" className="ms-3" id="complete"
-                                    value={1}
-                                    checked={room.active === 1 ? true : false}
-                                    onChange={(e) => setRoom({ ...room, active: Number(e.target.value) })}
-                                /><label className="ms-3" htmlFor="complete">Complete</label><br />
+                            <div className="form-group mb-2 active-custome col-md-12">
+                            <span className="fa-custom" ><i className="fa fa-check-square" aria-hidden="true"></i></span>
+                                <div className="col-md-3 d-flex">
+                                    <input className=" "
+                                        type="radio"
+                                        id="active"
+                                        value={0}
+                                        checked={room.active === 0 ? true : false}
+                                        onChange={(e) => setRoom({ ...room, active: Number(e.target.value) })}
+                                    /><label className="ms-3" htmlFor="active">Active</label><br />
+                                </div>
+                                <div className=" col-md-4 d-flex " >
+                                    <input
+                                        type="radio" className="" id="complete"
+                                        value={1}
+                                        checked={room.active === 1 ? true : false}
+                                        onChange={(e) => setRoom({ ...room, active: Number(e.target.value) })}
+                                    /><label className="ms-3" htmlFor="complete">Complete</label><br />
+                                </div>
+
+
                             </div> <br />
 
                             <div className="form-group mb-2 d-flex">
@@ -295,7 +301,7 @@ const UpdateRoom = () => {
                                 <label htmlFor="images" className="drop-container" id="dropcontainer" style={{ width: "95%" }}>
                                     <span className="drop-title">Drop files here</span>
                                     or
-                                    <input className="mb-3 w-25" type="file" multiple id="images" accept="image/*" onChange={handleImageChange} required />
+                                    <input type="file" multiple id="images" accept="image/*" onChange={handleImageChange} required />
                                 </label>
                                 <br />
 
@@ -320,11 +326,11 @@ const UpdateRoom = () => {
                         </form>
 
                     </div>
-                    <div className='d-flex justify-content-end mt-3 mb-3  justify-content-center'>
-                        <div className='col-2 '>
+                    <div className='d-flex col-ms-6 justify-content-end mt-3 mb-3  justify-content-center'>
+                        <div className='col-3 '>
                             <button className="btn btn-success" onClick={handleSubmit} >Finish </button>
                         </div>
-                        <div className='col-2'>
+                        <div className='col-3'>
                             <Link to="/" className="btn btn-danger">Cancel</Link>
                         </div>
                     </div>
