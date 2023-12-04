@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import RoomService from "../service/RoomService"
+import RoomService from "../Service/RoomService"
 import { updateRooms } from "../redux/rooms/roomsAction"
 import '../styles/styles.css';
 
@@ -85,15 +85,16 @@ const UpdateRoom = () => {
 
     const handDelete = async (imgName) => {
         try {
+            const nameImgDelete = imgName.replace("http://localhost:3001/images/", "")
+            axios.delete(`http://localhost:3001/deleteImage/${nameImgDelete}`);
             const updatedRoomImg = room_img.filter((img) => img.url_img !== imgName);
             const updatedRoom = {
                 ...room,
                 imgs: updatedRoomImg,
             };
             dispatch(updateRooms(id, updatedRoom));
-            fetchData();
             console.log(updatedRoomImg);
-            document.getElementById('images').value = null;
+
             setRoomImg(updatedRoomImg);
         } catch (error) {
             console.error("Lỗi khi xóa ảnh:", error);
@@ -106,14 +107,12 @@ const UpdateRoom = () => {
             newImages.push(...room_img);
             for (let i = 0; i < e.target.files.length; i++) {
                 formData.append("room_imgs", e.target.files[i]);
-                newImages.push({ url_img: e.target.files[i].name });
+                newImages.push({ url_img: "http://localhost:3001/images/" + e.target.files[i].name });
             }
             await axios.post("http://localhost:3001/uploadRoomImages", formData).then((response) => {
                 setRoomImg(newImages);
                 setImg(newImages)
-                document.getElementById('images').value = null;
-                console.log("Succes")
-
+               
             })
                 .catch((error) => {
                     console.log(error + formData)
@@ -169,7 +168,7 @@ const UpdateRoom = () => {
 
                 fetchData();
             }
-
+            fetchData();
 
         } catch (error) {
             console.error("Error updating room: ", error);
@@ -181,7 +180,7 @@ const UpdateRoom = () => {
             <h2 className="text-center mt-3 "> UPDATE ROOM </h2>
             <h3 className="text-danger text-center">{errors}</h3>
             <div className=" d-flex justify-content-center mt-3 form-custome">
-                <div className="card  form-custom " style={{width:"50%"}}>
+                <div className="card  form-custom " style={{ width: "50%" }}>
                     <div className="card-body " >
                         <form>
                             <div className="form-group mb-2 d-flex ">
@@ -236,7 +235,7 @@ const UpdateRoom = () => {
                             </div> <br />
 
                             <div className="form-group mb-2 active-custome col-md-12">
-                            <span className="fa-custom" ><i className="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span className="fa-custom" ><i className="fa fa-check-square" aria-hidden="true"></i></span>
                                 <div className="col-md-3 d-flex">
                                     <input className=" "
                                         type="radio"
@@ -311,7 +310,7 @@ const UpdateRoom = () => {
 
                                     <div key={i} className="ms-3 d-flex mb-3" style={{ width: 200 }}>
                                         <div style={{ width: 100 }}>
-                                            <img style={{ width: "100px" }} src={file.url_img !== '' ? `http://localhost:3001/images/${file.url_img}` : null} />
+                                            <img style={{ width: "100px" }} src={file.url_img} />
                                         </div>
 
                                         <div style={{ width: 200 }}>

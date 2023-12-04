@@ -7,8 +7,8 @@ import UpdateRoom from './components/UpdateRoom';
 import UpdateApartment from './components/UpdateApartment';
 import CreateApartment from './components/CreateApartment';
 import {  Route, Routes, useParams } from "react-router-dom";
-import UpdateRoom from './Component/UpdateRoom';
-import UpdateApartment from './Component/UpdateApartment';
+// import UpdateRoom from './Component/UpdateRoom';
+// import UpdateApartment from './Component/UpdateApartment';
 import Header from './Component/Header/Header';
 import Apartment from './Pages/Apartment/AddApartment';
 import AddApartment from './Pages/Apartment/AddApartment';
@@ -50,8 +50,6 @@ function App() {
             <Route path="/HomePage" Component={HomePage}></Route>
             <Route path="/Apartments" Component={ApartmentPage}></Route>
             <Route path = "/addApartment" Component={AddApartment}></Route>
-            <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
-            <Route path="/edit-apartment" Component={UpdateApartment}></Route>
             <Route path = "/posts/:id" Component={CardDetail}/>
                <Route path="/create-apartment" Component={CreateApartment}></Route>
           <Route path="/edit-room/:id" Component={UpdateRoom}></Route>

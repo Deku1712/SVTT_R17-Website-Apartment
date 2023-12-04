@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import ApartmentService from "../service/ApartmentService";
+import ApartmentService from "../Service/ApartmentService";
 import {updateApartment} from "../redux/apartment/apartmentAction"
 import '../styles/styles.css';
 const UpdateApartment = () => {
@@ -52,7 +52,7 @@ const UpdateApartment = () => {
         if (inputName === "property" && value.trim() === "") {
             error = "Property is required";
         }
-        if (inputName === "property" && value.trim() > 255) {
+        if (inputName === "property" && value.length > 255) {
             error = "Max lenght is 255";
         }
         setValidationErrors((prevErrors) => ({
@@ -116,12 +116,17 @@ const UpdateApartment = () => {
     const handleImageChange = (e) => {
 
         if (e.target.files.length > 0) {
-
-            setApartment({ ...apartment, imgUrl: e.target.files[0].name });
+            if(apartment.imgUrl){
+                const nameImgDelete = apartment.imgUrl.replace("http://localhost:3001/images/","")
+                axios.delete(`http://localhost:3001/deleteImage/${nameImgDelete}`);
+            }
+            setApartment({ ...apartment, imgUrl:"http://localhost:3001/images/" + e.target.files[0].name });
             const formData = new FormData();
             formData.append("apartment_img", e.target.files[0]);
+           
             // Upload the image
             axios.post("http://localhost:3001/uploadApartment", formData);
+            
         } else {
             setApartment({ ...apartment, imgUrl: e.target.files });
 
@@ -192,7 +197,7 @@ const UpdateApartment = () => {
                                     onChange={(e) => handleInputChange("apartmentName", e.target.value)}
                                     onBlur={(e) => handleBlur("apartmentName", e.target.value)}
                                 />
-                                {validationErrors.apartment_name && (
+                                {validationErrors.apartmentName && (
                                     <div className="invalid-feedback">{validationErrors.apartmentName}</div>
                                 )}</div>
                         </div><br />
@@ -372,7 +377,7 @@ const UpdateApartment = () => {
                             <div>
                                 {apartment.imgUrl  && (
                                     <div className="d-flex">
-                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={ `http://localhost:3001/images/${apartment.imgUrl}` } /> </div>
+                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={ apartment.imgUrl } /> </div>
 
                                         <div style={{ width: 20 }}>
                                             <sup >

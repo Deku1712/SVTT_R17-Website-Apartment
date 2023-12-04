@@ -22,12 +22,6 @@ public class ApartmentController {
     private ApartmentService apartmentService;
 
 
-
-    @GetMapping
-    public List<Apartment> viewAllApartment(){
-        return apartmentService.getAll();
-
-    }
     @PostMapping("/user/{id}")
     public void addApartment(@PathVariable("id") int id, @RequestBody ApartmentInput apartmentInput){
 

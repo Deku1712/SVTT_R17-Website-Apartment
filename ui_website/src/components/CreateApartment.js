@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import {fetchApartment} from '../redux/apartment/apartmentAction'
 import { useDispatch, useSelector } from 'react-redux';
-import ApartmentService from "../service/ApartmentService"
+import ApartmentService from "../Service/ApartmentService"
 import '../styles/styles.css';
 
 
