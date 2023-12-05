@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const Apartment_Service_BASE_REST_API_URL = "http://localhost:8080/apartment";
+const Apartment_Service_BASE_REST_API_URL = "http://localhost:8080/api/apartments";
 
 class ApartmentService {
   getAllApartment() {

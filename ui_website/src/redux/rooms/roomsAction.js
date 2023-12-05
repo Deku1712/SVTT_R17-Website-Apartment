@@ -1,4 +1,4 @@
-import RoomService from "../../service/RoomService"
+import RoomService from "../../Service/RoomService"
 
 import { UPDATE_ROOMS } from "./roomsType";
 export const updateRooms = (id,room) => {
