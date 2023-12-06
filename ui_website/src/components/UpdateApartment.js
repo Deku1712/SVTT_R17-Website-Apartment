@@ -304,12 +304,12 @@ const UpdateApartment = () => {
                             <span className="  fa-custom" ><i className="fa fa-arrow-circle-up" aria-hidden="true"></i></span>
                             <div className="ms-1 row" style={{ width: "100%" }}>
                                 <input
-                                    type="number" maxLength={30} minLength={1} min={0} required={true}
-                                    placeholder="Enter acreage"
+                                    type="text" maxLength={30} minLength={1} min={0} required={true}
+                                    placeholder="Enter area"
                                     name="lastName"
                                     className={`form-control  w-75 ${validationErrors.area && 'is-invalid'}`}
                                     value={apartment.size}
-                                    onChange={(e) => handleInputChange("area", e.target.value)}
+                                    onChange={(e) => handleInputChange("acreage", e.target.value)}
                                     onBlur={(e) => handleBlur("area", e.target.value)}
                                 /><span className="col-2 ms-3 input-group-text justify-content-center" ><i className="fa fa-home" aria-hidden="true"></i></span>
                                 {validationErrors.area && (
