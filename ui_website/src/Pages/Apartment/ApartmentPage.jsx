@@ -1,23 +1,26 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+
 import HomePage from '../HomePage/HomePage';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useEffect } from 'react';
 export default function ApartmentPage() {
+
+    const user_store = useSelector((state) => state.userReducer);
+    const [apartments, setApartments] = useState([]);
+
+    useEffect(() => {
+      if (user_store.apartments){
+        setApartments(user_store.apartments)
+      }
+    },[user_store])
+
+
     return (
         <div>
-          <h2>Quản lý căn hộ</h2>
-          {/* Đường dẫn để thêm căn hộ */}
-          <Link to="/manage-apartment/add">Thêm căn hộ</Link>
-    
-          {/* Route cho trang quản lý căn hộ */}
-          <Routes>
-
-          <Route path="/manage-apartment/add" Component={HomePage} />
-          </Routes>
+          {apartments && apartments.map(apartment => (<p key={apartment.id}>{apartment.apartmentName}</p>))}
         </div>
-      );
+      )
     };
     
     // Component thêm căn hộ
-    const AddApartment = () => {
-      return <h3>Thêm căn hộ</h3>;
-    };
