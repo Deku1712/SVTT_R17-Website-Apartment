@@ -47,8 +47,10 @@ function App() {
         <Routes>
           <Route path="/" Component={HomePage}></Route>
           <Route path="/HomePage" Component={HomePage}></Route>
-          <Route path="/Apartments" Component={ApartmentPage}></Route>
-          <Route path="/addApartment" Component={AddApartment}></Route>
+          <Route path="/Apartments/*" Component={ApartmentPage}/>
+            
+
+          
 
 
           <Route path="/posts/:id" Component={CardDetail} />

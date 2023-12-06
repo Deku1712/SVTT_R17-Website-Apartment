@@ -1,26 +1,42 @@
 import React from 'react'
 
-import HomePage from '../HomePage/HomePage';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { useEffect } from 'react';
+
+import { Link, Route, Routes } from 'react-router-dom';
+import AddApartment from './AddApartment';
+import ViewApartment from './ViewApartment';
+import ApartmentDetail from './ApartmentDetail';
+import UpdateApartment from '../../components/UpdateApartment';
 export default function ApartmentPage() {
 
-    const user_store = useSelector((state) => state.userReducer);
-    const [apartments, setApartments] = useState([]);
-
-    useEffect(() => {
-      if (user_store.apartments){
-        setApartments(user_store.apartments)
-      }
-    },[user_store])
 
 
-    return (
-        <div>
-          {apartments && apartments.map(apartment => (<p key={apartment.id}>{apartment.apartmentName}</p>))}
-        </div>
-      )
-    };
-    
-    // Component thêm căn hộ
+
+  return (
+
+    <div className=' '>
+      
+      <div className=' '>
+
+        <Link to="/Apartments/addApartment" >add</Link>
+        <Link to="/Apartments/viewApartment">Manage Apartment</Link>
+
+      </div>
+      <div className=''>
+
+        <Routes>
+          <Route path='viewApartment' element={<ViewApartment />} />
+          <Route path="addApartment" element={<AddApartment />} />
+          <Route path="/viewApartment/:id" element={<ApartmentDetail/>}/>
+          <Route path="/edit-apartment/:id" element={<UpdateApartment/>}></Route>
+        </Routes>
+      </div>
+
+
+    </div>
+
+
+
+  )
+};
+
+// Component thêm căn hộ
