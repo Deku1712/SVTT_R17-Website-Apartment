@@ -58,7 +58,9 @@ public class ApartmentService {
     public Apartment findApartmentById(int id) {
         return apartmentRepository.findById(id).get();
     }
-
+    public void deleteApartmentById(int id) {
+         apartmentRepository.deleteById(id);
+    }
     public List<Apartment> getAllApartment(){
         return apartmentRepository.findAll();
     }
@@ -77,6 +79,7 @@ public class ApartmentService {
             updateApartment.setDescription(apartment.getDescription());
             updateApartment.setProperty(apartment.getProperty());
             updateApartment.setActive(apartment.getActive());
+            updateApartment.setArea(apartment.getArea());
             apartmentRepository.save(updateApartment);
             List<Fee> fees = apartment.getFees();
             Fee newFee = new Fee();

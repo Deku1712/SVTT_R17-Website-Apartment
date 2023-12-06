@@ -46,6 +46,9 @@ const UpdateApartment = () => {
         if (inputName === "apartment_size" && value === '') {
             error = "Apartment size is required";
         }
+        if (inputName === "area" && value === '') {
+            error = "Area is required";
+        }
         if (inputName === "address" && value.trim() === "") {
             error = "Address is required";
         }
@@ -89,6 +92,9 @@ const UpdateApartment = () => {
                 break;
             case "description":
                 setApartment({ ...apartment, description: value });
+                break;
+            case "area":
+                setApartment({ ...apartment, area: value });
                 break;
             default:
                 break;
@@ -294,6 +300,23 @@ const UpdateApartment = () => {
                                 onChange={(e) => setApartment({ ...apartment, active: Number(e.target.value) })}
                             /><label className="ms-3" htmlFor="complete">Complete</label><br />
                         </div> <br />
+                        <div className="form-group mb-2 d-flex">
+                            <span className="  fa-custom" ><i className="fa fa-arrow-circle-up" aria-hidden="true"></i></span>
+                            <div className="ms-1 row" style={{ width: "100%" }}>
+                                <input
+                                    type="number" maxLength={30} minLength={1} min={0} required={true}
+                                    placeholder="Enter acreage"
+                                    name="lastName"
+                                    className={`form-control  w-75 ${validationErrors.area && 'is-invalid'}`}
+                                    value={apartment.size}
+                                    onChange={(e) => handleInputChange("area", e.target.value)}
+                                    onBlur={(e) => handleBlur("area", e.target.value)}
+                                /><span className="col-2 ms-3 input-group-text justify-content-center" ><i className="fa fa-home" aria-hidden="true"></i></span>
+                                {validationErrors.area && (
+                                    <div className="invalid-feedback">{validationErrors.area}</div>
+                                )}</div>
+                        </div>
+                        <br />
                         <div className="form-group mb-2 d-flex">
                             <span className=" fa-custom" >  <i className="fa fa-info-circle" aria-hidden="true"></i></span>
                             <textarea

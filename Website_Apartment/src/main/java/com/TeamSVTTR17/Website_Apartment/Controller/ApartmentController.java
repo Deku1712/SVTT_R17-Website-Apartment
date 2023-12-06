@@ -48,7 +48,11 @@ public class ApartmentController {
     public Apartment getApartmentById(@PathVariable int id) {
         return apartmentService.findApartmentById(id);
     }
+    @DeleteMapping("{id}")
+    public void deleteApartment(@PathVariable int id) {
+         apartmentService.deleteApartmentById(id);
 
+    }
     @PutMapping("{id}")
     public Apartment updateApartment(@PathVariable int id, @RequestBody Apartment apartment) {
         System.out.println(apartment.toString());
