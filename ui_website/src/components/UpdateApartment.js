@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import ApartmentService from "../service/ApartmentService";
+import ApartmentService from "../Service/ApartmentService";
 import {updateApartment} from "../redux/apartment/apartmentAction"
 import '../styles/styles.css';
 const UpdateApartment = () => {
@@ -117,7 +117,7 @@ const UpdateApartment = () => {
 
         if (e.target.files.length > 0) {
 
-            setApartment({ ...apartment, imgUrl: e.target.files[0].name });
+            setApartment({ ...apartment, imgUrl:"http://localhost:3001/images/" + e.target.files[0].name });
             const formData = new FormData();
             formData.append("apartment_img", e.target.files[0]);
             // Upload the image
@@ -192,7 +192,7 @@ const UpdateApartment = () => {
                                     onChange={(e) => handleInputChange("apartmentName", e.target.value)}
                                     onBlur={(e) => handleBlur("apartmentName", e.target.value)}
                                 />
-                                {validationErrors.apartment_name && (
+                                {validationErrors.apartmentName && (
                                     <div className="invalid-feedback">{validationErrors.apartmentName}</div>
                                 )}</div>
                         </div><br />
@@ -303,7 +303,7 @@ const UpdateApartment = () => {
                     </div>  <div className="ms-5"></div>
                     <div className="card-body col-md-4  ">
 
-                        <div className="form-group mb-2 d-flex">
+                        {/* <div className="form-group mb-2 d-flex">
                             <span className="fa-custom" > <i className="fa fa-bolt"></i></span>
                             <input
                                 type="number" maxLength={30} minLength={1} required={true}
@@ -359,7 +359,7 @@ const UpdateApartment = () => {
                                 value={fee.priceOfTrash !== "" ? fee.priceOfTrash :0}
                                 onChange={(e) => setFee({ ...fee, priceOfTrash: e.target.value })}
                             />
-                        </div><br />
+                        </div><br /> */}
                         <div className="form-group ms-3 mb-2 d-flex ">
                             <label for="images" width className="drop-container" id="dropcontainer" style={{ width: "120%" }}>
                                 <span className="drop-title">Drop files here</span>
@@ -372,7 +372,7 @@ const UpdateApartment = () => {
                             <div>
                                 {apartment.imgUrl  && (
                                     <div className="d-flex">
-                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={ `http://localhost:3001/images/${apartment.imgUrl}` } /> </div>
+                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl} /> </div>
 
                                         <div style={{ width: 20 }}>
                                             <sup >

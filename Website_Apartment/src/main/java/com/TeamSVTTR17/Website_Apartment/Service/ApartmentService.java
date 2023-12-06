@@ -10,13 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.TeamSVTTR17.Website_Apartment.DTO.ApartmentInput;
-import com.TeamSVTTR17.Website_Apartment.Entity.Apartment;
+
 import com.TeamSVTTR17.Website_Apartment.Entity.User;
 import com.TeamSVTTR17.Website_Apartment.Repository.AparmentRepo;
 import com.TeamSVTTR17.Website_Apartment.Repository.FeeRepo;
 import com.TeamSVTTR17.Website_Apartment.Repository.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 import java.sql.Date;
 import java.util.List;
@@ -41,9 +40,11 @@ public class ApartmentService {
     
     @Transactional
     public Apartment createApartment(Apartment apartment) {
+                Date updateTime = new Date(System.currentTimeMillis());
+
         try {
-            apartment.setCreateTime(new java.sql.Date(new Date().getTime()));
-            apartment.setUpdateTime(new java.sql.Date(new Date().getTime()));
+            apartment.setCreateTime(updateTime);
+            apartment.setUpdateTime(updateTime);
             apartmentRepository.save(apartment);
             List<Fee> fees = apartment.getFees();
 
@@ -66,12 +67,13 @@ public class ApartmentService {
     }
     @Transactional
     public Apartment updateApartment(int id, Apartment apartment) {
+        Date updateTime = new Date(System.currentTimeMillis());
         try {
             Apartment updateApartment = findApartmentById(id);
 
 
             updateApartment.setApartmentName(apartment.getApartmentName());
-            updateApartment.setUpdateTime(new java.sql.Date(new Date().getTime()));
+            updateApartment.setUpdateTime(updateTime);
             updateApartment.setPhoneNumber1(apartment.getPhoneNumber1());
             updateApartment.setPhoneNumber2(apartment.getPhoneNumber2());
             updateApartment.setAddress(apartment.getAddress());
@@ -99,7 +101,7 @@ public class ApartmentService {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-      
+    }
        public void addApartment(ApartmentInput apartmentInput){
 
         User user = userRepo.findById(3).get();

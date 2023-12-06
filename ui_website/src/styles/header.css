@@ -1,0 +1,7 @@
+ul .active {
+  color: black;
+  padding: 10px;
+  --tw-text-opacity: 1;
+  border-bottom: 3px solid rgb(107 114 128 / var(--tw-text-opacity));
+  border-radius: 5%;
+}

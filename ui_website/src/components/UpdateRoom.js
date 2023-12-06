@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import RoomService from "../service/RoomService"
+import RoomService from "../Service/RoomService"
 import { updateRooms } from "../redux/rooms/roomsAction"
 import '../styles/styles.css';
 

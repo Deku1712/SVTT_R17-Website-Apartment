@@ -1,4 +1,4 @@
-import ApartmentService from "../../service/ApartmentService"
+import ApartmentService from "../../Service/ApartmentService"
 
 import {
     FETCH_APARTMENT, UPDATE_APARTMENT,GET_BY_ID_APARTMENT
