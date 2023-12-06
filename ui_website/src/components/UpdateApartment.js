@@ -309,7 +309,7 @@ const UpdateApartment = () => {
                                     name="lastName"
                                     className={`form-control  w-75 ${validationErrors.area && 'is-invalid'}`}
                                     value={apartment.size}
-                                    onChange={(e) => handleInputChange("acreage", e.target.value)}
+                                    onChange={(e) => handleInputChange("area", e.target.value)}
                                     onBlur={(e) => handleBlur("area", e.target.value)}
                                 /><span className="col-2 ms-3 input-group-text justify-content-center" ><i className="fa fa-home" aria-hidden="true"></i></span>
                                 {validationErrors.area && (
