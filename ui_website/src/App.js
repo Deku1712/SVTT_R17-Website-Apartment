@@ -16,9 +16,10 @@ import { fetchPostData } from "./redux/action/actionPost";
 import Header1 from "./Component/Header";
 import HomePage1 from "./Component/HomePage";
 import { useState } from "react";
-import NavLink from "react-router-dom";
 import ModalSignUp from "./Component/Modal/ModalSignUp";
 import ModalLogin from "./Component/Modal/ModalLogin";
+import AdminPage from "./Component/Admin/AdminPage";
+import UserProfile from "./Component/UserProfile/UserProfile";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,6 +55,8 @@ function App() {
         <Route path="/" Component={HomePage1}></Route>
         <Route path="/Apartment" Component={ApartmentPage}></Route>
         <Route path="/AddApartment" Component={AddApartment}></Route>
+        <Route path="/AdminPage" Component={AdminPage}></Route>
+        <Route path="/UserProfile" Component={UserProfile}></Route>
       </Routes>
       {/* </div> */}
 

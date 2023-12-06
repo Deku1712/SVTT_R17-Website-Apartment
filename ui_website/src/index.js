@@ -12,6 +12,7 @@ import { applyMiddleware, compose } from 'redux';
 import { rootReducer } from './redux/reducer/rootReducer';
 import thunk from 'redux-thunk';
 import { legacy_createStore } from 'redux';
+import '@tailwindcss/forms'
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 

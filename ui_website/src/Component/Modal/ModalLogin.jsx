@@ -49,26 +49,19 @@ function ModalLogin(props) {
         </Modal.Body>
 
         <Modal.Footer>
-          {/* <a className="custom-footer-modal"> */}
           <a className="custom-footer-modal">
-            <div className="logo-login">
-              <i className="fa-brands fa-facebook text-2xl text-blue-600"></i>
-            </div>
-            <div className="title-login text-black">Continue With Facebook</div>
+            <i className="fa-brands fa-facebook text-2xl text-blue-600"></i>
+            <div className="text-black">Continue With Facebook</div>
             <div></div>
           </a>
           <a className="custom-footer-modal">
-            <div className="logo-login text-2xl text-red-600">
-              <i class="fa-brands fa-google"></i>
-            </div>
-            <div className="title-login text-black">Continue With Google</div>
+            <i class="fa-brands fa-google text-2xl text-red-600"></i>
+            <div className="text-black">Continue With Google</div>
             <div></div>
           </a>
           <a className="custom-footer-modal">
-            <div className="logo-login text-2xl ">
-              <i class="fa-solid fa-envelope"></i>
-            </div>
-            <div className="title-login text-black">Continue With Email</div>
+            <i class="fa-solid fa-envelope text-2xl"></i>
+            <div className="text-black">Continue With Email</div>
             <div></div>
           </a>
         </Modal.Footer>
