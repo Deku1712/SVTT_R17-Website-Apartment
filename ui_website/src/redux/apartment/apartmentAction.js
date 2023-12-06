@@ -27,8 +27,10 @@ export const updateApartment = (id,apartment) => {
                 type: UPDATE_APARTMENT,
                 payload : response.data
             });
+            window.location.href = '/';
         } catch (error) {
             console.log(error);
+           
         }
     };
 };

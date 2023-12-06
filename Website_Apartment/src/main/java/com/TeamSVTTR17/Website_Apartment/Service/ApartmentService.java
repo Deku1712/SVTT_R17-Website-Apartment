@@ -85,14 +85,7 @@ public class ApartmentService {
                 fee.setApartment(apartment);
                 feeRepository.save(fee);
             }
-//            Fee newFee = new Fee();
-//            newFee.setPriceOfElectricity(apartment.getFees().get(0).getPriceOfElectricity());
-//            newFee.setPriceOfWater(apartment.getFees().get(0).getPriceOfWater());
-//            newFee.setPriceOfInternet(apartment.getFees().get(0).getPriceOfInternet());
-//            newFee.setPriceOfTrash(apartment.getFees().get(0).getPriceOfTrash());
-//            newFee.setWaterBill(apartment.getFees().get(0).getWaterBill());
-//            newFee.setApartment(updateApartment);
-//            feeRepository.save(newFee);
+
             return apartmentRepository.save(updateApartment);
         } catch (Exception ex) {
             throw new RuntimeException(ex);

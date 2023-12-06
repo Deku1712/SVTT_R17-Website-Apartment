@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
 import ApartmentService from "../Service/ApartmentService";
-import {updateApartment} from "../redux/apartment/apartmentAction"
+import { updateApartment } from "../redux/apartment/apartmentAction"
 import '../styles/styles.css';
 const UpdateApartment = () => {
     const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const UpdateApartment = () => {
         if (inputName === "phone2" && value.length > 11) {
             error = "Max lenght is 11 ";
         }
-        if (inputName === "phone2" && value ==='' && (apartment.phoneNumber1 ===undefined ||apartment.phoneNumber1 ==="" )) {
+        if (inputName === "phone2" && value === '' && (apartment.phoneNumber1 === undefined || apartment.phoneNumber1 === "")) {
             error = "At least  number of phone 1 or 2 is required";
         }
         if (inputName === "apartment_size" && value === '') {
@@ -106,8 +106,8 @@ const UpdateApartment = () => {
                 imgUrl: null,
                 fees: [fee],
             };
-           dispatch(updateApartment(id,updatedApartment));
-           document.getElementById('images').value = null;
+            dispatch(updateApartment(id, updatedApartment));
+            document.getElementById('images').value = null;
             fetchData();
         } catch (error) {
             console.error("Error deleting image:", error);
@@ -116,61 +116,61 @@ const UpdateApartment = () => {
     const handleImageChange = (e) => {
 
         if (e.target.files.length > 0) {
-            if(apartment.imgUrl){
-                const nameImgDelete = apartment.imgUrl.replace("http://localhost:3001/images/","")
+            if (apartment.imgUrl) {
+                const nameImgDelete = apartment.imgUrl.replace("http://localhost:3001/images/", "")
                 axios.delete(`http://localhost:3001/deleteImage/${nameImgDelete}`);
             }
-            setApartment({ ...apartment, imgUrl:"http://localhost:3001/images/" + e.target.files[0].name });
+            setApartment({ ...apartment, imgUrl: "http://localhost:3001/images/" + e.target.files[0].name });
             const formData = new FormData();
             formData.append("apartment_img", e.target.files[0]);
-           
+
             // Upload the image
             axios.post("http://localhost:3001/uploadApartment", formData);
-            
+
         } else {
             setApartment({ ...apartment, imgUrl: e.target.files });
 
-        } 
+        }
     };
-  
+
     const handleSubmit = async () => {
         const requiredFields = ['apartmentName', 'phoneNumber2', 'address', 'property', 'size'];
-                let hasError = false;
-            
-                requiredFields.forEach((field) => {
-                    if (field === 'phoneNumber2' || field === 'size') {
-                        // Check for undefined or null for number fields
-                        if (apartment[field] === undefined || apartment[field] === null) {
-                            setErrors("Please don't leave it null")
-                            hasError = true;
-                        }
-                    } else {
-                        // For other fields, check for empty string
-                        if (!apartment[field] || apartment[field].trim() === '') {
-                            setErrors("Please don't leave it null")
-                            hasError = true;
-                        }
-                    }
-                });
-            
-                if (hasError) {
-                    return; // Do not proceed with submission if there are validation errors
-                }
-        // try {
-            const updatedApartment = {
-                ...apartment,
-                fees: [fee],
-            };
-            // await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
+        let hasError = false;
 
-            //     console.log(response.data)
-            //     console.log("Succes")
-            // })
-            //     .catch((error) => {
-            //         console.log(error + updatedApartment)
-            //     });
-            dispatch(updateApartment(id,updatedApartment));
-            //fetchData();
+        requiredFields.forEach((field) => {
+            if (field === 'phoneNumber2' || field === 'size') {
+                // Check for undefined or null for number fields
+                if (apartment[field] === undefined || apartment[field] === null) {
+                    setErrors("Please don't leave it null")
+                    hasError = true;
+                }
+            } else {
+                // For other fields, check for empty string
+                if (!apartment[field] || apartment[field].trim() === '') {
+                    setErrors("Please don't leave it null")
+                    hasError = true;
+                }
+            }
+        });
+
+        if (hasError) {
+            return; // Do not proceed with submission if there are validation errors
+        }
+        // try {
+        const updatedApartment = {
+            ...apartment,
+            fees: [fee],
+        };
+        // await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
+
+        //     console.log(response.data)
+        //     console.log("Succes")
+        // })
+        //     .catch((error) => {
+        //         console.log(error + updatedApartment)
+        //     });
+        dispatch(updateApartment(id, updatedApartment));
+        //fetchData();
         // } catch (error) {
         //     console.error("Error updating apartment:", error);
         // }
@@ -307,90 +307,177 @@ const UpdateApartment = () => {
                         </div><br />
                     </div>  <div className="ms-5"></div>
                     <div className="card-body col-md-4  ">
-
-                        <div className="form-group mb-2 d-flex">
-                            <span className="fa-custom" > <i className="fa fa-bolt"></i></span>
-                            <input
-                                type="number" maxLength={30} minLength={1} required={true}
-                                placeholder="Enter electric number"
-                                name="lastName"
-                                className="form-control"
-                                value={fee.priceOfElectricity !== "" ? fee.priceOfElectricity :0}
-                                onChange={(e) => setFee({ ...fee, priceOfElectricity: e.target.value })}
-                            /><span className=" input-group-text  mx-3  fa-custom-1" >kWh</span>
-                        </div>
-                        <br />
-                        <div className="form-group mb-2 d-flex">
-                            <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
-                            <input
-                                type="number" minLength={1} required={true}
-                                placeholder="Enter Water number"
-                                name="lastName"
-                                className="form-control"
-                                value={fee.priceOfWater !== ""? fee.priceOfWater :0}
-                                onChange={(e) => setFee({ ...fee, priceOfWater: e.target.value })}
-                            /><span className="input-group-text  mx-3  fa-custom-1" >m<sup>3</sup></span>
-                        </div> <br />
-                        <div className="form-group mb-2 d-flex">
-                            <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
-                            <input
-                                type="number" minLength={1} required={true}
-                                placeholder="Enter Water number"
-                                name="lastName"
-                                className="form-control"
-                                value={fee.waterBill !== "" ? fee.waterBill :0}
-                                onChange={(e) => setFee({ ...fee, waterBill: e.target.value })}
-                            /><span className="input-group-text  mx-3  fa-custom-1" >VND/1m<sup>3</sup></span>
-                        </div> <br />
-                        <div className="form-group mb-2 d-flex">
-                            <span className="fa-custom" > <i style={{ fontSize: "16px" }} className="fa fa-wifi" aria-hidden="true"></i></span>
-                            <input
-                                type="number" maxLength={30} minLength={1} required={true}
-                                placeholder="Enter internet"
-                                name="lastName"
-                                className="form-control"
-                                value={fee.priceOfInternet !== "" ? fee.priceOfInternet :0}
-                                onChange={(e) => setFee({ ...fee, priceOfInternet: e.target.value })}
-                            /><span className=" input-group-text mx-3 fa-custom-1" >VND/M</span>
-                        </div> <br />
-
-                        <div className="form-group mb-2 d-flex" >
-                            <span className="fa-custom"><i className="fa fa-trash-o" aria-hidden="true"></i></span>
-                            <input
-                                type="number" maxLength={30} minLength={1} required={true}
-                                placeholder="Enter trash"
-                                name="lastName" style={{ width: "88%" }}
-                                className="form-control "
-                                value={fee.priceOfTrash !== "" ? fee.priceOfTrash :0}
-                                onChange={(e) => setFee({ ...fee, priceOfTrash: e.target.value })}
-                            />
-                        </div><br />
-                        <div className="form-group ms-3 mb-2 d-flex ">
-                            <label for="images" width className="drop-container" id="dropcontainer" style={{ width: "120%" }}>
-                                <span className="drop-title">Drop files here</span>
-                                or
-                                <input  className="mb-1" type="file" id="images" accept="image/*" onChange={handleImageChange} required />
-                            </label>
-
-                        </div><br />
-                        <div>
+                        {fee ? (
                             <div>
-                                {apartment.imgUrl  && (
-                                    <div className="d-flex">
-                                        <div style={{ width: 190 }}><img style={{ width: "200px" }} src={ apartment.imgUrl } /> </div>
 
-                                        <div style={{ width: 20 }}>
-                                            <sup >
-                                                <i className="btn fa fa-times-circle" onClick={() => handDelete(apartment.imgUrl)} aria-hidden="true"></i>
-                                            </sup>
-                                        </div>
+                                <div className="form-group mb-2 d-flex">
+                                    <span className="fa-custom" > <i className="fa fa-bolt"></i></span>
+                                    <input
+                                        type="number" maxLength={30} minLength={1} required={true}
+                                        placeholder="Enter electric number"
+                                        name="lastName"
+                                        className="form-control"
+                                        value={fee.priceOfElectricity !== "" ? fee.priceOfElectricity : 0}
+                                        onChange={(e) => setFee({ ...fee, priceOfElectricity: e.target.value })}
+                                    /><span className=" input-group-text  mx-3  fa-custom-1" >kWh</span>
+                                </div>
+                                <br />
+                                <div className="form-group mb-2 d-flex">
+                                    <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
+                                    <input
+                                        type="number" minLength={1} required={true}
+                                        placeholder="Enter Water number"
+                                        name="lastName"
+                                        className="form-control"
+                                        value={fee.priceOfWater !== "" ? fee.priceOfWater : 0}
+                                        onChange={(e) => setFee({ ...fee, priceOfWater: e.target.value })}
+                                    /><span className="input-group-text  mx-3  fa-custom-1" >m<sup>3</sup></span>
+                                </div> <br />
+                                <div className="form-group mb-2 d-flex">
+                                    <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
+                                    <input
+                                        type="number" minLength={1} required={true}
+                                        placeholder="Enter Water number"
+                                        name="lastName"
+                                        className="form-control"
+                                        value={fee.waterBill !== "" ? fee.waterBill : 0}
+                                        onChange={(e) => setFee({ ...fee, waterBill: e.target.value })}
+                                    /><span className="input-group-text  mx-3  fa-custom-1" >VND/1m<sup>3</sup></span>
+                                </div> <br />
+                                <div className="form-group mb-2 d-flex">
+                                    <span className="fa-custom" > <i style={{ fontSize: "16px" }} className="fa fa-wifi" aria-hidden="true"></i></span>
+                                    <input
+                                        type="number" maxLength={30} minLength={1} required={true}
+                                        placeholder="Enter internet"
+                                        name="lastName"
+                                        className="form-control"
+                                        value={fee.priceOfInternet !== "" ? fee.priceOfInternet : 0}
+                                        onChange={(e) => setFee({ ...fee, priceOfInternet: e.target.value })}
+                                    /><span className=" input-group-text mx-3 fa-custom-1" >VND/M</span>
+                                </div> <br />
 
+                                <div className="form-group mb-2 d-flex" >
+                                    <span className="fa-custom"><i className="fa fa-trash-o" aria-hidden="true"></i></span>
+                                    <input
+                                        type="number" maxLength={30} minLength={1} required={true}
+                                        placeholder="Enter trash"
+                                        name="lastName" style={{ width: "88%" }}
+                                        className="form-control "
+                                        value={fee.priceOfTrash !== "" ? fee.priceOfTrash : 0}
+                                        onChange={(e) => setFee({ ...fee, priceOfTrash: e.target.value })}
+                                    />
+                                </div><br />
+                                <div className="form-group ms-3 mb-2 d-flex ">
+                                    <label htmlFor="images" width className="drop-container" id="dropcontainer" style={{ width: "120%" }}>
+                                        <span className="drop-title">Drop files here</span>
+                                        or
+                                        <input className="mb-1" type="file" id="images" accept="image/*" onChange={handleImageChange} required />
+                                    </label>
+
+                                </div><br />
+                                <div>
+                                    <div>
+                                        {apartment.imgUrl && (
+                                            <div className="d-flex">
+                                                <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl} /> </div>
+
+                                                <div style={{ width: 20 }}>
+                                                    <sup >
+                                                        <i className="btn fa fa-times-circle" onClick={() => handDelete(apartment.imgUrl)} aria-hidden="true"></i>
+                                                    </sup>
+                                                </div>
+
+                                            </div>
+                                        )}
                                     </div>
-                                )}
+                                </div>
                             </div>
+                        ) : (
+                            <div>
 
-                        </div>
-                    </div>
+                                <div className="form-group mb-2 d-flex">
+                                    <span className="fa-custom" > <i className="fa fa-bolt"></i></span>
+                                    <input
+                                        type="number" maxLength={30} minLength={1} required={true}
+                                        placeholder="Enter electric number"
+                                        name="lastName"
+                                        className="form-control"
+                                        value="priceOfElectricity"
+                                        onChange={(e) => setFee({ ...fee, priceOfElectricity: e.target.value })}
+                                    /><span className=" input-group-text  mx-3  fa-custom-1" >kWh</span>
+                                </div>
+                                <br />
+                                <div className="form-group mb-2 d-flex">
+                                    <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
+                                    <input
+                                        type="number" minLength={1} required={true}
+                                        placeholder="Enter Water number"
+                                        name="lastName"
+                                        className="form-control"
+                                        value="priceOfWater"
+                                        onChange={(e) => setFee({ ...fee, priceOfWater: e.target.value })}
+                                    /><span className="input-group-text  mx-3  fa-custom-1" >m<sup>3</sup></span>
+                                </div> <br />
+                                <div className="form-group mb-2 d-flex">
+                                    <span className="fa-custom" > <i className="fa fa-tint" aria-hidden="true"></i></span>
+                                    <input
+                                        type="number" minLength={1} required={true}
+                                        placeholder="Enter Water number"
+                                        name="lastName"
+                                        className="form-control"
+                                        value=" waterBill"
+                                        onChange={(e) => setFee({ ...fee, waterBill: e.target.value })}
+                                    /><span className="input-group-text  mx-3  fa-custom-1" >VND/1m<sup>3</sup></span>
+                                </div> <br />
+                                <div className="form-group mb-2 d-flex">
+                                    <span className="fa-custom" > <i style={{ fontSize: "16px" }} className="fa fa-wifi" aria-hidden="true"></i></span>
+                                    <input
+                                        type="number" maxLength={30} minLength={1} required={true}
+                                        placeholder="Enter internet"
+                                        name="lastName"
+                                        className="form-control"
+                                        value="priceOfInternet"
+                                        onChange={(e) => setFee({ ...fee, priceOfInternet: e.target.value })}
+                                    /><span className=" input-group-text mx-3 fa-custom-1" >VND/M</span>
+                                </div> <br />
+
+                                <div className="form-group mb-2 d-flex" >
+                                    <span className="fa-custom"><i className="fa fa-trash-o" aria-hidden="true"></i></span>
+                                    <input
+                                        type="number" maxLength={30} minLength={1} required={true}
+                                        placeholder="Enter trash"
+                                        name="lastName" style={{ width: "88%" }}
+                                        className="form-control "
+                                        value="priceOfTrash"
+                                        onChange={(e) => setFee({ ...fee, priceOfTrash: e.target.value })}
+                                    />
+                                </div><br />
+                                <div className="form-group ms-3 mb-2 d-flex ">
+                                    <label htmlFor="images" width className="drop-container" id="dropcontainer" style={{ width: "120%" }}>
+                                        <span className="drop-title">Drop files here</span>
+                                        or
+                                        <input className="mb-1" type="file" id="images" accept="image/*" onChange={handleImageChange} required />
+                                    </label>
+
+                                </div><br />
+                                <div>
+                                    <div>
+                                        {apartment.imgUrl && (
+                                            <div className="d-flex">
+                                                <div style={{ width: 190 }}><img style={{ width: "200px" }} src={apartment.imgUrl} /> </div>
+
+                                                <div style={{ width: 20 }}>
+                                                    <sup >
+                                                        <i className="btn fa fa-times-circle" onClick={() => handDelete(apartment.imgUrl)} aria-hidden="true"></i>
+                                                    </sup>
+                                                </div>
+
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        )} </div>
                 </div>
 
             </div>
