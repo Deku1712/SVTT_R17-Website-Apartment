@@ -1,18 +1,18 @@
-import logo from "./logo.svg";
-import "./App.css";
-import { Route, Routes, useParams } from "react-router-dom";
-import UpdateRoom from "./Component/UpdateRoom";
-import UpdateApartment from "./Component/UpdateApartment";
-import Header from "./Component/Header/Header";
+
+
+
+
+
+
 
 
 import HomePage from "./Pages/HomePage/HomePage";
-import AddApartment from "./Pages/Apartment/AddApartment";
-import ApartmentPage from "./Pages/Apartment/ApartmentPage";
-import PostDetail from "./Component/Post/PostDetail";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchPostData } from "./redux/action/actionPost";
+
+
+
+
+
+
 import HomePage1 from "./Component/HomePage";
 import { useState } from "react";
 import ModalSignUp from "./Component/Modal/ModalSignUp";
@@ -20,7 +20,6 @@ import ModalLogin from "./Component/Modal/ModalLogin";
 import AdminPage from "./Component/Admin/AdminPage";
 import UserProfile from "./Component/UserProfile/UserProfile";
 
-import logo from './logo.svg';
 import './App.css';
 
 
@@ -37,7 +36,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchPostData } from './redux/action/actionPost';
 
-import HomePage from './Pages/HomePage/HomePage';
+
 import { CardDetail } from './Component/Card/CardDetail';
 import { fetchUserData } from './redux/action/actionUser';
 
