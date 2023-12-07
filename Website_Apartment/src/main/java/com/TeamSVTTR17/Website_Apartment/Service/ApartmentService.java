@@ -119,8 +119,25 @@ public class ApartmentService {
         apartment.setDescription(apartmentInput.getDescription());
         apartment.setCreateTime(updateTime);
         apartment.setUpdateTime(updateTime);
-
         aparmentRepo.save(apartment);
+        if(apartmentInput.getPrice_of_electricity() != null || apartmentInput.getPrice_of_water()!= null || apartmentInput.getPrice_of_trash() != null || apartmentInput.getWater_bill() != null ){
+            Fee fee = new Fee();
+            fee.setPriceOfElectricity(Float.parseFloat(apartmentInput.getPrice_of_electricity()));
+            fee.setPriceOfInternet(Float.parseFloat(apartmentInput.getPrice_of_internet()));
+            fee.setPriceOfWater(Float.parseFloat(apartmentInput.getPrice_of_water()));
+            fee.setPriceOfTrash(Float.parseFloat(apartmentInput.getPrice_of_trash()));
+            fee.setWaterBill(Float.parseFloat(apartmentInput.getWater_bill()));
+            fee.setApartment(apartment);
+            feeRepo.save(fee);
+
+        }
+
+
+
+
+
+
+
 
     }
 

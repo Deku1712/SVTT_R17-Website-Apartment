@@ -4,7 +4,7 @@ import axios from "axios"
 const POST_BASE_URL = "http://localhost:8080/api/posts"
 const APARTMENT_BASE_URL ="http://localhost:8080/api/apartments"
 const User_BASE_URL = "http://localhost:8080/api/users"
-
+const ROOM_BASE_URL = "http://localhost:8080/api/room"
 class Manage{
     
     //Post API
@@ -34,6 +34,12 @@ class Manage{
 
     getUserById(id){
         return axios.get(User_BASE_URL + "/" +id)
+    }
+
+    // Room api
+
+    createRoom(room){
+        return axios.post(ROOM_BASE_URL , room)
     }
 
 

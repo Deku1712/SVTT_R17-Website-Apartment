@@ -39,6 +39,7 @@ import { fetchPostData } from './redux/action/actionPost';
 
 import { CardDetail } from './Component/Card/CardDetail';
 import { fetchUserData } from './redux/action/actionUser';
+import ApartmentDetail from "./Pages/Apartment/ApartmentDetail";
 
 
 
@@ -66,15 +67,15 @@ function App() {
 
     <div className="App">
 
-      <div>
-        <Header />
-      </div>
-      <div className='container' >
+      
+      
+      <Header setShowModalSignUp={setShowModalSignUp} setShowModalLogin={setShowModalLogin}/>
+      <div className='container ' >
         <Routes>
           <Route path="/" Component={HomePage}></Route>
           <Route path="/HomePage" Component={HomePage}></Route>
-          <Route path="/Apartments" Component={ApartmentPage}></Route>
-
+          <Route path="/Apartments/*" Component={ApartmentPage}></Route>
+          <Route path="/viewApartment/:id/*" element={<ApartmentDetail/>}/>
 
           <Route path="/posts/:id" Component={CardDetail} />
           <Route path="/create-apartment" Component={CreateApartment}></Route>

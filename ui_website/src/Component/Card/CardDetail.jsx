@@ -80,8 +80,8 @@ export const CardDetail = () => {
                     <div className='bodyPost relative '>
                         <div className='flex  flex-col lg:flex-row'>
 
-                            <div className="mx-auto mt-6 max-w-2xl sm:px-6  lg:max-w-7xl lg:px-8">
-                                <div>
+                            <div className="mx-auto mt-6 w-full sm:px-6  lg:w-8/12 lg:px-8">
+                                <div className="">
                                     <div className=' text-3xl font-bold text-gray-900 mx-auto text-start mb-2'>Student Home</div>
                                     <div className=' text-xl  text-gray-900 mx-auto text-start'>
 
@@ -104,18 +104,21 @@ export const CardDetail = () => {
 
                                 <div className=' p-2 mt-2 border rounded text-xl  text-gray-900 mx-auto text-start'>
                                     <p className=' font-semibold'>Đặc Điểm Căn Hộ</p>
-                                    <div className='row'>
-                                        <div className='col-sm-6'>
+                                    <div className='grid grid-cols-2 gap-4'>
+                                        <div className='col-span-1'>
                                             Diện Tích : {post.area}
                                         </div>
-                                        <div className='col-sm-6'>
+                                        <div className='col-span-1'>
                                             lkasjdflk
-                                        </div><div className='col-sm-6'>
+                                        </div>
+                                        <div className='col-span-1'>
                                             lkasjdflk
-                                        </div><div className='col-sm-6'>
+                                        </div>
+                                        <div className='col-span-1'>
                                             lkasjdflk
                                         </div>
                                     </div>
+
 
                                 </div>
 
@@ -132,8 +135,8 @@ export const CardDetail = () => {
 
                             </div>
 
-                            <div className="mx-auto mt-6 max-w-2xl  sm:px-6  lg:max-w-7xl lg:min-w-[400px]   lg:px-8">
-                                <div className="border rounded p-2 shadow">
+                            <div className="mx-auto mt-6 w-full  sm:px-6  lg:w-3/12   lg:px-8">
+                                <div className="border rounded p-2 shadow w-full">
                                     <div className='flex items-center  '>
                                         <div className='w-2/12 rounded-full '>
                                             <img className=' w-full h-full object-cover  rounded-full ' src="https://th.bing.com/th/id/OIP.5TlT4Tgv6oqPOz9SSumULAHaHa?rs=1&pid=ImgDetMain" alt="" />
@@ -159,7 +162,7 @@ export const CardDetail = () => {
                             </div>
                         </div>
 
-                        <Comments comments = {post.comments}/>
+                        <Comments comments={post.comments} />
                     </div>
 
 
