@@ -140,46 +140,39 @@ const UpdateApartment = () => {
     };
 
     const handleSubmit = async () => {
-        const requiredFields = ['apartmentName', 'phoneNumber2', 'address', 'property', 'size'];
+        const requiredFields = ['apartmentName', 'phoneNumber2', 'phoneNumber1', 'address', 'property', 'size'];
         let hasError = false;
 
         requiredFields.forEach((field) => {
-            if (field === 'phoneNumber2' || field === 'size') {
-                // Check for undefined or null for number fields
-                if (apartment[field] === undefined || apartment[field] === null) {
-                    setErrors("Please don't leave it null")
-                    hasError = true;
+            if (apartment['phoneNumber2'].trim() !== '' || apartment['phoneNumber1'].trim() !== '') {
+                if (field === 'phoneNumber2' || field === 'size') {
+                    if (apartment[field] === undefined || apartment[field] === null) {
+                        setErrors("Please don't leave it null 2 ")
+                        hasError = true;
+                    }
+                } else {
+                    if (apartment['phoneNumber2'] !== null || apartment['phoneNumber2'] !== undefined) {
+                        hasError = false;
+                    } else {
+                        if (!apartment[field] || apartment[field].trim() === '') {
+                            setErrors("Please don't leave it null 1")
+                            hasError = true;
+                        }
+                    }
                 }
             } else {
-                // For other fields, check for empty string
-                if (!apartment[field] || apartment[field].trim() === '') {
-                    setErrors("Please don't leave it null")
-                    hasError = true;
-                }
+                setErrors("Please provide at least one phone number")
+                hasError = true;
             }
         });
-
         if (hasError) {
-            return; // Do not proceed with submission if there are validation errors
+            return;
         }
-        // try {
         const updatedApartment = {
             ...apartment,
             fees: [fee],
         };
-        // await ApartmentService.updateApartmentByID(id, updatedApartment).then((response) => {
-
-        //     console.log(response.data)
-        //     console.log("Succes")
-        // })
-        //     .catch((error) => {
-        //         console.log(error + updatedApartment)
-        //     });
         dispatch(updateApartment(id, updatedApartment));
-        //fetchData();
-        // } catch (error) {
-        //     console.error("Error updating apartment:", error);
-        // }
     };
 
     return (
@@ -211,7 +204,7 @@ const UpdateApartment = () => {
                             <span className="  fa-custom" ><i className="fa fa-phone" aria-hidden="true"></i></span>
                             <div style={{ width: "100%" }}>
                                 <input
-                                    type="number" required={true}
+                                    type="number" required={true} minLength={10} maxLength={11}
                                     placeholder="Enter number of phone 1"
                                     name="lastName"
                                     className={`form-control ${validationErrors.phone1 && 'is-invalid'}`}
@@ -301,17 +294,17 @@ const UpdateApartment = () => {
                             /><label className="ms-3" htmlFor="complete">Complete</label><br />
                         </div> <br />
                         <div className="form-group mb-2 d-flex">
-                            <span className="  fa-custom" ><i className="fa fa-arrow-circle-up" aria-hidden="true"></i></span>
+                            <span className="  fa-custom" ><i className="fa fa-map-marker" aria-hidden="true"></i></span>
                             <div className="ms-1 row" style={{ width: "100%" }}>
                                 <input
                                     type="text" maxLength={30} minLength={1} min={0} required={true}
                                     placeholder="Enter area"
                                     name="lastName"
                                     className={`form-control  w-75 ${validationErrors.area && 'is-invalid'}`}
-                                    value={apartment.size}
+                                    value={apartment.area}
                                     onChange={(e) => handleInputChange("area", e.target.value)}
                                     onBlur={(e) => handleBlur("area", e.target.value)}
-                                /><span className="col-2 ms-3 input-group-text justify-content-center" ><i className="fa fa-home" aria-hidden="true"></i></span>
+                                />
                                 {validationErrors.area && (
                                     <div className="invalid-feedback">{validationErrors.area}</div>
                                 )}</div>
@@ -515,5 +508,4 @@ const UpdateApartment = () => {
         </div>
     );
 };
-
 export default UpdateApartment;

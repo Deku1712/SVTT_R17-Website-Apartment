@@ -277,7 +277,7 @@ const UpdateRoom = () => {
                             <div className="form-group mb-2  d-flex">
                                 <span className=" fa-custom" ><i className="fa fa-info" aria-hidden="true"></i></span>
                                 <textarea
-                                    type="number" maxLength={255} minLength={1} required={true}
+                                    type="text" maxLength={255} minLength={1} required={true}
                                     placeholder="Enter description..."
                                     className="form-control w-75"
                                     value={room.description}
