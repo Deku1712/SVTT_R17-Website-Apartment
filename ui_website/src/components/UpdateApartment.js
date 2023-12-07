@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import ApartmentService from "../Service/ApartmentService";
 import {updateApartment} from "../redux/apartment/apartmentAction"
 import '../styles/styles.css';
+import { fetchUserData } from "../redux/action/actionUser";
 const UpdateApartment = () => {
     const dispatch = useDispatch();
     const [validationErrors, setValidationErrors] = useState({});
@@ -165,6 +166,7 @@ const UpdateApartment = () => {
             //         console.log(error + updatedApartment)
             //     });
             dispatch(updateApartment(id,updatedApartment));
+            dispatch(fetchUserData())
             //fetchData();
         // } catch (error) {
         //     console.error("Error updating apartment:", error);
@@ -303,7 +305,7 @@ const UpdateApartment = () => {
                     </div>  <div className="ms-5"></div>
                     <div className="card-body col-md-4  ">
 
-                        {/* <div className="form-group mb-2 d-flex">
+                        <div className="form-group mb-2 d-flex">
                             <span className="fa-custom" > <i className="fa fa-bolt"></i></span>
                             <input
                                 type="number" maxLength={30} minLength={1} required={true}
@@ -359,7 +361,7 @@ const UpdateApartment = () => {
                                 value={fee.priceOfTrash !== "" ? fee.priceOfTrash :0}
                                 onChange={(e) => setFee({ ...fee, priceOfTrash: e.target.value })}
                             />
-                        </div><br /> */}
+                        </div><br />
                         <div className="form-group ms-3 mb-2 d-flex ">
                             <label for="images" width className="drop-container" id="dropcontainer" style={{ width: "120%" }}>
                                 <span className="drop-title">Drop files here</span>

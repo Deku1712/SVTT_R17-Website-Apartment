@@ -205,6 +205,7 @@ export const fileImg_validation = {
       message: 'required',
     },
   },
+  
 }
 
 export const imgUrl = {
@@ -310,4 +311,139 @@ export const water_bill_validation = {
       message: 'water_bill must be greater than or equal to 0'
     }
   },
+}
+
+export const roomName_validation = {
+  name: 'roomName',
+  label: 'roomName',
+  type: 'text',
+  id: 'roomName',
+  placeholder: 'write your roomName ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    maxLength: {
+      value: 30,
+      message: '30 characters max',
+    },
+  },
+}
+export const sizeRoom_validation = {
+  name: 'sizeRoom',
+  label: 'sizeRoom',
+  type: 'number',
+  id: 'roomName',
+  placeholder: 'write your roomName ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    maxLength: {
+      value: 30,
+      message: '30 characters max',
+    },
+    min: {
+      value: 0,
+      message : 'must be greather or equal than 0'
+    }
+  },
+}
+export const typeRoom_validation = {
+  name: 'typeRoom',
+  label: 'typeRoom',
+  type: 'text',
+  id: 'typeRoom',
+  placeholder: 'write your typeRoom ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    maxLength: {
+      value: 30,
+      message: '30 characters max',
+    },
+  },
+}
+export const priceRoom_validation = {
+  name: 'priceRoom',
+  label: 'priceRoom',
+  type: 'number',
+  id: 'priceRoom',
+  placeholder: 'write your priceRoom ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    maxLength: {
+      value: 30,
+      message: '30 characters max',
+    },
+    min: {
+      value: 0,
+      message: "must be greater or equal than 0 "
+    }
+  },
+}
+export const descriptionRoom_validation = {
+  name: 'descriptionRoom',
+  label: 'descriptionRoom',
+  type: 'text',
+  id: 'descriptionRoom',
+  placeholder: 'write your descriptionRoom ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    maxLength: {
+      value: 500,
+      message: '500 characters max',
+    },
+    min: {
+      value: 0,
+      message: "must be greater or equal than 0 "
+    }
+  },
+}
+export const amount_validation = {
+  name: 'amount',
+  label: 'amount',
+  type: 'number',
+  id: 'amount',
+  placeholder: 'write your amount ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    maxLength: {
+      value: 30,
+      message: '30 characters max',
+    },
+    min: {
+      value: 0,
+      message: "must be greater or equal than 0 "
+    }
+  },
+}
+
+export const fileImgsRoom_validation = {
+  name: 'fileImgsRoom',
+  label: 'fileImgsRoom',
+  type: 'file',
+  id: 'fileImgsRoom',
+  placeholder: 'write the fileImgsRoom ',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+  },
+  
+  
 }

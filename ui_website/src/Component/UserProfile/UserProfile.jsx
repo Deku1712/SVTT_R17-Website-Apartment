@@ -36,37 +36,37 @@ function UserProfile(props) {
   return (
     <div class="w-full min-h-screen font-sans text-gray-900 bg-gray-50 flex p-0 m-0">
       {/* Navbar right */}
-      <div className="w-[20%] min-h-screen bg-white mt-[80px] border-[2px] pt-3 fixed z-50">
-        <ul className="p-0 flex flex-col">
-          <li>
+      <div className="w-2/12 min-h-screen bg-white mt-[80px] border-[2px] pt-3  ">
+        <ul className="p-0 flex flex-col fixed">
+          <li className=" relative">
             <a className="p-4 flex justify-start items-center text-gray-500 no-underline cursor-pointer hover:text-black group">
               <span className="absolute w-2 h-8 bg-black rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition ease-in-out" />
               <i class="pr-3 w-[35px] fa-solid fa-user"></i>
               <span className="font-semibold">Manage User</span>
             </a>
           </li>
-          <li>
+          <li className=" relative">
             <a className="p-4 flex justify-start items-center text-gray-500 no-underline cursor-pointer hover:text-black group">
               <span className="absolute w-2 h-8 bg-black rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition ease-in-out" />
               <i className="pr-3 w-[35px] fa fa-window-restore"></i>
               <span className="font-semibold">Manage Post</span>
             </a>
           </li>
-          <li>
+          <li className=" relative">
             <a className="p-4 flex justify-start items-center text-gray-500 no-underline cursor-pointer hover:text-black group">
               <span className="absolute w-2 h-8 bg-black rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition ease-in-out" />
               <i class="pr-3 w-[35px] fa-solid fa-money-bill"></i>
               <span className="font-semibold">Manage Payment</span>
             </a>
           </li>
-          <li>
+          <li className=" relative">
             <a className="p-4 flex justify-start items-center text-gray-500 no-underline cursor-pointer hover:text-black group">
               <span className="absolute w-2 h-8 bg-black rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition ease-in-out" />
               <i class="pr-3 w-[35px] fa-solid fa-signal"></i>
               <span className="font-semibold">Manage Statements</span>
             </a>
           </li>
-          <li>
+          <li className=" relative">
             <a className="p-4 flex justify-start items-center text-gray-500 no-underline cursor-pointer hover:text-black group">
               <span className="absolute w-2 h-8 bg-black rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition ease-in-out" />
               <i class="pr-3 w-[35px] fa-solid fa-flag"></i>
@@ -76,7 +76,7 @@ function UserProfile(props) {
         </ul>
       </div>
 
-      <main className="w-[100%] pl-[20%] mt-[80px] px-16 flex justify-between flex-wrap">
+      <main className="w-10/12  float-right mt-[80px] px-16 flex justify-between flex-wrap">
         {/* Left Profile */}
         <div className="flex justify-center items-center flex-col gap-y-5 p-16">
           <div className="font-semibold text-2xl">{userData.fullname}</div>
