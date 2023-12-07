@@ -9,11 +9,11 @@ const instance = axios.create({
 
 instance.interceptors.response.use(function (response) {
     // console.log(response);
-    if (response.status === 200) {
-        console.log(response.data)
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data['access_token']}`;
-    }
-    return response.data
+    // if (response.status === 200) {
+    //     console.log(response.data)
+    //     axios.defaults.headers.common['Authorization'] = `Bearer ${response.data['access_token']}`;
+    // }
+    return response
 }, function (error) {
     return error.response;
 });

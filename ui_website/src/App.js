@@ -42,6 +42,7 @@ import { CardDetail } from './Component/Card/CardDetail';
 import { fetchUserData } from './redux/action/actionUser';
 import Login from './Pages/Authen/Login';
 import { Profile } from './Pages/Authen/Profile';
+import { getProfile } from "./Service/LoginService";
 
 
 
@@ -53,15 +54,31 @@ function App() {
 
   const [showModalLogin, setShowModalLogin] = useState(false)
   const [showModalSignUp, setShowModalSignUp] = useState(false)
+  const [userData, setUserData] = useState({})
+  const [onLogin, setOnLogin] = useState(false);
 
   const handleClose = () => {
     setShowModalSignUp(false)
     setShowModalLogin(false)
   }
 
+  const getDataProfile = async () => {
+    let res = await getProfile()
+    console.log(res);
+    setUserData(res.data);
+  }
+
   useEffect(() => {
-    dispatch(fetchPostData())
-    dispatch(fetchUserData())
+    if (onLogin) {
+
+      getDataProfile();
+    }
+
+  }, [onLogin])
+
+  useEffect(() => {
+    // dispatch(fetchPostData())
+    // dispatch(fetchUserData())
 
   }, [])
 
@@ -71,7 +88,12 @@ function App() {
     <div className="App">
 
       <div>
-        <Header />
+        <Header
+          setShowModalSignUp={setShowModalSignUp}
+          setShowModalLogin={setShowModalLogin}
+          setOnLogin={setOnLogin}
+          onLogin={onLogin}
+        />
       </div>
       <div className='container' >
         <Routes>
@@ -87,7 +109,8 @@ function App() {
 
 
           <Route path="/AdminPage" Component={AdminPage}></Route>
-          <Route path="/UserProfile" Component={UserProfile}></Route>
+
+          <Route path="/profile" element={<UserProfile userData={userData} onLogin={onLogin} />} ></Route>
 
         </Routes>
       </div>
@@ -100,8 +123,8 @@ function App() {
 
       {/* </div> */}
 
-      <ModalSignUp show={showModalSignUp} handleClose={handleClose} />
-      <ModalLogin show={showModalLogin} handleClose={handleClose} />
+      <ModalSignUp show={showModalSignUp} handleClose={handleClose} setShowModalLogin={setShowModalLogin} />
+      <ModalLogin show={showModalLogin} handleClose={handleClose} setOnLogin={setOnLogin} />
     </div>
   );
 }

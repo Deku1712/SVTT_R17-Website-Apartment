@@ -60,7 +60,7 @@ function AdminPage() {
   return (
     <div class="w-full min-h-screen font-sans text-gray-900 bg-gray-50 flex">
       {/* Navbar right */}
-      <div className="w-[20%] bg-white mt-[80px] border-[2px] pt-3 min-h-screen fixed">
+      <div className="w-[20%] bg-white mt-[80px] border-[2px] pt-3 min-h-screen">
         <ul className="p-0 flex flex-col">
           <li>
             <a className="p-4 flex justify-start items-center text-gray-500 no-underline cursor-pointer hover:text-black group">
@@ -100,7 +100,7 @@ function AdminPage() {
         </ul>
       </div>
       {/* Main */}
-      <main className="w-[100%] pl-[20%] flex-1 mt-[80px] pb-8">
+      <main className="w-[80%] pl-[20%] flex-1 mt-[80px] pb-8">
         <div className="flex items-center justify-between py-7 px-10">
           <div>
             <h1 className="text-2xl font-semibold leading-relaxed text-gray-800">
@@ -155,7 +155,7 @@ function AdminPage() {
                   <input
                     type="checkbox"
                     className="w-6 h-6 text-indigo-600 rounded-md border-gray-300"
-                    // defaultIndeterminate
+                  // defaultIndeterminate
                   />
                   <span>Product Name</span>
                 </div>

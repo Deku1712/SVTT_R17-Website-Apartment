@@ -49,18 +49,32 @@ public class AuthenticationService {
             return "User has exists";
         }
         if(request.getPassword().equals(request.getRepass())){
-            User user = new User();
-            Date updateTime = new Date(System.currentTimeMillis());
-            user.setUsername(request.getUsername());
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-            user.setRole(roleRepo.findByRoleName("User"));
-            user.setFullname(request.getFullname());
-            user.setAvatar("https://img.upanh.tv/2023/12/04/viet.jpg");
-            user.setEmail(request.getEmail());
-            user.setCreateTime(updateTime);
-            user.setUpdateTime(updateTime);
-            userRepo.save(user);
-            return "Sighup success";
+            if(request.isRole()){
+                User user = new User();
+                Date updateTime = new Date(System.currentTimeMillis());
+                user.setUsername(request.getUsername());
+                user.setPassword(passwordEncoder.encode(request.getPassword()));
+                user.setRole(roleRepo.findByRoleName("User"));
+                user.setFullname(request.getFullname());
+                user.setAvatar("https://img.upanh.tv/2023/12/04/viet.jpg");
+                user.setCreateTime(updateTime);
+                user.setUpdateTime(updateTime);
+                userRepo.save(user);
+                return "Sighup success with user";
+            }else{
+                User user = new User();
+                Date updateTime = new Date(System.currentTimeMillis());
+                user.setUsername(request.getUsername());
+                user.setPassword(passwordEncoder.encode(request.getPassword()));
+                user.setRole(roleRepo.findByRoleName("Owner"));
+                user.setFullname(request.getFullname());
+                user.setAvatar("https://img.upanh.tv/2023/12/04/viet.jpg");
+                user.setCreateTime(updateTime);
+                user.setUpdateTime(updateTime);
+                userRepo.save(user);
+                return "Sighup success with owner";
+            }
+
         }
         return "password not same repass";
     }
