@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import Dropdown from "react-bootstrap/Dropdown";
 import { NavLink } from "react-router-dom";
@@ -15,9 +12,9 @@ export default function Header(props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    setOnLogin(false)
+    setOnLogin(false);
     logout();
-  }
+  };
 
   return (
     <>
@@ -160,46 +157,45 @@ export default function Header(props) {
               </li>
             </ul>
           </Popover.Group>
-          {
-            onLogin ?
-              (<div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                <Dropdown drop="down-centered" className="border rounded-lg">
-                  <Dropdown.Toggle variant="Secondary" id="dropdown-basic">
-                    <i className="fa-solid fa-user pr-3"></i>
-                  </Dropdown.Toggle>
+          {!onLogin ? (
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+              <Dropdown drop="down-centered" className="border rounded-lg">
+                <Dropdown.Toggle className="d-flex items-center justify-center" variant="Secondary" id="dropdown-basic">
+                  <img
+                    // src={userData.avatar}
+                    src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/391627726_2229687603896740_6420573741491573149_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=ShCX8yUiDZ8AX8IEw7X&_nc_ht=scontent.fsgn2-9.fna&oh=00_AfAhFOEInSlahFymueQqU_vWuHLVofyh_Rj_sBQIbFNkzQ&oe=65767A9D"
+                    className="w-10 aspect-[3/3] object-cover object-top border border-gray-200 rounded-full"
+                  />
+                </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
-                    <Dropdown.Item>
-                      <NavLink to="/profile">
-                        Profile
-                      </NavLink>
-                    </Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={handleLogout}>
-                      Logout
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>)
-              :
-              (<div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                <Dropdown drop="down-centered" className="border rounded-lg">
-                  <Dropdown.Toggle variant="Secondary" id="dropdown-basic">
-                    <i className="fa-solid fa-user pr-3"></i>
-                  </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <NavLink className="no-underline text-black " to="/profile">
+                    <Dropdown.Item>Profile</Dropdown.Item>
+                  </NavLink>
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          ) : (
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+              <Dropdown drop="down-centered" className="border rounded-lg">
+                <Dropdown.Toggle variant="Secondary" id="dropdown-basic">
+                  <i className="fa-solid fa-user pr-3 w-10 py-2"></i>
+                </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => setShowModalLogin(true)}>
-                      Login
-                    </Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => setShowModalSignUp(true)}>
-                      Sign Up
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>)
-          }
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => setShowModalLogin(true)}>
+                    Login
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={() => setShowModalSignUp(true)}>
+                    Sign Up
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          )}
         </nav>
         <Dialog
           as="div"
