@@ -23,6 +23,7 @@ import UserProfile from "./Component/UserProfile/UserProfile";
 import './App.css';
 
 
+
 import UpdateRoom from './components/UpdateRoom';
 import UpdateApartment from './components/UpdateApartment';
 import CreateApartment from './components/CreateApartment';
@@ -39,7 +40,13 @@ import { fetchPostData } from './redux/action/actionPost';
 
 import { CardDetail } from './Component/Card/CardDetail';
 import { fetchUserData } from './redux/action/actionUser';
+
+import Login from './Pages/Authen/Login';
+import { Profile } from './Pages/Authen/Profile';
+import { getProfile } from "./Service/LoginService";
+
 import ApartmentDetail from "./Pages/Apartment/ApartmentDetail";
+
 
 
 
@@ -48,17 +55,34 @@ import ApartmentDetail from "./Pages/Apartment/ApartmentDetail";
 function App() {
 
   const dispatch = useDispatch();
+
   const [showModalLogin, setShowModalLogin] = useState(false)
   const [showModalSignUp, setShowModalSignUp] = useState(false)
+  const [userData, setUserData] = useState({})
+  const [onLogin, setOnLogin] = useState(false);
 
   const handleClose = () => {
     setShowModalSignUp(false)
     setShowModalLogin(false)
   }
 
+  const getDataProfile = async () => {
+    let res = await getProfile()
+    console.log(res);
+    setUserData(res.data);
+  }
+
   useEffect(() => {
-    dispatch(fetchPostData())
-    dispatch(fetchUserData())
+    if (onLogin) {
+
+      getDataProfile();
+    }
+
+  }, [onLogin])
+
+  useEffect(() => {
+    // dispatch(fetchPostData())
+    // dispatch(fetchUserData())
 
   }, [])
 
@@ -67,10 +91,17 @@ function App() {
 
     <div className="App">
 
-      
-      
-      <Header setShowModalSignUp={setShowModalSignUp} setShowModalLogin={setShowModalLogin}/>
-      <div className='container ' >
+
+      <div>
+        <Header
+          setShowModalSignUp={setShowModalSignUp}
+          setShowModalLogin={setShowModalLogin}
+          setOnLogin={setOnLogin}
+          onLogin={onLogin}
+        />
+      </div>
+      <div className='container' >
+
         <Routes>
           <Route path="/" Component={HomePage}></Route>
           <Route path="/HomePage" Component={HomePage}></Route>
@@ -84,7 +115,8 @@ function App() {
 
 
           <Route path="/AdminPage" Component={AdminPage}></Route>
-          <Route path="/UserProfile" Component={UserProfile}></Route>
+
+          <Route path="/profile" element={<UserProfile userData={userData} onLogin={onLogin} />} ></Route>
 
         </Routes>
       </div>
@@ -94,11 +126,11 @@ function App() {
 
 
 
-      
+
       {/* </div> */}
 
-      <ModalSignUp show={showModalSignUp} handleClose={handleClose}/>
-      <ModalLogin show={showModalLogin} handleClose={handleClose}/>
+      <ModalSignUp show={showModalSignUp} handleClose={handleClose} setShowModalLogin={setShowModalLogin} />
+      <ModalLogin show={showModalLogin} handleClose={handleClose} setOnLogin={setOnLogin} />
     </div>
   );
 }

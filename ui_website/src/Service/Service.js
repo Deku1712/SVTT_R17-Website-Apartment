@@ -2,38 +2,40 @@ import axios from "axios"
 
 
 const POST_BASE_URL = "http://localhost:8080/api/posts"
-const APARTMENT_BASE_URL ="http://localhost:8080/api/apartments"
+const APARTMENT_BASE_URL = "http://localhost:8080/api/apartments"
 const User_BASE_URL = "http://localhost:8080/api/users"
+
 const ROOM_BASE_URL = "http://localhost:8080/api/room"
 class Manage{
     
+
     //Post API
-    getPosts(){
+    getPosts() {
         return axios.get(POST_BASE_URL);
     }
-    getPostById(id){
-        return axios.get(POST_BASE_URL+"/" + id)
+    getPostById(id) {
+        return axios.get(POST_BASE_URL + "/" + id)
     }
 
     //Apartment API
-    getApartment(){
+    getApartment() {
         return axios.get(APARTMENT_BASE_URL);
     }
-    getApartmentById(id){
-        return axios.get(APARTMENT_BASE_URL + "/" +id)
+    getApartmentById(id) {
+        return axios.get(APARTMENT_BASE_URL + "/" + id)
     }
-    getApartmentByUserId(id){
-        return axios.get(APARTMENT_BASE_URL+"/user/" +id)
+    getApartmentByUserId(id) {
+        return axios.get(APARTMENT_BASE_URL + "/user/" + id)
     }
-    
-    addApartment( id , apartment){
-        return axios.post(APARTMENT_BASE_URL +"/user/" + id, apartment);
+
+    addApartment(id, apartment) {
+        return axios.post(APARTMENT_BASE_URL + "/user/" + id, apartment);
     }
 
     //User API
 
-    getUserById(id){
-        return axios.get(User_BASE_URL + "/" +id)
+    getUserById(id) {
+        return axios.get(User_BASE_URL + "/" + id)
     }
 
     // Room api
@@ -45,7 +47,7 @@ class Manage{
 
 
 
-    
+
 
 }
 export default new Manage();

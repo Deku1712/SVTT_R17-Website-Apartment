@@ -1,27 +1,38 @@
-const inforItems = [
-  {
-    itemName: "User Name",
-    itemInfo: "Ken",
-  },
-  {
-    itemName: "Email",
-    itemInfo: "Ken",
-  },
-  {
-    itemName: "Address",
-    itemInfo: "Ken",
-  },
-  {
-    itemName: "Phone",
-    itemInfo: "Ken",
-  },
-  {
-    itemName: "Post",
-    itemInfo: "Ken",
-  },
-];
+// const inforItems = [
+//   {
+//     itemName: "User Name",
+//     itemInfo: "Ken",
+//   },
+//   {
+//     itemName: "Email",
+//     itemInfo: "Ken",
+//   },
+//   {
+//     itemName: "Address",
+//     itemInfo: "Ken",
+//   },
+//   {
+//     itemName: "Phone",
+//     itemInfo: "Ken",
+//   },
+//   {
+//     itemName: "Post",
+//     itemInfo: "Ken",
+//   },
+// ];
 
-function UserProfile() {
+import { useNavigate } from "react-router-dom";
+
+function UserProfile(props) {
+
+  const { userData, onLogin } = props;
+  const navigate = useNavigate;
+  console.log(onLogin)
+
+  if (onLogin) {
+    return navigate("/")
+  }
+
   return (
     <div class="w-full min-h-screen font-sans text-gray-900 bg-gray-50 flex p-0 m-0">
       {/* Navbar right */}
@@ -68,16 +79,16 @@ function UserProfile() {
       <main className="w-10/12  float-right mt-[80px] px-16 flex justify-between flex-wrap">
         {/* Left Profile */}
         <div className="flex justify-center items-center flex-col gap-y-5 p-16">
-          <div className="font-semibold text-2xl">Hung Dinh</div>
+          <div className="font-semibold text-2xl">{userData.fullname}</div>
           {/* Img Profile */}
           <a className="cursor-pointer rounded-full">
             <img
-              src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg"
+              src={userData.avatar}
               className="w-44 aspect-[3/3] object-cover object-top border border-gray-200 rounded-full"
             />
           </a>
           {/* Name Profile */}
-          <div className="font-semibold text-gray-900">@UserName</div>
+          <div className="font-semibold text-gray-900">@{userData.username}</div>
           <button className="inline-flex gap-x-2 items-center justify-center py-2.5 px-6 text-black border-[2px]  rounded-xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-1">
             <i class="fa-solid fa-pen-to-square"></i>
             <span className="text-sm font-semibold tracking-wide">
@@ -98,14 +109,14 @@ function UserProfile() {
         {/* Right Profile  */}
         <div className="w-[60%] flex justify-center items-center flex-col">
           <ul className="w-[100%] px-3">
-            {inforItems.map((item) => (
-              <li className="p-3 border-b-[2px]  border-b-gray-400 flex">
-                <div className="font-semibold w-[150px]">{item.itemName}</div>
-                <div className="font-semibold text-gray-400">
-                  {item.itemInfo}
-                </div>
-              </li>
-            ))}
+
+            <li className="p-3 border-b-[2px]  border-b-gray-400 flex">
+              <div className="font-semibold w-[150px]">Username:</div>
+              <div className="font-semibold text-gray-400">
+                {userData.username}
+              </div>
+            </li>
+
           </ul>
         </div>
       </main>
