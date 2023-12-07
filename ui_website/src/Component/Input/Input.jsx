@@ -33,7 +33,7 @@ export const Input = ({
 
   const input_tailwind =
     'p-3 font-medium rounded-md w-full border border-slate-300 placeholder:opacity-60'
-
+  
   return (
     <div className={cn('flex flex-col w-full gap-2', className)}>
       <div className="flex justify-between">
@@ -64,6 +64,7 @@ export const Input = ({
           className={cn(input_tailwind)}
           placeholder={placeholder}
           {...register(name, validation)}
+          
         />
       )}
     </div>

@@ -15,7 +15,7 @@ export default function Header(props) {
 
   return (
     <>
-      <header className=" bg-white mb-2 fixed z-50 w-full">
+      <header className=" bg-white  z-50 w-full">
         <nav
           className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-8"
           aria-label="Global"

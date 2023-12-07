@@ -25,8 +25,14 @@ import {
   price_of_trash_validation,
   water_bill_validation,
   price_of_water_validation,
+  roomName_validation,
+  descriptionRoom_validation,
+  priceRoom_validation,
+  typeRoom_validation,
+  sizeRoom_validation,
+  amount_validation,
 } from '../../utils/inputValidations'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { GrFormAdd, GrFormUpload, GrMail } from 'react-icons/gr'
 import { BsFillCheckSquareFill } from 'react-icons/bs'
 import { Input } from '../../Component/Input/Input'
@@ -37,7 +43,7 @@ import { env } from '../../Config/aws'
 import { uploadFileToS3 } from '../../utils/s3Utils'
 import Service from '../../Service/Service'
 import { useDispatch } from 'react-redux'
-import { addApartment } from '../../redux/action/actionUser'
+import { addApartment, createRoom } from '../../redux/action/actionUser'
 
 
 
@@ -48,12 +54,13 @@ AWS.config.update({
   secretAccessKey: env.secretAccessKey,
   region: env.region
 });
-export const Form = () => {
+export const Form = (props) => {
+  const typeadd = props.typeadd
   const methods = useForm()
   const [success, setSuccess] = useState(false)
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState([]);
   const [change, setChange] = useState(false);
-
+  const [files, setFiles] = useState([])
   const dispatch = useDispatch();
 
 
@@ -61,8 +68,8 @@ export const Form = () => {
 
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    console.log(event.target.files[0])
+    const files = event.target.files;
+    setSelectedFile(files);
   };
 
 
@@ -88,10 +95,88 @@ export const Form = () => {
     }
   });
 
+  const onSubmitRoom = methods.handleSubmit(async (data) => {
+    try {
+      console.log(files)
+      let fileUrls = [];
+      
+      // if (Array.isArray(files) && files.length > 0) {
+      //   const uploadPromises = Array.from(files).map(async file => {
+      //     const uploadResult = await uploadFileToS3(file, s3Config);
+      //     console.log(uploadResult.Location)
+      //     return uploadResult.Location;
+      //   });
+  
+      //   // Wait for all promises to resolve
+      //   fileUrls = await Promise.all(uploadPromises);
+      // }
+      
+      if(files.length > 0) {
+        const filesUrl =  Array.from(files).map(async  (file) => {
+          const uploadResult = await uploadFileToS3(file, s3Config)
+          return uploadResult.Location
+        })
+        data = { ...data, file_url: await Promise.all(filesUrl) };
+      }
+      data = { ...data, apartmentID : props.apartment.id}
+  
+      // Add file URLs to the form data
+      dispatch(createRoom(data));
+      console.log("Form Data:", data);
+  
+      // Dispatch action or perform further actions with the data
+  
+      
+      setSuccess(true);
+    } catch (error) {
+      console.error('Error:', error);
+      setSuccess(false);
+    }
+  });
+
 
   return (
     <FormProvider {...methods}>
+      {typeadd === 'addroom' ? 
+      // room//
       <form
+      onSubmit={e => e.preventDefault()}
+      noValidate
+      autoComplete="off"
+      className="container"
+    >
+      <div className="grid gap-5 md:grid-cols-2">
+       
+        <Input {...roomName_validation} />
+        <Input {...priceRoom_validation } />
+        <Input {...typeRoom_validation} />
+        <Input {...sizeRoom_validation} />
+        <Input {...amount_validation}/>
+        <input className='p-3 font-medium rounded-md w-full border border-slate-300 placeholder:opacity-60' type='file' multiple  accept="image/*"  onChange={(e)=> setFiles(e.target.files)} />
+        <Input {...desc_validation} className="md:col-span-2" />
+
+        
+        
+
+      </div>
+      <div className="mt-5">
+        {success && (
+          <p className="font-semibold text-green-500 mb-5 flex items-center gap-1">
+            <BsFillCheckSquareFill /> Form has been submitted successfully
+          </p>
+        )}
+        <button
+          onClick={onSubmitRoom}
+          className="p-3 rounded-md bg-blue-600 font-semibold text-white flex items-center gap-1 hover:bg-blue-800"
+        >
+          <GrFormAdd />
+          Create Room
+        </button>
+      </div>
+    </form>
+    :
+    // apartment//
+    <form
         onSubmit={e => e.preventDefault()}
         noValidate
         autoComplete="off"
@@ -134,7 +219,8 @@ export const Form = () => {
             Add Appartment
           </button>
         </div>
-      </form>
+      </form>  
+    }
     </FormProvider>
   )
 }

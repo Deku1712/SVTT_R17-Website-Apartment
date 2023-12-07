@@ -12,7 +12,7 @@ export default function CardApart({ apartment }) {
         <div
             key={apartment.id}
             className="p-2 border rounded-2xl group  transform  ease-in-out duration-200 hover:shadow-2xl cursor-pointer"
-            onClick={()=> navigate(`/Apartments/viewApartment/${apartment.id}`) }
+            onClick={()=> navigate(`/viewApartment/${apartment.id}`) }
 
         >
             <div className="w-full h-[284px] rounded-2xl overflow-hidden">
