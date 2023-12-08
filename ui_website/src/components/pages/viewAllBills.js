@@ -1,13 +1,18 @@
 
 import React, { useState, useEffect } from 'react';
-import { fetchAllBill, getBillById, getBillByRoomId } from '../../Services/BillService';
+import { fetchAllBill, getBillById, getBillByRoomName } from '../../Services/BillService';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBillDetailsRedux, getBillRedux } from '../../Redux/bill/BillAction';
 import { useNavigate, Link } from 'react-router-dom';
 const ViewAllBills = () => {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().substr(0, 10);
-    const bills = useSelector(state => state.bill.bill)
+    const bills = useSelector(state => state.bill.bill);
+
+    const [searchRoomName, setSearchRoomName] = useState("");
+    const [searchDate, setSearchDate] = useState("");
+    const [filteredBills, setFilteredBills] = useState([]);
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -16,91 +21,65 @@ const ViewAllBills = () => {
         return `${year}-${month}-${day}`;
     };
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [id, setId] = useState([]);
-
-    const [createDate, setCreateDate] = useState(formattedDate);
-    const [startDate, setStartDate] = useState(formattedDate);
-    const [endDate, setEndDate] = useState(formattedDate);
-
-    const [oldElectricityNum, setOldElectricityNum] = useState("");
-    const [newElectricityNum, setNewElectricityNum] = useState("");
-    const [totalElectricity, setTotalElectricity] = useState("");
-
-    const [oldWaterNum, setOldWaterNum] = useState("");
-    const [newWaterNum, setNewWaterNum] = useState("");
-    const [totalWater, setTotalWater] = useState("");
-
-    const [totalInternet, setTotalInternet] = useState("");
-    const [totalTrash, setTotalTrash] = useState("");
-
-
-    const [totalRoom, setTotalRoom] = useState("");
-    const [discount, setDiscount] = useState("");
-
-    const [totalBill, setTotalBill] = useState("");
-    const bill = {
-        id,
-        createDate,
-        startDate,
-        endDate,
-        oldElectricityNum,
-        newElectricityNum,
-        totalElectricity,
-        oldWaterNum,
-        newWaterNum,
-        totalWater,
-        totalInternet,
-        totalTrash,
-        totalRoom,
-        discount,
-        totalBill
+    const handleViewDetail = async (id) => {
+        dispatch(getBillDetailsRedux(id));
     }
 
-    const [listBills, setListBills] = useState([]);
-
-    const [isRoomListVisible, setIsRoomListVisible] = useState(false);
-    const toggleRoomListVisibility = () => {
-        setIsRoomListVisible(!isRoomListVisible);
+    const handleSearchByRoomName = (roomName) => {
+        setSearchRoomName(roomName.trim());
+    };
+    const handleSearchByDate = (searchDate) => {
+        setSearchDate(searchDate);
     };
 
+    useEffect(() => {
+        // Filter bills based on search criteria
+        let tempFilteredBills = [...bills];
 
+        if (searchRoomName !== "") {
+            tempFilteredBills = tempFilteredBills.filter(item => item.room?.room_name.includes(searchRoomName));
+        }
+
+        if (searchDate !== "") {
+            tempFilteredBills = tempFilteredBills.filter(item => {
+                const startDate = new Date(item.startDate);
+                const endDate = new Date(item.endDate);
+                const searchDateTime = new Date(searchDate);
+
+                return startDate <= searchDateTime && searchDateTime <= endDate;
+            });
+        }
+
+        // Sort the filtered bills by create date in descending order
+        tempFilteredBills.sort((a, b) => {
+            const dateA = new Date(a.createDate);
+            const dateB = new Date(b.createDate);
+            return dateB - dateA;
+        });
+
+        setFilteredBills(tempFilteredBills);
+    }, [searchRoomName, searchDate, bills]);
 
     useEffect(() => {
-        // getBills();
         dispatch(getBillRedux());
-    }, [])
+    }, []);
 
-    const getBills = async () => {
-        fetchAllBill()
-            .then(response => {
-                if (response.data) {
-                    console.log("Dữ liệu đã được lấy:", response.data);
-                    setListBills(response.data);
-                } else {
-                    console.log("Không có dữ liệu hoặc cấu trúc dữ liệu không đúng.");
-                }
-            })
-            .catch(error => {
-                console.error("Lỗi khi gọi fetchAllill:", error);
-            });
-    }
 
-    const handleViewDetail = async (id) => {
-        //   let res = await getBillById(id);
-        // getBills();
-        dispatch(getBillDetailsRedux(id));
-        // navigate(`/viewBillDetails/${id}`);
-    }
+    // phan trang
+    const [currentPage, setCurrentPage] = useState(1);
+    const billsPerPage = 5;
 
-    const handleSearchByRoomId = async (roomId) => {
-        // let res = await getBillByRoomId(roomId);
-        // setListBills(res.data);
-        // console.log("check: " , res.data);
+    // Calculate the index range for the current page
+    const indexOfLastBill = currentPage * billsPerPage;
+    const indexOfFirstBill = indexOfLastBill - billsPerPage;
+    const currentBills = filteredBills.slice(indexOfFirstBill, indexOfLastBill);
 
-    }
+    const totalPages = Math.ceil(filteredBills.length / billsPerPage);
 
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
 
     return (
         <section>
@@ -116,54 +95,26 @@ const ViewAllBills = () => {
                                         className="list-group-item list-group-item-action py-2 ripple"
                                         aria-current="true"
                                     >
-                                        <i className="fas fa-tachometer-alt fa-fw me-3"></i><span className='fw-bold'>Thao tác:</span>
+                                        <i className="fas fa-tachometer-alt fa-fw me-3"></i><span className='fw-bold'>Tìm kiếm:</span>
                                     </a>
                                     <div className="card-body p-0 my-2">
                                         <form className="form-inline my-2 my-lg-0 d-flex">
-                                            <input className="form-control mr-sm-2 mx-2" type="search" placeholder="ID phòng" aria-label="Search"
-                                                onChange={(e) => { handleSearchByRoomId(e.target.value) }} />
-                                            <input className="form-control mr-sm-2 mx-2" type="date" />
-                                            <button className="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                                            <input
+                                                className="form-control mr-sm-2 mx-2"
+                                                type="search"
+                                                placeholder="Tên phòng"
+                                                aria-label="Search"
+                                                onChange={(e) => { handleSearchByRoomName(e.target.value) }}
+                                            />
+
+                                            <input
+                                                className="form-control mr-sm-2 mx-2"
+                                                type="date"
+                                                onChange={(e) => { handleSearchByDate(e.target.value) }}
+                                            />
+                                            {/* <button className="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button> */}
                                         </form>
                                     </div>
-
-                                    <div className="card-body p-0 my-2">
-                                        <a href="#" className="list-group-item list-group-item-action py-2 ripple" onClick={toggleRoomListVisibility}
-                                        ><i className="fas fa-chart-bar fa-fw me-3"></i><span>Danh sách phòng: 5 phòng còn trống</span></a>
-                                        {isRoomListVisible && (
-                                            <div className="row card-body p-0 my-2 text-center d-flex justify-content-center">
-
-                                                <div className="border col-lg-3 m-2 bg-danger-subtle">
-                                                    <a href='#' className='link-offset-2 link-underline link-underline-opacity-0'><span>P101</span></a>
-                                                </div>
-
-                                                <div className="border col-lg-3 m-2 bg-danger-subtle">
-                                                    <a href='#' className='link-offset-2 link-underline link-underline-opacity-0'><span>P102</span></a>
-                                                </div>
-
-                                                <div className="border col-lg-3 m-2 bg-secondary-subtle">
-                                                    <a href='#' className='link-offset-2 link-underline link-underline-opacity-0'><span>P103</span></a>
-                                                </div>
-
-                                                <div className="border col-lg-3 m-2 bg-danger-subtle">
-                                                    <a href='#' className='link-offset-2 link-underline link-underline-opacity-0'><span>P104</span></a>
-                                                </div>
-
-                                                <div className="border col-lg-3 m-2 bg-secondary-subtle">
-                                                    <a href='#' className='link-offset-2 link-underline link-underline-opacity-0'><span>P105</span></a>
-                                                </div>
-
-                                                <div className="border col-lg-3 m-2 bg-secondary-subtle">
-                                                    <a href='#' className='link-offset-2 link-underline link-underline-opacity-0'><span>P106</span></a>
-                                                </div>
-
-                                                <div className="border col-lg-3 m-2 bg-danger-subtle">
-                                                    <a href='#' className='link-offset-2 link-underline link-underline-opacity-0'><span>P107</span></a>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -176,7 +127,7 @@ const ViewAllBills = () => {
                                 <table className="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">ID Phòng</th>
+                                            <th scope="col">Tên Phòng</th>
                                             <th scope="col">Ngày tạo</th>
                                             <th scope="col">Ngày bắt đầu</th>
                                             <th scope="col">Ngày kết thúc</th>
@@ -185,22 +136,39 @@ const ViewAllBills = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {bills && bills.length > 0 && bills.map((item, index) => {
+                                        {currentBills && currentBills.length > 0 && currentBills.map((item, index) => {
                                             return (
                                                 <tr key={item.id}>
-                                                    <th scope="row" >{item.id}</th>
+                                                    <th scope="row">{item.room?.room_name}</th>
                                                     <td>{formatDate(item.createDate)}</td>
                                                     <td>{formatDate(item.startDate)}</td>
                                                     <td>{formatDate(item.endDate)}</td>
                                                     <td>{item.totalBill}</td>
-                                                    <td><Link to={`/viewBillDetails/${item.id}`}onClick={() => handleViewDetail(item.id)} className="btn btn-primary m-2">
-                                                    Xem chi tiết
-                                                    </Link></td>
+                                                    <td>
+                                                        <Link
+                                                            to={`/viewBillDetails/${item.id}`}
+                                                            onClick={() => handleViewDetail(item.id)}
+                                                            className="btn btn-primary m-2"
+                                                        >
+                                                            Xem chi tiết
+                                                        </Link>
+                                                    </td>
                                                 </tr>
                                             )
                                         })}
                                     </tbody>
                                 </table>
+                            </div>
+                            <div className="d-flex justify-content-center">
+                                <nav aria-label="Page navigation">
+                                    <ul className="pagination">
+                                        {Array.from({ length: totalPages }, (_, index) => (
+                                            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                                <a className="page-link" onClick={() => handlePageChange(index + 1)}>{index + 1}</a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>

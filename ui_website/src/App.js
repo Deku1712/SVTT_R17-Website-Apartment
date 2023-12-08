@@ -10,10 +10,9 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import ViewBillDetails from './components/pages/viewBillDetails';
 import CreateNewBill from './components/pages/createNewBill';
 import { useDispatch } from 'react-redux';
-
-import UpdateRoom from './Component/UpdateRoom';
-import UpdateApartment from './Component/UpdateApartment';
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const dispatch = useDispatch();
   
@@ -21,27 +20,32 @@ function App() {
   return (
     <BrowserRouter>
     <div>
-      
+    
       <Header/>
    
-        <Routes>
-          {/* <Route path="/home" element={<Home />} />*/}
-         
+        <Routes>         
            <Route path="/viewAllRoom" element={<ViewAllRoom />} />
            <Route path="/viewAllBills" element={<ViewAllBills />} />
            
-           <Route path="/createNewBill" element={<CreateNewBill />} />
+           <Route path="/createNewBill" element={<CreateNewBill/>} />
            <Route path="/viewBillDetails/:id" Component={ViewBillDetails} />
-
-           <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
-          <Route path="/edit-apartment" Component={UpdateApartment}></Route>
-         {/* <Route path="/login" element={<Login />} />
-           <Route path="/register" element={<Register />} />
-         <Route path="/logout" element={<LoginForm />} /> */}
         </Routes>
 
  
-
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <ToastContainer />
+      
         </div>
         </BrowserRouter>
         )

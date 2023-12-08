@@ -74,10 +74,8 @@ public class Room {
     private List<Img> imgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "room",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Bill> bills = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private List<Bill> bills = new ArrayList<>();
 
 	public int getId() {
 		return id;

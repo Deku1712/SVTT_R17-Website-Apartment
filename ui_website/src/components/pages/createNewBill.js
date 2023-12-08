@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { addBill } from '../../Services/BillService';
 import { fetchAllApartment } from '../../Services/BillService';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation  } from 'react-router-dom';
+import { toast } from 'react-toastify';
 const CreateNewBill = () => {
+
+    const location = useLocation();
+    const { state } = location;
+    const roomData = state && state.roomData ? state.roomData : null;
 
     const navigate = useNavigate();
     const currentDate = new Date();
@@ -25,9 +30,10 @@ const CreateNewBill = () => {
 
 
     const [totalRoom, setTotalRoom] = useState(1800000);
-    const [discount, setDiscount] = useState("");
+    const [discount, setDiscount] = useState(0);
 
     const [totalBill, setTotalBill] = useState(0);
+    const [room, setRoom] = useState(roomData);
     const bill = {
         createDate,
         startDate,
@@ -42,7 +48,8 @@ const CreateNewBill = () => {
         totalTrash,
         totalRoom,
         discount,
-        totalBill
+        totalBill,
+        room
     }
 
     const [apartment, setApartment] = useState("");
@@ -54,20 +61,24 @@ const CreateNewBill = () => {
     const [waterUnitPrice, setWaterUnitPrice] = useState(0);
     const [internetUsage, setInternetUsage] = useState(1);
     const [internetUnitPrice, setInternetUnitPrice] = useState(0);
+    const [trashUsage, setTrashUsage] = useState(1);
+    const [trashUnitPrice, setTrashUnitPrice] = useState(0);
+
 
     const getApartment = async () => {
         try {
             const response = await fetchAllApartment();
             if (response.data) {
                 console.log("Dữ liệu apart đã được lấy:", response.data);
+                console.log("roomdt:" , roomData);
                 setApartment(response.data);
 
                 response.data.forEach(apartment => {
                     if (Array.isArray(apartment.fees) && apartment.fees.length > 0) {
                         apartment.fees.forEach(feesItem => {
                             console.log("Dữ liệu fees đã được lấy:", feesItem);
+                            console.log("room", roomData);
 
-                            // Set state variables directly from feesItem
                             if (feesItem.priceOfElectricity !== undefined) {
                                 setElectricityUnitPrice(feesItem.priceOfElectricity);
                             }
@@ -76,6 +87,9 @@ const CreateNewBill = () => {
                             }
                             if (feesItem.priceOfInternet !== undefined) {
                                 setInternetUnitPrice(feesItem.priceOfInternet);
+                            }
+                            if (feesItem.priceOfTrash !== undefined) {
+                                setTrashUnitPrice(feesItem.priceOfTrash);
                             }
                         });
                     } else {
@@ -103,13 +117,13 @@ const CreateNewBill = () => {
     }
     // đơn vị là khối 
     const handleChangeWaterUnitT = () => {
+        setOldWaterNum(10);
         setWaterUnit(true);
 
     }
 
-    // Function to calculate "Thành Tiền" based on the current state
     const calculateTotal = () => {
-        return Number(totalElectricity) + Number(totalWater) + Number(totalInternet) + Number(totalTrash) + Number(totalRoom);
+        return Number(totalElectricity) + Number(totalWater) + Number(totalInternet) + Number(totalTrash) + Number(totalRoom) + Number(internetUnitPrice) + Number(trashUnitPrice) - Number(discount);
     };
 
     useEffect(() => {
@@ -120,28 +134,27 @@ const CreateNewBill = () => {
     // add new bill
     const handelAddBill = async () => {
         try {
-            // Update the totalBill field in the bill object
             const updatedBill = {
                 ...bill,
                 totalBill: calculateTotal()
             };
-
-            // Call the addBill function or perform any other necessary actions with the updatedBill
-
             let res = await addBill(updatedBill);
+            console.log("Bill1: ", updatedBill);
+            toast.success("Tạo hóa đơn thành công!");
             navigate('/viewAllBills');
-
-            console.log("SDate:", startDate);
-            console.log("EDate:", endDate);
-
-            console.log("Total Bill: ", updatedBill.totalBill);
-            console.log("Bill: ", updatedBill);
+            console.log("Bill:2 ", updatedBill);
         } catch (error) {
+            toast.error("Tạo hóa đơn không thành công!");
         }
     };
 
     useEffect(() => {
-        setElectricityUsage(newElectricityNum - oldElectricityNum);
+        if (newElectricityNum < oldElectricityNum) {
+            setElectricityUsage(0);
+        } else {
+            setElectricityUsage(newElectricityNum - oldElectricityNum);
+        }
+
         if (newWaterNum < oldWaterNum) {
             setWaterUsage(0);
         } else {
@@ -217,7 +230,7 @@ const CreateNewBill = () => {
                                     <table className="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">P103</th>
+                                                <th scope="col">{room.room_name}</th>
                                                 <th scope="col">Số cũ</th>
                                                 <th scope="col">Số mới</th>
                                                 <th scope="col">Mức sử dụng</th>
@@ -226,151 +239,202 @@ const CreateNewBill = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-
-                                            <tr>
-                                                <th scope="row">Điện</th>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        min={0}
-                                                        value={oldElectricityNum}
-                                                    />
-
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        min={oldElectricityNum}
-                                                        value={newElectricityNum}
-                                                        onChange={(e) => { setNewElectricityNum(e.target.value) }}
-                                                    />
-
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        min={0}
-                                                        value={electricityUsage}
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        min={0}
-                                                        value={electricityUnitPrice}
-                                                    />
-                                                    vnd
-                                                </td>
-                                                <td>{formatCurrency(totalElectricity)} vnd</td>
-                                            </tr>
-
-
-                                            {waterUnit ? (
-                                                <tr>
-                                                    <th scope="row">Nước</th>
-                                                    <td>
-                                                        <input
-                                                            type="number"
-                                                            min={0}
-                                                            value={oldWaterNum}
-                                                        />
-
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="number"
-                                                            min={0}
-
-                                                            value={newWaterNum}
-                                                            onChange={(e) => { setNewWaterNum(e.target.value); setTotalWater((newWaterNum - oldWaterNum) * waterUnitPrice) }}
-                                                        />
-
-                                                    </td>
-                                                    <td >
-                                                        <div >
+                                            {electricityUnitPrice !== 0 ? (
+                                                <>
+                                                    <tr>
+                                                        <th scope="row">Điện</th>
+                                                        <td>
                                                             <input
                                                                 type="number"
                                                                 min={0}
-                                                                value={waterUsage}
-                                                                onChange={(e) => setWaterUsage(e.target.value)}
+                                                                value={oldElectricityNum}
                                                             />
-                                                        </div>
 
-                                                        <div >
-                                                            <input type="radio" checked={waterUnit} onClick={handleChangeWaterUnitT} />
-                                                            <label>Khối</label>
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                min={oldElectricityNum}
+                                                                value={newElectricityNum}
+                                                                onChange={(e) => { setNewElectricityNum(e.target.value) }}
+                                                            />
 
-                                                            <input type="radio" checked={!waterUnit} onClick={handleChangeWaterUnitF} />
-                                                            <label>Người</label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="number"
-                                                            min={0}
-                                                            value={waterUnitPrice}
-                                                        />
-                                                        vnd
-                                                    </td>
-                                                    <td>{formatCurrency(totalWater)} vnd</td>
-                                                </tr>
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                min={0}
+                                                                value={electricityUsage}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                min={0}
+                                                                value={electricityUnitPrice}
+                                                            />
+                                                            vnd
+                                                        </td>
+                                                        <td>{formatCurrency(totalElectricity)} vnd</td>
+                                                    </tr>
+                                                </>
                                             ) : (
-                                                <tr>
-                                                    <th scope="row">Nước</th>
-                                                    <td> </td>
-                                                    <td></td>
-                                                    <td >
-                                                        <div>
-                                                            <input
-                                                                type="number"
-                                                                min={0}
-                                                                onChange={(e) => setNewWaterNum(e.target.value)}
-                                                            />
-                                                        </div>
-
-                                                        <div >
-                                                            <input type="radio" checked={waterUnit} onClick={handleChangeWaterUnitT} />
-                                                            <label >Khối</label>
-
-                                                            <input type="radio" checked={!waterUnit} onClick={handleChangeWaterUnitF} />
-                                                            <label >Người</label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="number"
-                                                            min={0}
-                                                            value={waterUnitPrice}
-                                                        />
-                                                        vnd
-                                                    </td>
-                                                    <td>{formatCurrency(totalWater)} vnd</td>
-                                                </tr>
+                                                <>
+                                                </>
                                             )}
 
-                                            <tr>
-                                                <th scope="row">Internet</th>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        min={0}
-                                                        value={internetUsage}
-                                                    />
+                                            {waterUnitPrice !== 0 ? (
+                                                <>
+                                                    {waterUnit ? (
+                                                        <tr>
+                                                            <th scope="row">Nước</th>
+                                                            <td>
+                                                                <input
+                                                                    type="number"
+                                                                    min={0}
+                                                                    value={oldWaterNum}
+                                                                />
 
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        min={0}
-                                                        value={internetUnitPrice}
-                                                        onChange={(e) => setInternetUnitPrice(e.target.value)}
-                                                    />
-                                                    vnd
-                                                </td>
-                                                <td>{formatCurrency(internetUnitPrice)} vnd</td>
-                                            </tr>
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="number"
+                                                                    min={0}
+
+                                                                    value={newWaterNum}
+                                                                    onChange={(e) => { setNewWaterNum(e.target.value); setTotalWater((newWaterNum - oldWaterNum) * waterUnitPrice) }}
+                                                                />
+
+                                                            </td>
+                                                            <td >
+                                                                <div >
+                                                                    <input
+                                                                        type="number"
+                                                                        min={0}
+                                                                        value={waterUsage}
+                                                                        onChange={(e) => setWaterUsage(e.target.value)}
+                                                                    />
+                                                                </div>
+
+                                                                <div >
+                                                                    <input type="radio" checked={waterUnit} onClick={handleChangeWaterUnitT} />
+                                                                    <label>Khối</label>
+
+                                                                    <input type="radio" checked={!waterUnit} onClick={handleChangeWaterUnitF} />
+                                                                    <label>Người</label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="number"
+                                                                    min={0}
+                                                                    value={waterUnitPrice}
+                                                                />
+                                                                vnd
+                                                            </td>
+                                                            <td>{formatCurrency(totalWater)} vnd</td>
+                                                        </tr>
+                                                    ) : (
+                                                        <tr>
+                                                            <th scope="row">Nước</th>
+                                                            <td> </td>
+                                                            <td></td>
+                                                            <td >
+                                                                <div>
+                                                                    <input
+                                                                        type="number"
+                                                                        min={0}
+                                                                        onChange={(e) => setNewWaterNum(e.target.value)}
+                                                                    />
+                                                                </div>
+
+                                                                <div >
+                                                                    <input type="radio" checked={waterUnit} onClick={handleChangeWaterUnitT} />
+                                                                    <label >Khối</label>
+
+                                                                    <input type="radio" checked={!waterUnit} onClick={handleChangeWaterUnitF} />
+                                                                    <label >Người</label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="number"
+                                                                    min={0}
+                                                                    value={waterUnitPrice}
+                                                                />
+                                                                vnd
+                                                            </td>
+                                                            <td>{formatCurrency(totalWater)} vnd</td>
+                                                        </tr>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <>
+                                                </>
+                                            )}
+
+
+                                            {internetUnitPrice !== 0 ? (
+                                                <>
+                                                    <tr>
+                                                        <th scope="row">Internet</th>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                min={0}
+                                                                value={internetUsage}
+                                                            />
+
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                min={0}
+                                                                value={internetUnitPrice}
+                                                                onChange={(e) => setInternetUnitPrice(e.target.value)}
+                                                            />
+                                                            vnd
+                                                        </td>
+                                                        <td>{formatCurrency(internetUnitPrice)} vnd</td>
+                                                    </tr>
+                                                </>
+                                            ) : (
+                                                <>
+                                                </>
+                                            )}
+
+                                            {trashUnitPrice !== 0 ? (
+                                                <>
+                                                    <tr>
+                                                        <th scope="row">Vệ sinh</th>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                min={0}
+                                                                value={trashUsage}
+                                                            />
+
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="number"
+                                                                min={0}
+                                                                value={trashUnitPrice}
+                                                                onChange={(e) => setTrashUnitPrice(e.target.value)}
+                                                            />
+                                                            vnd
+                                                        </td>
+                                                        <td>{formatCurrency(trashUnitPrice)} vnd</td>
+                                                    </tr>
+                                                </>
+                                            ) : (
+                                                <>
+                                                </>
+                                            )}
 
                                             <tr>
                                                 <th scope="row">Phòng</th>
@@ -394,23 +458,35 @@ const CreateNewBill = () => {
                                                 </td>
                                                 <td>{formatCurrency(totalRoom)} vnd</td>
                                             </tr>
+
+                                            <tr>
+                                                <th scope="row">Giảm giá</th>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <input
+                                                        type="number"
+                                                        min={0}
+                                                        value={discount}
+                                                        onChange={(e) => setDiscount(e.target.value)}
+                                                    />
+                                                    vnd
+                                                </td>
+                                                <td>{formatCurrency(discount)} vnd</td>
+                                            </tr>
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th scope="row">Tổng</th>
-                                                <td colspan="4">
-                                                    {/* <input
-                                                        type="number"
-                                                        min={0}
-                                                        onChange={(e) => setTotalBill(Number(totalElectricity) + Number(totalWater) + Number(totalInternet) + Number(totalTrash) + Number(totalRoom))}
-                                                    />  */}
+                                                <td colSpan="4">
                                                 </td>
                                                 <td>{formatCurrency(calculateTotal())} vnd</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="5"></td>
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-primary m-2" onClick={() => handelAddBill()}>Xác nhận</button>
+                                                <td colSpan="5"></td>
+                                                <td className="text-center">
+                                                    <button type="button" className="btn btn-primary m-2" onClick={() => handelAddBill()}>Xác nhận</button>
                                                 </td>
                                             </tr>
                                         </tfoot>

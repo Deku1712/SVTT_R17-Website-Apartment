@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getBillDetailsRedux } from '../../Redux/bill/BillAction';
+import { fetchAllApartment } from '../../Services/BillService';
 const ViewBillDetails = () => {
     const dispatch = useDispatch();
     const singleBill = useSelector(state => state.bill.singleBill)
@@ -25,6 +26,52 @@ const ViewBillDetails = () => {
         const day = date.getDate().toString().padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
+    const [apartment, setApartment] = useState("");
+    const [electricityUnitPrice, setElectricityUnitPrice] = useState(0);
+    const [waterUnitPrice, setWaterUnitPrice] = useState(0);
+    const [internetUnitPrice, setInternetUnitPrice] = useState(0);
+    const [trashUnitPrice, setTrashUnitPrice] = useState(0);
+
+    const getApartment = async () => {
+        try {
+            const response = await fetchAllApartment();
+            if (response.data) {
+                console.log("Dữ liệu apart đã được lấy:", response.data);
+                setApartment(response.data);
+
+                response.data.forEach(apartment => {
+                    if (Array.isArray(apartment.fees) && apartment.fees.length > 0) {
+                        apartment.fees.forEach(feesItem => {
+                            console.log("Dữ liệu fees đã được lấy:", feesItem);
+
+                            if (feesItem.priceOfElectricity !== undefined) {
+                                setElectricityUnitPrice(feesItem.priceOfElectricity);
+                            }
+                            if (feesItem.priceOfWater !== undefined) {
+                                setWaterUnitPrice(feesItem.priceOfWater);
+                            }
+                            if (feesItem.priceOfInternet !== undefined) {
+                                setInternetUnitPrice(feesItem.priceOfInternet);
+                            }
+                            if (feesItem.priceOfTrash !== undefined) {
+                                setTrashUnitPrice(feesItem.priceOfTrash);
+                            }
+                        });
+                    } else {
+                        console.log("Không có dữ liệu fees trong đối tượng hoặc cấu trúc dữ liệu không đúng.");
+                    }
+                });
+            } else {
+                console.log("Không có dữ liệu hoặc cấu trúc dữ liệu không đúng.");
+            }
+        } catch (error) {
+            console.error("Lỗi khi gọi fetchAllApartment:", error);
+        }
+    };
+
+    useEffect(() => {
+        getApartment();
+    }, []);
 
     return (
         <section>
@@ -58,15 +105,23 @@ const ViewBillDetails = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row">Điện</th>
-                                                <td>{(singleBill.oldElectricityNum)} chữ</td>
-                                                <td>{(singleBill.newElectricityNum)} chữ</td>
-                                                <td>{(singleBill.newElectricityNum - singleBill.oldElectricityNum)} chữ</td>
-                                                <td>3.000 vnd</td>
-                                                <td>{(singleBill.totalElectricity)} vnd</td>
-                                            </tr>
+                                            {singleBill.totalElectricity !== 0 ? (
+                                                <>
+                                                    <tr>
+                                                        <th scope="row">Điện</th>
+                                                        <td>{(singleBill.oldElectricityNum)} chữ</td>
+                                                        <td>{(singleBill.newElectricityNum)} chữ</td>
+                                                        <td>{(singleBill.newElectricityNum - singleBill.oldElectricityNum)} chữ</td>
+                                                        <td>{electricityUnitPrice} vnd</td>
+                                                        <td>{(singleBill.totalElectricity)} vnd</td>
+                                                    </tr>
+                                                </>
+                                            ) : (
+                                                <>
+                                                </>
+                                            )}
 
+                                            
                                             <tr>
                                                 <th scope="row">Nước</th>
 
@@ -81,35 +136,55 @@ const ViewBillDetails = () => {
                                                         <td></td>
                                                     </>}
                                                 <td>{(singleBill.newWaterNum - singleBill.oldWaterNum)} {singleBill.oldWaterNum === 0 ? " người" : " khối"}</td>
-                                                <td>40.000 vnd</td>
+                                                <td>{waterUnitPrice} vnd</td>
                                                 <td>{singleBill.totalWater} vnd</td>
                                             </tr>
 
-                                            {/* <tr>
-                                                <th scope="row">Nước</th>
+                                            {singleBill.totalInternet !== 0 ? (
+                                                <>
+                                                    <tr>
+                                                        <th scope="row">Internet</th>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>1 phòng</td>
+                                                        <td>{internetUnitPrice} vnd</td>
+                                                        <td>{(singleBill.totalInternet)} vnd</td>
+                                                    </tr>
+                                                </>
+                                            ) : (
+                                                <>
+                                                </>
+                                            )}
 
-                                                <td>{(singleBill.oldWaterNum)} khối </td>
-                                                <td>{(singleBill.newWaterNum)} khối </td>
+                                            {singleBill.totalTrash !== 0 ? (
+                                                <>
+                                                    <tr>
+                                                        <th scope="row">Vệ sinh</th>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>1 phòng</td>
+                                                        <td>{trashUnitPrice} vnd</td>
+                                                        <td>{(singleBill.totalTrash)} vnd</td>
+                                                    </tr>
+                                                </>
+                                            ) : (
+                                                <>
+                                                </>
+                                            )}
 
-                                                <td>{(singleBill.newWaterNum - singleBill.oldWaterNum)} {singleBill.oldWaterNum === 0 ? " người" : " khối"}</td>
-                                                <td>40.000 vnd</td>
-                                                <td>{(singleBill.totalWater)}  vnd</td>
-                                            </tr> */}
-                                            <tr>
-                                                <th scope="row">Internet</th>
-                                                <td></td>
-                                                <td></td>
-                                                <td>1 phòng</td>
-                                                <td>30.000 vnd</td>
-                                                <td>{(singleBill.totalInternet)} vnd</td>
-                                            </tr>
                                             <tr>
                                                 <th scope="row">Phòng</th>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{formatDate(singleBill.startDate)}</td>
+                                                <td>{formatDate(singleBill.endDate)}</td>
                                                 <td>1 phòng</td>
                                                 <td>{(singleBill.totalRoom)} vnd</td>
                                                 <td>{(singleBill.totalRoom)} vnd</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Giảm giá</th>
+                                                <td colSpan='3'></td>
+                                                <td>{(singleBill.discount)} vnd</td>
+                                                <td>{(singleBill.discount)} vnd</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Tổng </th>

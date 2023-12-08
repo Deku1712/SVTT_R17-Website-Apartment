@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.TeamSVTTR17.Website_Apartment.Entity.Apartment;
@@ -59,7 +60,7 @@ public class BillController {
 	
 	
 	@PostMapping("/bills")
-	public Bill createBill( @RequestBody Bill bill) {
+	public Bill createBill(@RequestBody Bill bill) {
 		return billService.save(bill);
 	}
 	
@@ -74,14 +75,14 @@ public class BillController {
     }
 	
 	// search bill by room name
-	@GetMapping("/searchBillsByRoomName/{name}")
-	public List<Bill> getBillByRoomName(@PathVariable(value = "name") String room_name) {
+	@GetMapping("/bills/search")
+	public List<Bill> getBillByRoomName(@RequestParam(value = "room_name") String room_name) {
 		List<Bill> listBill= billService.findAll();
 		List<Bill> listBillByRoomName = new ArrayList<>();
 		for (Bill bill : listBill) {
 			Room r = bill.getRoom();
-			System.out.println("List:"  + r.toString());
-			if(r.getRoom_name().contains(room_name)) {
+			String name = r.getRoom_name();
+			if(name.contains(room_name)) {
 				listBillByRoomName.add(bill);
 			}
 		}
@@ -107,22 +108,36 @@ public class BillController {
 	}
 
 	
-//	@GetMapping("/fee/{id}")
-//	public Fee getAllFeeByIdApartment(@PathVariable(value = "id") Long feeId) {
-//		List<Fee> listFee= feeService.findAll();
-//		System.out.println("check fee:" + listFee.toString());
-//		for (Fee fee : listFee) {
-//			if(fee.getApartmentId(fee.getApartment()) == feeId) {
-//				return fee;
-//			}
-//		}
-//		return null;
-//	}
-//	
-//	@GetMapping("/apartments")
-//	public List<Apartment> getAllApartment() {
-//		return apartmentService.findAll();
-//	}
+	@GetMapping("/fee/{id}")
+	public Fee getAllFeeByIdApartment(@PathVariable(value = "id") Long feeId) {
+		List<Fee> listFee= feeService.findAll();
+		System.out.println("check fee:" + listFee.toString());
+		for (Fee fee : listFee) {
+			if(fee.getApartmentId(fee.getApartment()) == feeId) {
+				return fee;
+			}
+		}
+		return null;
+	}
 	
+	@GetMapping("/apartments")
+	public List<Apartment> getAllApartment() {
+		return apartmentService.findAll();
+	}
+	
+	@GetMapping("/rooms")
+	public List<Room> getAllRoom() {
+		return roomService.findAll();
+	}
+	
+	@GetMapping("/billByRooms")
+	public List<Bill> getAllBillByRoom() {
+		List<Room> listRoom = getAllRoom();
+		List<Bill> listBill = new ArrayList<>();
+		for (Room r : listRoom) {
+			System.out.println("billroom:" + r.toString());
+		}
+		return listBill;
+	}
 
 }

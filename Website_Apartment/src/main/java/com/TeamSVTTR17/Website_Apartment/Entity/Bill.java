@@ -69,12 +69,8 @@ public class Bill {
 
     @ManyToOne
     @JoinColumn(name = "roomID")
-    @JsonIgnore
+   
     private Room room;
-    
-//    @ManyToOne
-//    @JoinColumn(name = "roomID")
-//    private Room room;
 
 
 	public int getId() {
