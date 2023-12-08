@@ -30,7 +30,7 @@ export const addApartment = (apartment_input) => {
         dispatch({type: FETCH_USER_DATA })
         try {
             
-            const res = await Service.addApartment(3, apartment_input);
+            const res = await Service.addApartment(2, apartment_input);
             dispatch(fetchUserData())
             
             

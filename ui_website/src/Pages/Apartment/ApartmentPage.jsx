@@ -52,7 +52,7 @@ export default function ApartmentPage() {
           <Route path="addApartment" element={<AddApartment />} />
           <Route path="/viewRoom/:id" element={<ViewRoom />} ></Route>
           <Route path="/edit-room/:id" element={<UpdateRoom />} ></Route>
-          <Route path="/edit-apartment/:id" element={<UpdateApartment/>}></Route>
+          <Route path="/edit-apartment/:ap_id" element={<UpdateApartment/>}></Route>
         </Routes>
         
       </div>

@@ -70,7 +70,7 @@ public class ApartmentService {
         try {
             Apartment updateApartment = findApartmentById(id);
             Date updateTime = new Date(System.currentTimeMillis());
-
+            updateApartment.setUser(apartment.getUser());
             updateApartment.setApartmentName(apartment.getApartmentName());
             updateApartment.setUpdateTime(updateTime);
             updateApartment.setPhoneNumber1(apartment.getPhoneNumber1());
@@ -79,6 +79,7 @@ public class ApartmentService {
             updateApartment.setImgUrl(apartment.getImgUrl());
             updateApartment.setDescription(apartment.getDescription());
             updateApartment.setProperty(apartment.getProperty());
+            updateApartment.setSize(apartment.getSize());
             updateApartment.setActive(apartment.getActive());
             updateApartment.setArea(apartment.getArea());
             apartmentRepository.save(updateApartment);
@@ -97,7 +98,7 @@ public class ApartmentService {
     }
        public void addApartment(ApartmentInput apartmentInput){
 
-        User user = userRepo.findById(3).get();
+        User user = userRepo.findById(2).get();
         Apartment apartment = new Apartment();
         apartment.setUser(user);
         Date updateTime = new Date(System.currentTimeMillis());
