@@ -24,10 +24,6 @@ function Header() {
       All Bills
     </Nav.Link>
 
-    <Nav.Link as={Link} to="/createNewBill">
-      New Bill
-    </Nav.Link>
-
     <NavDropdown title="Pages" id="basic-nav-dropdown">
       <NavDropdown.Item as={Link} to="/Profile">
         Profile
