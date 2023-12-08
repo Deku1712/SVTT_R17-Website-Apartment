@@ -157,7 +157,7 @@ export default function Header(props) {
               </li>
             </ul>
           </Popover.Group>
-          {!onLogin ? (
+          {onLogin ? (
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">
               <Dropdown drop="down-centered" className="border rounded-lg">
                 <Dropdown.Toggle className="d-flex items-center justify-center" variant="Secondary" id="dropdown-basic">
@@ -169,9 +169,11 @@ export default function Header(props) {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <NavLink className="no-underline text-black " to="/profile">
-                    <Dropdown.Item>Profile</Dropdown.Item>
-                  </NavLink>
+                  <Dropdown.Item>
+                    <NavLink className="no-underline text-black " to="/profile">
+                      Profile
+                    </NavLink>
+                  </Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
