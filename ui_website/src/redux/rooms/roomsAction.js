@@ -1,6 +1,6 @@
 import RoomService from "../../Service/RoomService"
 
-import { UPDATE_ROOMS } from "./roomsType";
+import { UPDATE_ROOMS,GET_ROOMS_BY_ID } from "./roomsType";
 export const updateRooms = (id,room) => {
     return async (dispatch) => {
         try {
@@ -10,6 +10,7 @@ export const updateRooms = (id,room) => {
                 type:  UPDATE_ROOMS,
                 payload : response.data
             });
+            
         } catch (error) {
             console.log(error);
         }

@@ -29,7 +29,7 @@ function UserProfile(props) {
   const navigate = useNavigate;
   console.log(onLogin)
 
-  if (onLogin) {
+  if (!onLogin) {
     return navigate("/")
   }
 

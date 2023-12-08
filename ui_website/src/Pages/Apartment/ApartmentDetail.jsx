@@ -88,8 +88,8 @@ export default function ApartmentDetail() {
             <div className=' w-2/12 border p-2'>
                 <ul className="p-0 flex flex-col ">
                     <li className="relative">
-                    
-                        <Link className="p-4 flex justify-start items-center text-gray-500 no-underline cursor-pointer hover:text-black group" to={`/viewApartment/${id}/apartmentInfo`}>
+
+                        <Link  className="p-4 flex  justify-start items-center text-gray-500 no-underline cursor-pointer hover:text-black group" to={`/viewApartment/${id}/apartmentInfo`}>
                             <span className="absolute w-2 h-8 bg-black rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition ease-in-out" />
                             <i class="pr-3  fa-solid fa-user"></i>
                             <span className="font-semibold">
@@ -98,12 +98,12 @@ export default function ApartmentDetail() {
                         </Link>
                     </li>
                     <li className="relative">
-                    
+
                         <Link className="p-4 flex justify-start items-center text-gray-500 no-underline cursor-pointer hover:text-black group" to={`/viewApartment/${id}/Rooms`}>
                             <span className="absolute w-2 h-8 bg-black rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition ease-in-out" />
                             <i class="pr-3  fa-solid fa-user"></i>
                             <span className="font-semibold">
-                               Room
+                                Room
                             </span>
                         </Link>
                     </li>
@@ -113,13 +113,11 @@ export default function ApartmentDetail() {
 
             <div className='w-10/12 p-2'>
                 <Routes>
-                
                     <Route path='apartmentInfo' element={<ApartmentInfo apartment={apartment} />} />
-                    <Route path='Rooms' element={<ApartmentRooms apartment={apartment} />} />
-
+                    <Route path='Rooms/*' element={<ApartmentRooms apartment={apartment} />} />
                 </Routes>
 
-                
+
             </div>
 
         </div>

@@ -15,10 +15,7 @@ const CreateApartment = () => {
     const [isExisting, setIsExisting] = useState([]);
     const [apartment, setApartment] = useState({})
     const [errors, setErrors] = useState('');
-    useEffect(() => {
-        dispatch(fetchApartment());
-      
-    }, []);
+
    //validate
     const validateInput = (inputName, value) => {
         let error = "";

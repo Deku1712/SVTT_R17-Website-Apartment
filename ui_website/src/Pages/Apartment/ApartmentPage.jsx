@@ -6,6 +6,8 @@ import AddApartment from './AddApartment';
 import ViewApartment from './ViewApartment';
 import ApartmentDetail from './ApartmentDetail';
 import UpdateApartment from '../../components/UpdateApartment';
+import UpdateRoom from '../../components/UpdateRoom';
+import ViewRoom from '../../Component/Room/ViewRoom';
 export default function ApartmentPage() {
 
 
@@ -48,9 +50,11 @@ export default function ApartmentPage() {
         <Routes>
           <Route path='viewApartment' element={<ViewApartment />} />
           <Route path="addApartment" element={<AddApartment />} />
-          
+          <Route path="/viewRoom/:id" element={<ViewRoom />} ></Route>
+          <Route path="/edit-room/:id" element={<UpdateRoom />} ></Route>
           <Route path="/edit-apartment/:id" element={<UpdateApartment/>}></Route>
         </Routes>
+        
       </div>
 
 

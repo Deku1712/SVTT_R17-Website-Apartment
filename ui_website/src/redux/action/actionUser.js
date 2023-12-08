@@ -5,8 +5,8 @@ export const fetchUserData = () => {
        dispatch({type: FETCH_USER_DATA});
 
        try {
-           const res_user= await Service.getUserById(3);
-           const res_apartment = await Service.getApartmentByUserId(3)
+           const res_user= await Service.getUserById(2);
+           const res_apartment = await Service.getApartmentByUserId(2)
            
            dispatch({
                type: FETCH_USER_SUCCESS,
