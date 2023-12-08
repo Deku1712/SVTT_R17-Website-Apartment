@@ -81,8 +81,8 @@ function App() {
   }, [onLogin])
 
   useEffect(() => {
-    // dispatch(fetchPostData())
-    // dispatch(fetchUserData())
+    dispatch(fetchPostData())
+    dispatch(fetchUserData())
 
   }, [])
 
