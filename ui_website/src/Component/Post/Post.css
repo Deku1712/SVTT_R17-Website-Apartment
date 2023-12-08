@@ -1,0 +1,6 @@
+.group_icon i:hover {
+    color: rgb(233, 137, 137);
+}
+.group_icon i {
+    transition: ease-in-out 0.3s;
+}
