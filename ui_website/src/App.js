@@ -59,7 +59,9 @@ function App() {
   const [showModalLogin, setShowModalLogin] = useState(false)
   const [showModalSignUp, setShowModalSignUp] = useState(false)
   const [userData, setUserData] = useState({})
-  const [onLogin, setOnLogin] = useState(false);
+
+  const abc = localStorage.getItem("accessToken");
+  const [onLogin, setOnLogin] = useState(!!abc);
 
   const handleClose = () => {
     setShowModalSignUp(false)
@@ -106,7 +108,7 @@ function App() {
           <Route path="/" Component={HomePage}></Route>
           <Route path="/HomePage" Component={HomePage}></Route>
           <Route path="/Apartments/*" Component={ApartmentPage}></Route>
-          <Route path="/viewApartment/:id/*" element={<ApartmentDetail/>}/>
+          <Route path="/viewApartment/:id/*" element={<ApartmentDetail />} />
 
           <Route path="/posts/:id" Component={CardDetail} />
           <Route path="/create-apartment" Component={CreateApartment}></Route>
