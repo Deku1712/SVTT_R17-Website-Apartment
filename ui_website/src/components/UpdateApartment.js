@@ -307,7 +307,7 @@ return (
                         <span className="  fa-custom" ><i className="fa fa-map-marker" aria-hidden="true"></i></span>
                         <div className="ms-1 row" style={{ width: "100%" }}>
                             <input
-                                type="text" maxLength={30} minLength={1} min={0} required={true}
+                                type="number" maxLength={30} minLength={1} min={0} required={true}
                                 placeholder="Enter area"
                                 name="lastName"
                                 className={`form-control  w-75 ${validationErrors.area && 'is-invalid'}`}
