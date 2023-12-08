@@ -43,3 +43,19 @@ export const addApartment = (apartment_input) => {
         
     }
 }
+
+export const createRoom = (room) => {
+    return async(dispatch) => {
+        dispatch({type: FETCH_USER_DATA})
+        try{
+            const res = await Service.createRoom(room);
+            dispatch(fetchUserData())
+        }
+        catch(error){
+            dispatch({
+                type: FETCH_USER_FAILD,
+                payload: error.message
+            })
+        }
+    }
+}

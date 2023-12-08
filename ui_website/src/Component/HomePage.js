@@ -1,5 +1,5 @@
 import { Carousel } from "react-bootstrap";
-import "../styles/homepage.css";
+import "../App.css"
 
 const products = [
   {
@@ -102,72 +102,12 @@ const products = [
   // More products...
 ];
 
-export default function HomePage() {
+export default function HomePage1() {
   return (
     // <div className="bg-gradient-to-t from-[#fbc2eb] to-[#a6c1ee]">
     <>
-      {/* <nav className="flex justify-between items-center w-[100%] mx-auto"> */}
-      <header className="">
-        <nav className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 fixed flex justify-between items-center w-[90%]  z-50 bg-white p-3">
-          <div>
-            {/* <img
-              className="w-20"
-              src="https://cdn2.f-cdn.com/contestentries/365819/10129715/56e657a9c8e95_thumb900.jpg"
-            /> */}
-            <i class="fa fa-h-square" aria-hidden="true"></i>
-          </div>
-          <div className="">
-            <ul className="flex items-center gap-[4vw] m-0">
-              <li>
-                <a
-                  className="text-gray-500  no-underline custom-a text-md font-bold"
-                  href=""
-                >
-                  <i className="pr-3 fa fa-globe" aria-hidden="true"></i>Home
-                  Page
-                </a>
-              </li>
-              <li>
-                <a
-                  className="text-gray-500  no-underline custom-a text-md font-bold"
-                  href=""
-                >
-                  <i
-                    className="pr-3 fa fa-window-restore"
-                    aria-hidden="true"
-                  ></i>
-                  All Post
-                </a>
-              </li>
-              <li>
-                <a
-                  className="text-gray-500  no-underline custom-a text-md font-bold"
-                  href=""
-                >
-                  <i className="pr-3 fa fa-home" aria-hidden="true"></i>Post
-                  Look
-                </a>
-              </li>
-              <li>
-                <a
-                  className="text-gray-500   no-underline custom-a text-md font-bold"
-                  href=""
-                >
-                  <i className="pr-3 fa fa-eye" aria-hidden="true"></i>Post Find
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <button className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]">
-              Sign in
-            </button>
-          </div>
-        </nav>
-      </header>
-
       {/* Làm phần Header */}
-      <div className="bg-white pt-3">
+      <div className="relative bg-white pt-3">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h2 className="sr-only">Products</h2>
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">

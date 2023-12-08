@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import ApartmentService from "../Service/ApartmentService";
+import ApartmentService from "../service/ApartmentService";
 import { updateApartment } from "../redux/apartment/apartmentAction"
 import '../styles/styles.css';
+import { fetchUserData } from "../redux/action/actionUser";
 const UpdateApartment = () => {
     const dispatch = useDispatch();
     const [validationErrors, setValidationErrors] = useState({});
@@ -122,11 +123,8 @@ const UpdateApartment = () => {
     const handleImageChange = (e) => {
 
         if (e.target.files.length > 0) {
-            if (apartment.imgUrl) {
-                const nameImgDelete = apartment.imgUrl.replace("http://localhost:3001/images/", "")
-                axios.delete(`http://localhost:3001/deleteImage/${nameImgDelete}`);
-            }
-            setApartment({ ...apartment, imgUrl: "http://localhost:3001/images/" + e.target.files[0].name });
+
+            setApartment({ ...apartment, imgUrl: e.target.files[0].name });
             const formData = new FormData();
             formData.append("apartment_img", e.target.files[0]);
 
@@ -204,7 +202,7 @@ const UpdateApartment = () => {
                             <span className="  fa-custom" ><i className="fa fa-phone" aria-hidden="true"></i></span>
                             <div style={{ width: "100%" }}>
                                 <input
-                                    type="number" required={true} minLength={10} maxLength={11}
+                                    type="number" required={true}
                                     placeholder="Enter number of phone 1"
                                     name="lastName"
                                     className={`form-control ${validationErrors.phone1 && 'is-invalid'}`}
@@ -293,23 +291,6 @@ const UpdateApartment = () => {
                                 onChange={(e) => setApartment({ ...apartment, active: Number(e.target.value) })}
                             /><label className="ms-3" htmlFor="complete">Complete</label><br />
                         </div> <br />
-                        <div className="form-group mb-2 d-flex">
-                            <span className="  fa-custom" ><i className="fa fa-map-marker" aria-hidden="true"></i></span>
-                            <div className="ms-1 row" style={{ width: "100%" }}>
-                                <input
-                                    type="text" maxLength={30} minLength={1} min={0} required={true}
-                                    placeholder="Enter area"
-                                    name="lastName"
-                                    className={`form-control  w-75 ${validationErrors.area && 'is-invalid'}`}
-                                    value={apartment.area}
-                                    onChange={(e) => handleInputChange("area", e.target.value)}
-                                    onBlur={(e) => handleBlur("area", e.target.value)}
-                                />
-                                {validationErrors.area && (
-                                    <div className="invalid-feedback">{validationErrors.area}</div>
-                                )}</div>
-                        </div>
-                        <br />
                         <div className="form-group mb-2 d-flex">
                             <span className=" fa-custom" >  <i className="fa fa-info-circle" aria-hidden="true"></i></span>
                             <textarea
@@ -495,7 +476,6 @@ const UpdateApartment = () => {
                             </div>
                         )} </div>
                 </div>
-
             </div>
             <div className='d-flex  col-ms-6  mt-5 mb-3 ms-5 justify-content-center'>
                 <div className='col-3 '>
@@ -508,4 +488,5 @@ const UpdateApartment = () => {
         </div>
     );
 };
+
 export default UpdateApartment;

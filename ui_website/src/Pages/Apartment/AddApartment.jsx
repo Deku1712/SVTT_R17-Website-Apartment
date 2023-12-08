@@ -25,7 +25,7 @@ export default function AddApartment() {
   
 
   return (
-    <div className=' space-y-2 border rounded-lg mt-3 shadow-lg p-3'>
+    <div className='     p-3'>
       <h3 className=' text-center font-bold mb-3 '>Add Appartment</h3>
       <Form/>
     </div>
