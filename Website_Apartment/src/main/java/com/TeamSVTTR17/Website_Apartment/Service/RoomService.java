@@ -38,6 +38,7 @@ public class RoomService {
             updateRoom.setRoom_name(room.getRoom_name());
             updateRoom.setNumberOfRenter(room.getNumberOfRenter());
             updateRoom.setSizeOfRoom(room.getSizeOfRoom());
+            updateRoom.setActive(room.getActive());
             updateRoom.setDescription(room.getDescription());
             updateRoom.setUpdateTime(new java.sql.Date(new Date().getTime()));
             updateRoom.setType(room.getType());

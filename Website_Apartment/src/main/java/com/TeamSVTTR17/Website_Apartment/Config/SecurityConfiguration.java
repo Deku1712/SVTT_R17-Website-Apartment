@@ -29,7 +29,7 @@ public class SecurityConfiguration {
                         req.requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/api/v1/demo/test").hasAnyAuthority("Admin")
                                 .requestMatchers("/api/v1/demo/test1").permitAll()
-                                .requestMatchers("/api/users/**").permitAll()
+                                .requestMatchers("/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )
