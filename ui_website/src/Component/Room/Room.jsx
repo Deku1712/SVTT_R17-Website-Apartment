@@ -14,7 +14,7 @@ export default function Room(props) {
                         {room.imgs.map((file, i) => (
                             <Carousel.Item key={i}>
                                 <div className="ms-3 mt-3 d-flex mb-3 ">
-                                    <img style={{ width: 180, height: 160, borderRadius: "10px" }} src={file.url_img} />
+                                    <img style={{ width: 180, height: 200, borderRadius: "10px" }} src={file.url_img} />
                                 </div>
                             </Carousel.Item>
                         ))}
@@ -33,17 +33,17 @@ export default function Room(props) {
                 <p class="mb-0 p-2 font-normal text-black dark:text-gray-400">
                     Number renter: {room.numberOfRenter}
                 </p>
-                <div className='d-flex'>
-                    <div className='d-flex'>
-                    <Button className='  border float-end  ' onClick={() => navigate(`/Apartments/viewRoom/${room.id}`)}>View</Button>
-                        <Button className=' border  mx-1  float-end   ' onClick={() => navigate(`/Apartments/edit-room/${room.id}`)}>Edit</Button>
+              
+                    <div className='d-flex justify-content-end'>
+                        <Button className='  border float-end  ' onClick={() => navigate(`/Apartments/viewRoom/${room.id}`)}><i class="fa fa-eye" aria-hidden="true"></i></Button>
+                        <Button className=' border  mx-1  float-end   ' onClick={() => navigate(`/Apartments/edit-room/${room.id}`)}><i class="fa fa-pencil" aria-hidden="true"></i></Button>
+                        {room.active === 1 ? (<div >
+                            <Button className=' bg-green-200 border' style={{ width: " max-content" }}><i class="fa-solid fa-money-bill"></i></Button>
 
+                        </div>) : null}
                     </div>
-                    {room.active === 1 ? (<div >
-                        <Button className=' bg-green-200 border' style={{width:" max-content"}}>Create Bill</Button>
 
-                    </div>) : null}
-                </div>
+             
 
             </div>
 

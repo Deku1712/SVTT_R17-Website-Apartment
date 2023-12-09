@@ -90,8 +90,7 @@ const UpdateRoom = () => {
 
     const handDelete = async (imgName) => {
         try {
-            const nameImgDelete = imgName.replace("http://localhost:3001/images/", "")
-            axios.delete(`http://localhost:3001/deleteImage/${nameImgDelete}`);
+            
             const updatedRoomImg = room_img.filter((img) => img.url_img !== imgName);
             const updatedRoom = {
                 ...room,

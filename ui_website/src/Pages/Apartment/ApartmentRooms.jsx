@@ -24,14 +24,14 @@ export default function ApartmentRooms(props) {
     const handleInputChange = (e) => {
         const value = parseInt(e.target.value, 10);
         if (!isNaN(value) && value >= 1 && value <= totalPages) {
-            setCurrentPage(value - 1); 
+            setCurrentPage(value - 1);
         }
     };
     return (
         <div className="bg-white pt-3">
             <ModalRoom show={modalShow}
                 onHide={() => setModalShow(false)} apartment={apartment} />
-
+                    <h3 className='text-center'>List Room</h3>
             <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <div className='d-flex justify-content-between '>
 
@@ -42,9 +42,9 @@ export default function ApartmentRooms(props) {
                     <div className='align-items-center d-flex'>
                         <input
                             type="number"
-                            style={{ width: '25%' }}
+                            style={{ width: '20%' }}
                             onChange={handleInputChange}
-                            defaultValue={currentPage +1} 
+                            defaultValue={currentPage + 1}
                             max={totalPages}
                         />
                         <span className='text-larger mx-3'>{currentPage + 1 + '/' + totalPages}</span>
@@ -64,7 +64,6 @@ export default function ApartmentRooms(props) {
                                 </span>
                             }
                         />
-
 
                     </div>
                 </div>
