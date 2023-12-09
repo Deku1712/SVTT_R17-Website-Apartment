@@ -163,7 +163,7 @@ const UpdateRoom = () => {
                 };
                 dispatch(updateRooms(id, updatedRoom));
 
-                fetchData();
+              
             } else {
                 const updatedRoom = {
                     ...room,
@@ -171,10 +171,10 @@ const UpdateRoom = () => {
                 };
                 dispatch(updateRooms(id, updatedRoom));
 
-                fetchData();
+             
             }
-            fetchData();
-            window.location.href = `/Apartments/viewRoom/${room.id}`;
+           
+          window.location.href = `/Apartments/viewRoom/${room.id}`;
         } catch (error) {
             console.error("Error updating room: ", error);
         }
@@ -341,7 +341,7 @@ const UpdateRoom = () => {
                         <button className="btn btn-success" onClick={handleSubmit} >Finish </button>
                     </div>
                     <div className='col-3'>
-                        <Link to="/" className="btn btn-danger">Cancel</Link>
+                        <Link to="/Apartments/viewApartment" className="btn btn-danger">Cancel</Link>
                     </div>
                 </div>
             </div>

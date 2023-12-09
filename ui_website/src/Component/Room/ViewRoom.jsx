@@ -48,7 +48,7 @@ const ViewRoom = () => {
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                             <dt className="text-xl font-medium leading-6 text-gray-900">Active </dt>
-                            <dd className="mt-1 text-xl leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{room.active === 0 ? "Actice" : "Complete"}</dd>
+                            <dd className="mt-1 text-xl leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{room.active === 1 ? "Yes" : "Not"}</dd>
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                             <dt className="text-xl font-medium leading-6 text-gray-900">Price </dt>
