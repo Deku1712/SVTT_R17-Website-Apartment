@@ -1,4 +1,4 @@
-import { UPDATE_ROOMS } from "./roomsType";
+import { UPDATE_ROOMS,GET_ROOMS_BY_ID } from "./roomsType";
 
 const initialState = {
     rooms : []
@@ -12,7 +12,7 @@ const initialState = {
           rooms: action.payload,
 
         };
-        
+       
         default:
           return state;
       }

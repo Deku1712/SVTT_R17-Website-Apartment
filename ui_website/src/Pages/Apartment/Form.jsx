@@ -44,6 +44,7 @@ import { uploadFileToS3 } from '../../utils/s3Utils'
 import Service from '../../Service/Service'
 import { useDispatch, useSelector } from 'react-redux'
 import { addApartment, createRoom } from '../../redux/action/actionUser'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -66,7 +67,7 @@ export const Form = (props) => {
   const [change, setChange] = useState(false);
   const [files, setFiles] = useState([])
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
 
   const s3 = new AWS.S3();
 
@@ -126,12 +127,17 @@ export const Form = (props) => {
 
       // Add file URLs to the form data
       dispatch(createRoom(data));
+
+
       console.log("Form Data:", data);
 
       // Dispatch action or perform further actions with the data
 
 
       setSuccess(true);
+
+      navigate(`/viewApartment/${props.apartment.id}`)
+      
     } catch (error) {
       console.error('Error:', error);
       setSuccess(false);

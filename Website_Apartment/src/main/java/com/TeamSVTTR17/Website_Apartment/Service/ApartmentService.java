@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.TeamSVTTR17.Website_Apartment.DTO.ApartmentInput;
-
 import com.TeamSVTTR17.Website_Apartment.Entity.User;
 import com.TeamSVTTR17.Website_Apartment.Repository.AparmentRepo;
 import com.TeamSVTTR17.Website_Apartment.Repository.FeeRepo;
 import com.TeamSVTTR17.Website_Apartment.Repository.UserRepo;
-
 
 import java.sql.Date;
 import java.util.List;
@@ -40,9 +38,8 @@ public class ApartmentService {
     
     @Transactional
     public Apartment createApartment(Apartment apartment) {
-                Date updateTime = new Date(System.currentTimeMillis());
-
         try {
+            Date updateTime = new Date(System.currentTimeMillis());
             apartment.setCreateTime(updateTime);
             apartment.setUpdateTime(updateTime);
             apartmentRepository.save(apartment);
@@ -61,17 +58,19 @@ public class ApartmentService {
     public Apartment findApartmentById(int id) {
         return apartmentRepository.findById(id).get();
     }
-
+    public void deleteApartmentById(int id) {
+         apartmentRepository.deleteById(id);
+    }
     public List<Apartment> getAllApartment(){
         return apartmentRepository.findAll();
     }
     @Transactional
     public Apartment updateApartment(int id, Apartment apartment) {
-        Date updateTime = new Date(System.currentTimeMillis());
+       
         try {
             Apartment updateApartment = findApartmentById(id);
-
-
+            Date updateTime = new Date(System.currentTimeMillis());
+            updateApartment.setUser(apartment.getUser());
             updateApartment.setApartmentName(apartment.getApartmentName());
             updateApartment.setUpdateTime(updateTime);
             updateApartment.setPhoneNumber1(apartment.getPhoneNumber1());
@@ -80,7 +79,9 @@ public class ApartmentService {
             updateApartment.setImgUrl(apartment.getImgUrl());
             updateApartment.setDescription(apartment.getDescription());
             updateApartment.setProperty(apartment.getProperty());
+            updateApartment.setSize(apartment.getSize());
             updateApartment.setActive(apartment.getActive());
+            updateApartment.setArea(apartment.getArea());
             apartmentRepository.save(updateApartment);
             List<Fee> fees = apartment.getFees();
             Fee newFee = new Fee();
@@ -89,14 +90,7 @@ public class ApartmentService {
                 fee.setApartment(apartment);
                 feeRepository.save(fee);
             }
-//            Fee newFee = new Fee();
-//            newFee.setPriceOfElectricity(apartment.getFees().get(0).getPriceOfElectricity());
-//            newFee.setPriceOfWater(apartment.getFees().get(0).getPriceOfWater());
-//            newFee.setPriceOfInternet(apartment.getFees().get(0).getPriceOfInternet());
-//            newFee.setPriceOfTrash(apartment.getFees().get(0).getPriceOfTrash());
-//            newFee.setWaterBill(apartment.getFees().get(0).getWaterBill());
-//            newFee.setApartment(updateApartment);
-//            feeRepository.save(newFee);
+
             return apartmentRepository.save(updateApartment);
         } catch (Exception ex) {
             throw new RuntimeException(ex);

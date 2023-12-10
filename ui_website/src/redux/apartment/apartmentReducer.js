@@ -6,7 +6,7 @@ import {
 } from './apartmentType'; 
 
 const initialState = {
-   apartments : []
+   apartments : {}
   };
   const apartmentReducer = (state = initialState, action) => {
     switch (action.type) {

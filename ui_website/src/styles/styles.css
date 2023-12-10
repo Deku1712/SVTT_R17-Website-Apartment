@@ -45,7 +45,10 @@ select option{
   justify-content: space-between;
   display: flex;
 }
-
+.imageChange {
+  max-width: 160px;
+  height: auto;
+  }
 .form-control{
   width: 2px ;
   border: 1px solid !important;
@@ -124,7 +127,7 @@ input[type=file]::file-selector-button:hover {
 .active-custome{
   display: flex;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 900px) {
   
   .col-md-4{
     width: 100%!important;
