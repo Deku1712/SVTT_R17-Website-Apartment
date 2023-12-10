@@ -1,11 +1,14 @@
-import axios from "axios"
+
+import axios from "./axiosConfig";
+
+const POST_BASE_URL = "/api/posts"
+const APARTMENT_BASE_URL = "/api/apartments"
+const User_BASE_URL = "/api/users"
+
+const ROOM_BASE_URL = "/api/room"
 
 
-const POST_BASE_URL = "http://localhost:8080/api/posts"
-const APARTMENT_BASE_URL = "http://localhost:8080/api/apartments"
-const User_BASE_URL = "http://localhost:8080/api/users"
 
-const ROOM_BASE_URL = "http://localhost:8080/api/room"
 class Manage{
     
 
@@ -43,8 +46,6 @@ class Manage{
     createRoom(room){
         return axios.post(ROOM_BASE_URL , room)
     }
-
-
 
 
 

@@ -76,17 +76,16 @@ function App() {
 
   useEffect(() => {
     if (onLogin) {
-
-      getDataProfile();
+     dispatch(fetchUserData())
     }
 
   }, [onLogin])
 
-  useEffect(() => {
-    dispatch(fetchPostData())
-    dispatch(fetchUserData())
+  // useEffect(() => {
+  //   dispatch(fetchPostData())
+    
 
-  }, [])
+  // }, [])
 
   return (
 

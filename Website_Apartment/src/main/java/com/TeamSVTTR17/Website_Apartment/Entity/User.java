@@ -2,6 +2,7 @@ package com.TeamSVTTR17.Website_Apartment.Entity;
 
 import java.sql.Date;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import io.netty.handler.codec.socks.SocksAuthRequest;
 import jakarta.persistence.*;
@@ -54,6 +55,12 @@ public class User implements UserDetails {
         role.stream().forEach(i-> authorities.add(new SimpleGrantedAuthority(i.getRoleName())));
         return List.of(new SimpleGrantedAuthority(authorities.toString()));
     }
+//@Override
+//public Collection<? extends GrantedAuthority> getAuthorities() {
+//    return role.stream()
+//            .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+//            .collect(Collectors.toList());
+//}
 
 
     @Override

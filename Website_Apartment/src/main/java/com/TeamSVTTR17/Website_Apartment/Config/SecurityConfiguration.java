@@ -27,9 +27,10 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/v1/auth/**").permitAll()
-//                                .requestMatchers("/api/v1/demo/test").hasAnyAuthority("Admin")
-//                                .requestMatchers("/api/v1/demo/test1").permitAll()
-                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/api/apartments/**").hasAnyAuthority("Owner")
+                                .requestMatchers("/api/users/profile").hasAnyAuthority("Owner", "User","Admin")
+                                .requestMatchers("/api/posts").permitAll()
+//                                .requestMatchers("/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )

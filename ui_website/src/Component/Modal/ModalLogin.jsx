@@ -2,9 +2,13 @@ import { useState } from "react";
 import { postLogin, setAuthToken } from "../../Service/LoginService";
 import "../../styles/modalLogin.css";
 import Modal from "react-bootstrap/Modal";
+import { useDispatch } from "react-redux";
+import { fetchUserData } from "../../redux/action/actionUser";
+
 
 function ModalLogin(props) {
   const { show, handleClose, setOnLogin } = props;
+  const dispatch = useDispatch()
 
   const [userLogin, setUserLogin] = useState({
     username: '',
@@ -17,11 +21,12 @@ function ModalLogin(props) {
       if (res.status === 200) {
         const accessToken = res.data.access_token;
         setAuthToken(accessToken)
+        
         console.log(accessToken)
         setOnLogin(true);
         handleClose();
       }
-
+      // dispatch(fetchUserData(res.data.userId))
       console.log(res);
     }
     // console.log(userLogin)

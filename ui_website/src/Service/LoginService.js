@@ -1,8 +1,6 @@
 import axios from "./axiosConfig";
 
-const getAuthToken = () => {
-    return window.localStorage.getItem('accessToken');
-};
+
 
 export const setAuthToken = (token) => {
     window.localStorage.setItem('accessToken', token);
@@ -22,6 +20,5 @@ export const postRegister = (registerDTO) => {
 }
 
 export const getProfile = () => {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
     return axios.get("/api/users/profile");
 }

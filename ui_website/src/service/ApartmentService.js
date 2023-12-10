@@ -1,7 +1,12 @@
-import axios from "axios";
+import axios from "./axiosConfig";
+// const getAuthToken = () => {
+//   return window.localStorage.getItem('accessToken');
+// };
 
+// // axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
 
-const Apartment_Service_BASE_REST_API_URL = "http://localhost:8080/api/apartments";
+const Apartment_Service_BASE_REST_API_URL = "/api/apartments";
+
 
 class ApartmentService {
   getAllApartment() {
