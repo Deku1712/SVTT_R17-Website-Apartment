@@ -29,17 +29,17 @@ export default function ApartmentRooms(props) {
     };
     return (
         <div className="bg-white pt-3">
-            <ModalRoom show={modalShow} idApart = {apartment.id}
+            <ModalRoom show={modalShow} idApart={apartment.id}
                 onHide={() => setModalShow(false)} apartment={apartment} />
-                    <h3 className='text-center'>List Room</h3>
+            <h3 className='text-center'>List Room</h3>
             <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+
                 <div className='d-flex justify-content-between '>
 
                     <Button className='mb-3 ' onClick={() => setModalShow(true)}>
                         Add Room
                     </Button>
-
-                    <div className='align-items-center d-flex'>
+                    {apartment.rooms.length !== 0? (<div className='align-items-center d-flex'>
                         <input
                             type="number"
                             style={{ width: '20%' }}
@@ -65,7 +65,8 @@ export default function ApartmentRooms(props) {
                             }
                         />
 
-                    </div>
+                    </div>):null }
+
                 </div>
 
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">

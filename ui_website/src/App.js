@@ -112,7 +112,7 @@ function App() {
           <Route path="/posts/:id" Component={CardDetail} />
           <Route path="/create-apartment" Component={CreateApartment}></Route>
           <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
-          <Route path="/edit-apartment/:id" Component={UpdateApartment}></Route>
+          <Route path="/edit-apartment/:ap_id" Component={UpdateApartment}></Route>
 
 
           <Route path="/AdminPage" Component={AdminPage}></Route>

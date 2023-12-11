@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from "./axiosConfig";
 
 
-const Room_Service_BASE_REST_API_URL = "http://localhost:8080/api/room/";
+const Room_Service_BASE_REST_API_URL = "/api/room/";
 
 class RoomService {
   getRoomByID(room_id) {

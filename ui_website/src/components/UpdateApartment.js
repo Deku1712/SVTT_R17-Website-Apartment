@@ -18,7 +18,14 @@ const UpdateApartment = () => {
     const fetchData = () => {
         ApartmentService.getApartmentByID(ap_id).then((response) => {
             console.log(response.data)
-            setApartment(response.data)
+            const updatedApartment = { ...response.data };
+            
+            // Xóa "m2" khỏi giá trị area
+            if (updatedApartment.area) {
+                updatedApartment.area = updatedApartment.area.replace('m2', '');
+            }
+
+            setApartment(updatedApartment);
             setFee(response.data.fees.reverse()[0])
         })
             .catch((error) => {
@@ -312,9 +319,9 @@ return (
                                 name="lastName"
                                 className={`form-control  w-75 ${validationErrors.area && 'is-invalid'}`}
                                 value={apartment.area}
-                                onChange={(e) => handleInputChange("area", e.target.value)}
+                                onChange={(e) => handleInputChange("area", e.target.value )}
                                 onBlur={(e) => handleBlur("area", e.target.value)}
-                            />
+                            /><span className="col-2 ms-3 input-group-text justify-content-center" >M2</span>
                             {validationErrors.area && (
                                 <div className="invalid-feedback">{validationErrors.area}</div>
                             )}</div>

@@ -81,7 +81,7 @@ public class ApartmentService {
             updateApartment.setProperty(apartment.getProperty());
             updateApartment.setSize(apartment.getSize());
             updateApartment.setActive(apartment.getActive());
-            updateApartment.setArea(apartment.getArea());
+            updateApartment.setArea(apartment.getArea()+ "m2");
             apartmentRepository.save(updateApartment);
             List<Fee> fees = apartment.getFees();
             Fee newFee = new Fee();

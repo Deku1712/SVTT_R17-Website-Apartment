@@ -87,7 +87,7 @@ public class RoomService {
             room.setCreateTime(updateTime);
             room.setUpdateTime(updateTime);
             room.setImgs(list_img);
-            room.setDescription(room.getDescription());
+            room.setDescription(roomInput.getDescription());
 
             roomRepository.save(room);
 
