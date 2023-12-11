@@ -96,9 +96,9 @@ public class ApartmentService {
             throw new RuntimeException(ex);
         }
     }
-       public void addApartment(ApartmentInput apartmentInput){
+       public void addApartment(int id ,ApartmentInput apartmentInput){
 
-        User user = userRepo.findById(2).get();
+        User user = userRepo.findById(id).get();
         Apartment apartment = new Apartment();
         apartment.setUser(user);
         Date updateTime = new Date(System.currentTimeMillis());

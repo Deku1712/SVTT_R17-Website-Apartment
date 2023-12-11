@@ -26,7 +26,7 @@ public class ApartmentController {
     @PostMapping("/user/{id}")
     public void addApartment(@PathVariable("id") int id, @RequestBody ApartmentInput apartmentInput){
 
-        apartmentService.addApartment(apartmentInput);
+        apartmentService.addApartment(id,apartmentInput);
 
     }
 

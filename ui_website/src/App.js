@@ -46,7 +46,6 @@ import { Profile } from './Pages/Authen/Profile';
 import { getProfile } from "./Service/LoginService";
 
 import ApartmentDetail from "./Pages/Apartment/ApartmentDetail";
-import ViewRoom from "./Component/Room/ViewRoom";
 
 
 
@@ -60,8 +59,9 @@ function App() {
   const [showModalLogin, setShowModalLogin] = useState(false)
   const [showModalSignUp, setShowModalSignUp] = useState(false)
   const [userData, setUserData] = useState({})
-  
-  const [onLogin, setOnLogin] = useState(false);
+
+  const abc = localStorage.getItem("accessToken");
+  const [onLogin, setOnLogin] = useState(!!abc);
 
   const handleClose = () => {
     setShowModalSignUp(false)
@@ -76,17 +76,16 @@ function App() {
 
   useEffect(() => {
     if (onLogin) {
-
-      getDataProfile();
+     dispatch(fetchUserData())
     }
 
   }, [onLogin])
 
-  useEffect(() => {
-    dispatch(fetchPostData())
-    dispatch(fetchUserData())
+  // useEffect(() => {
+  //   dispatch(fetchPostData())
+    
 
-  }, [])
+  // }, [])
 
   return (
 
@@ -109,13 +108,13 @@ function App() {
           <Route path="/HomePage" Component={HomePage}></Route>
           <Route path="/Apartments/*" Component={ApartmentPage}></Route>
           <Route path="/viewApartment/:id/*" element={<ApartmentDetail />} />
-          <Route path="/addApartment" Component={AddApartment}></Route>
+
           <Route path="/posts/:id" Component={CardDetail} />
           <Route path="/create-apartment" Component={CreateApartment}></Route>
           <Route path="/edit-room/:id" Component={UpdateRoom}></Route>
-          <Route path="/edit-apartment/:ap_id" Component={UpdateApartment}></Route>
-         
-          <Route path="viewRoom/:id/*" element={<ViewRoom />} />
+          <Route path="/edit-apartment/:id" Component={UpdateApartment}></Route>
+
+
           <Route path="/AdminPage" Component={AdminPage}></Route>
 
           <Route path="/profile" element={<UserProfile userData={userData} onLogin={onLogin} />} ></Route>

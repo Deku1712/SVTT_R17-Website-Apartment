@@ -29,7 +29,7 @@ export default function ApartmentRooms(props) {
     };
     return (
         <div className="bg-white pt-3">
-            <ModalRoom show={modalShow}
+            <ModalRoom show={modalShow} idApart = {apartment.id}
                 onHide={() => setModalShow(false)} apartment={apartment} />
                     <h3 className='text-center'>List Room</h3>
             <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">

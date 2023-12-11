@@ -33,9 +33,8 @@ export const userReducer = ( state = initalState, action)=>{
 
         }
         default: {
-            return{
-                ...state
-            }
+            return state;
+            
         }
     }
 }

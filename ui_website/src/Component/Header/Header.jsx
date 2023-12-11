@@ -169,9 +169,10 @@ export default function Header(props) {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item>
-                  <NavLink className="no-underline text-black " to="/profile">Profile
-                  </NavLink>
+                  <Dropdown.Item>
+                    <NavLink className="no-underline text-black " to="/profile">
+                      Profile
+                    </NavLink>
                   </Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
